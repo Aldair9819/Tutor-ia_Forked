@@ -1,0 +1,42 @@
+.aprender{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.ventana-temas{
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    max-width: 80%;
+}
+.boton-tema{
+    background-color:#05b0fc;
+    background-color: rgb(132, 87, 190);
+    color:white;
+    border-radius: 40px;
+    border: none;
+    height: 180px;
+    padding: 10px 20px ;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Ajusta los valores según prefieras */
+    margin-bottom: 20px;
+}
+.boton-tema:hover{
+    background-color:  rgb(174, 120, 245);
+    padding: 15px 25px;
+}
+.boton-tema h1{
+    margin: 0px
+}
+.boton-conenido{
+    display: flex;
+    align-items: center;
+}
+.boton-conenido img{
+    width: 80px;
+    margin-right: 20px ;
+}
+.boton-conenido p{
+    font-size: 18px;
+    width: 200px; /* Se ajusta al ancho del contenedor */
+    text-align: left;
+}

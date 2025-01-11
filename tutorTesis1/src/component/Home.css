@@ -1,0 +1,113 @@
+/* Asegúrate de eliminar cualquier margen/padding en el body */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* Permitir el desplazamiento */
+}
+.home-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%; /* Fuerza el ancho completo de la ventana */
+}
+
+.Header {
+    height: 50px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 1); /* O el color que prefieras */
+    z-index: 1000; /* Para asegurarte de que esté por encima de otros elementos */
+    display: flex; /* Establece un contenedor flex */
+    justify-content: space-between;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2); /* Sombra a la derecha y abajo */
+  }
+  .caja-botones{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .caja-menu{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .Header img{
+    max-height: 90%;
+    height: auto; /* Mantiene la proporción original */
+    width: auto; /* Mantiene la proporción original */
+    object-fit: contain; /* Ajusta la imagen sin recortarla */
+  }
+
+  .caja-botones button{
+    margin-right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  .menu-button {
+    background-color: transparent; /* Fondo transparente */
+    border: none; /* Sin borde */
+    cursor: pointer; /* Cambiar el cursor al pasar el mouse */
+    font-size: 24px; /* Tamaño del ícono */
+    color: black; /* Color del ícono */
+    margin-right: 10px; /* Espacio entre el botón y el logo */
+    margin: 25px;
+  }
+  .ventana{
+    display: flex;
+    max-width:  100%;
+    height: 100vh;
+    
+  }
+  .ventana.with-menu{
+    margin-left: 200px;
+    
+  }
+  .menu{
+    background: #05b0fc;
+    margin-top: 50px;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 200px;
+    height: 100%;
+    text-align: center;
+  }
+  .menu button{
+    display: flex;
+    align-items: center;
+    background-color: transparent; /* Fondo transparente */
+    cursor: pointer; /* Cambiar el cursor al pasar el mouse */
+    font-size: 24px; /* Tamaño del ícono */
+    color: rgb(255, 255, 255); /* Color del ícono */
+    width: 100%;
+    border: none;
+    padding-top: 15px;
+    font-size: 18px;
+    
+  }
+  .menu button img{
+    margin-right: 8px;
+  }
+  .menu h1{
+    color: white;
+    
+  }
+  .ventanaHome {
+    width: 100%;
+    padding: 0px;
+    margin-top: 50px;
+    background-color: #f2f6fc; /* Color de fondo claro */
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sombra alrededor de la ventana */
+    text-align: center;
+  }
+
+
+  

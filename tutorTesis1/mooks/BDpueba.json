@@ -1,0 +1,233 @@
+{
+  "temas": [
+    {
+      "nombre_tema": "Modelado y leguaje algebraico",
+      "introduccion": "El lenguaje algebraico permite describir y resolver situaciones reales mediante símbolos y expresiones, haciendo las matemáticas más versátiles y aplicables.el modelado algebraico nos ayuda a traducir problemas complejos en ecuaciones y fórmulas,    cual es fundamental en áreas como las ciencias, la economía, y la tecnología. La habilidad de modelar matemáticamente permite abordar problemas de manera sistemática y lógica, facilitando predicciones y análisis. . Este conocimiento es esencial para avanzar en matemáticas, desarrollar habilidades de pensamiento crítico y tomar decisiones fundamentadas en diversas áreas de la vida.",
+      "ejercicios": [
+        {
+          "nombre_ejercicio": "1Planificación de producción de una fábrica ",
+          "ejercicio": "1estoy observando Una fábrica de juguetes produce dos tipos de figuras: robots y dinosaurios. Cada tipo de figura requiere diferentes cantidades de plástico y metal, y el costo de cada unidad depende de los materiales usados y la mano de obra necesaria. La fábrica tiene una capacidad limitada de recursos para cada mes, y el dueño necesita saber cuánto puede producir de cada tipo de figura para maximizar su producción sin superar los recursos disponibles.\n\nInformación:\nLa producción de un robot requiere 3 kg de plástico y 2 kg de metal.\nLa producción de un dinosaurio requiere 4 kg de plástico y 1 kg de metal.\nLa fábrica cuenta con 150 kg de plástico y 60 kg de metal disponibles al mes.\nEl precio de venta de un robot es $50, y el de un dinosaurio es $40.\n\n¿Puedes ayudar a la fábrica a determinar cuántos robots y dinosaurios deben producir para maximizar sus ingresos?",
+          "pregunta": [
+            "¿Cuál es el ingreso máximo mensual que puede alcanzar la fábrica?",
+            "¿Sobran materiales?",
+            "¿Cómo afecta a los ingresos si la fábrica decide producir solo un tipo de figura?"
+          ],
+          "respuesta": [
+            "$2250",
+            "No",
+            "Si la fábrica decide producir solo robots, podrá fabricar 50 unidades, generando un ingreso de $2500. En cambio, si opta por producir únicamente dinosaurios, podrá producir 60 unidades, lo que resultará en un ingreso de $2400. Esto demuestra que centrarse en la producción de robots maximiza los ingresos mensuales."
+          ]
+        },
+        {
+          "nombre_ejercicio": "2Planificación de producción de una fábrica ",
+          "ejercicio": " 2Una fábrica de juguetes produce dos tipos de figuras: robots y dinosaurios. Cada tipo de figura requiere diferentes cantidades de plástico y metal, y el costo de cada unidad depende de los materiales usados y la mano de obra necesaria. La fábrica tiene una capacidad limitada de recursos para cada mes, y el dueño necesita saber cuánto puede producir de cada tipo de figura para maximizar su producción sin superar los recursos disponibles.\n\nInformación:\nLa producción de un robot requiere 3 kg de plástico y 2 kg de metal.\nLa producción de un dinosaurio requiere 4 kg de plástico y 1 kg de metal.\nLa fábrica cuenta con 150 kg de plástico y 60 kg de metal disponibles al mes.\nEl precio de venta de un robot es $50, y el de un dinosaurio es $40.\n\n¿Puedes ayudar a la fábrica a determinar cuántos robots y dinosaurios deben producir para maximizar sus ingresos?",
+          "pregunta": [
+            "¿Cuál es el ingreso máximo mensual que puede alcanzar la fábrica?",
+            "¿Sobran materiales?",
+            "¿Cómo afecta a los ingresos si la fábrica decide producir solo un tipo de figura?"
+          ],
+          "respuesta": [
+            "$2250",
+            "No",
+            "Si la fábrica decide producir solo robots, podrá fabricar 50 unidades, generando un ingreso de $2500. En cambio, si opta por producir únicamente dinosaurios, podrá producir 60 unidades, lo que resultará en un ingreso de $2400. Esto demuestra que centrarse en la producción de robots maximiza los ingresos mensuales."
+          ]
+        },
+        {
+          "nombre_ejercicio": "3Planificación de producción de una fábrica ",
+          "ejercicio": " 3Una fábrica de juguetes produce dos tipos de figuras: robots y dinosaurios. Cada tipo de figura requiere diferentes cantidades de plástico y metal, y el costo de cada unidad depende de los materiales usados y la mano de obra necesaria. La fábrica tiene una capacidad limitada de recursos para cada mes, y el dueño necesita saber cuánto puede producir de cada tipo de figura para maximizar su producción sin superar los recursos disponibles.\n\nInformación:\nLa producción de un robot requiere 3 kg de plástico y 2 kg de metal.\nLa producción de un dinosaurio requiere 4 kg de plástico y 1 kg de metal.\nLa fábrica cuenta con 150 kg de plástico y 60 kg de metal disponibles al mes.\nEl precio de venta de un robot es $50, y el de un dinosaurio es $40.\n\n¿Puedes ayudar a la fábrica a determinar cuántos robots y dinosaurios deben producir para maximizar sus ingresos?",
+          "pregunta": [
+            "¿Cuál es el ingreso máximo mensual que puede alcanzar la fábrica?",
+            "¿Sobran materiales?",
+            "¿Cómo afecta a los ingresos si la fábrica decide producir solo un tipo de figura?"
+          ],
+          "respuesta": [
+            "$2250",
+            "No",
+            "Si la fábrica decide producir solo robots, podrá fabricar 50 unidades, generando un ingreso de $2500. En cambio, si opta por producir únicamente dinosaurios, podrá producir 60 unidades, lo que resultará en un ingreso de $2400. Esto demuestra que centrarse en la producción de robots maximiza los ingresos mensuales."
+          ]
+        },
+        {
+          "nombre_ejercicio": "4Planificación de producción de una fábrica ",
+          "ejercicio": " 4Una fábrica de juguetes produce dos tipos de figuras: robots y dinosaurios. Cada tipo de figura requiere diferentes cantidades de plástico y metal, y el costo de cada unidad depende de los materiales usados y la mano de obra necesaria. La fábrica tiene una capacidad limitada de recursos para cada mes, y el dueño necesita saber cuánto puede producir de cada tipo de figura para maximizar su producción sin superar los recursos disponibles.\n\nInformación:\nLa producción de un robot requiere 3 kg de plástico y 2 kg de metal.\nLa producción de un dinosaurio requiere 4 kg de plástico y 1 kg de metal.\nLa fábrica cuenta con 150 kg de plástico y 60 kg de metal disponibles al mes.\nEl precio de venta de un robot es $50, y el de un dinosaurio es $40.\n\n¿Puedes ayudar a la fábrica a determinar cuántos robots y dinosaurios deben producir para maximizar sus ingresos?",
+          "pregunta": [
+            "¿Cuál es el ingreso máximo mensual que puede alcanzar la fábrica?",
+            "¿Sobran materiales?",
+            "¿Cómo afecta a los ingresos si la fábrica decide producir solo un tipo de figura?"
+          ],
+          "respuesta": [
+            "$2250",
+            "No",
+            "Si la fábrica decide producir solo robots, podrá fabricar 50 unidades, generando un ingreso de $2500. En cambio, si opta por producir únicamente dinosaurios, podrá producir 60 unidades, lo que resultará en un ingreso de $2400. Esto demuestra que centrarse en la producción de robots maximiza los ingresos mensuales."
+          ]
+        },
+        {
+          "nombre_ejercicio": "4Planificación de producción de una fábrica ",
+          "ejercicio": " 5Una fábrica de juguetes produce dos tipos de figuras: robots y dinosaurios. Cada tipo de figura requiere diferentes cantidades de plástico y metal, y el costo de cada unidad depende de los materiales usados y la mano de obra necesaria. La fábrica tiene una capacidad limitada de recursos para cada mes, y el dueño necesita saber cuánto puede producir de cada tipo de figura para maximizar su producción sin superar los recursos disponibles.\n\nInformación:\nLa producción de un robot requiere 3 kg de plástico y 2 kg de metal.\nLa producción de un dinosaurio requiere 4 kg de plástico y 1 kg de metal.\nLa fábrica cuenta con 150 kg de plástico y 60 kg de metal disponibles al mes.\nEl precio de venta de un robot es $50, y el de un dinosaurio es $40.\n\n¿Puedes ayudar a la fábrica a determinar cuántos robots y dinosaurios deben producir para maximizar sus ingresos?",
+          "pregunta": [
+            "¿Cuál es el ingreso máximo mensual que puede alcanzar la fábrica?",
+            "¿Sobran materiales?",
+            "¿Cómo afecta a los ingresos si la fábrica decide producir solo un tipo de figura?"
+          ],
+          "respuesta": [
+            "$2250",
+            "No",
+            "Si la fábrica decide producir solo robots, podrá fabricar 50 unidades, generando un ingreso de $2500. En cambio, si opta por producir únicamente dinosaurios, podrá producir 60 unidades, lo que resultará en un ingreso de $2400. Esto demuestra que centrarse en la producción de robots maximiza los ingresos mensuales."
+          ]
+        }
+      ]
+    },
+    {
+      "nombre_tema": "Polinomios",
+      "introduccion": "12El lenguaje algebraico permite describir y resolver situaciones reales mediante símbolos y expresiones, haciendo las matemáticas más versátiles y aplicables.el modelado algebraico nos ayuda a traducir problemas complejos en ecuaciones y fórmulas,    cual es fundamental en áreas como las ciencias, la economía, y la tecnología. La habilidad de modelar matemáticamente permite abordar problemas de manera sistemática y lógica, facilitando predicciones y análisis. . Este conocimiento es esencial para avanzar en matemáticas, desarrollar habilidades de pensamiento crítico y tomar decisiones fundamentadas en diversas áreas de la vida.",
+      "ejercicios": [
+        {
+          "nombre_ejercicio": "23Planificación de producción de una fábrica ",
+          "ejercicio": " Una fábrica de juguetes produce dos tipos de figuras: robots y dinosaurios. Cada tipo de figura requiere diferentes cantidades de plástico y metal, y el costo de cada unidad depende de los materiales usados y la mano de obra necesaria. La fábrica tiene una capacidad limitada de recursos para cada mes, y el dueño necesita saber cuánto puede producir de cada tipo de figura para maximizar su producción sin superar los recursos disponibles.\n\nInformación:\nLa producción de un robot requiere 3 kg de plástico y 2 kg de metal.\nLa producción de un dinosaurio requiere 4 kg de plástico y 1 kg de metal.\nLa fábrica cuenta con 150 kg de plástico y 60 kg de metal disponibles al mes.\nEl precio de venta de un robot es $50, y el de un dinosaurio es $40.\n\n¿Puedes ayudar a la fábrica a determinar cuántos robots y dinosaurios deben producir para maximizar sus ingresos?",
+          "pregunta": [
+            "¿Cuál es el ingreso máximo mensual que puede alcanzar la fábrica?",
+            "¿Sobran materiales?",
+            "¿Cómo afecta a los ingresos si la fábrica decide producir solo un tipo de figura?"
+          ],
+          "respuesta": [
+            "$2250",
+            "No",
+            "Si la fábrica decide producir solo robots, podrá fabricar 50 unidades, generando un ingreso de $2500. En cambio, si opta por producir únicamente dinosaurios, podrá producir 60 unidades, lo que resultará en un ingreso de $2400. Esto demuestra que centrarse en la producción de robots maximiza los ingresos mensuales."
+          ]
+        },
+        {
+          "nombre_ejercicio": "32Planificación de producción de una fábrica ",
+          "ejercicio": " 23Una fábrica de juguetes produce dos tipos de figuras: robots y dinosaurios. Cada tipo de figura requiere diferentes cantidades de plástico y metal, y el costo de cada unidad depende de los materiales usados y la mano de obra necesaria. La fábrica tiene una capacidad limitada de recursos para cada mes, y el dueño necesita saber cuánto puede producir de cada tipo de figura para maximizar su producción sin superar los recursos disponibles.\n\nInformación:\nLa producción de un robot requiere 3 kg de plástico y 2 kg de metal.\nLa producción de un dinosaurio requiere 4 kg de plástico y 1 kg de metal.\nLa fábrica cuenta con 150 kg de plástico y 60 kg de metal disponibles al mes.\nEl precio de venta de un robot es $50, y el de un dinosaurio es $40.\n\n¿Puedes ayudar a la fábrica a determinar cuántos robots y dinosaurios deben producir para maximizar sus ingresos?",
+          "pregunta": [
+            "¿Cuál es el ingreso máximo mensual que puede alcanzar la fábrica?",
+            "¿Sobran materiales?",
+            "¿Cómo afecta a los ingresos si la fábrica decide producir solo un tipo de figura?"
+          ],
+          "respuesta": [
+            "$2250",
+            "No",
+            "Si la fábrica decide producir solo robots, podrá fabricar 50 unidades, generando un ingreso de $2500. En cambio, si opta por producir únicamente dinosaurios, podrá producir 60 unidades, lo que resultará en un ingreso de $2400. Esto demuestra que centrarse en la producción de robots maximiza los ingresos mensuales."
+          ]
+        },
+        {
+          "nombre_ejercicio": "Planificación de producción de una fábrica ",
+          "ejercicio": " Una fábrica de juguetes produce dos tipos de figuras: robots y dinosaurios. Cada tipo de figura requiere diferentes cantidades de plástico y metal, y el costo de cada unidad depende de los materiales usados y la mano de obra necesaria. La fábrica tiene una capacidad limitada de recursos para cada mes, y el dueño necesita saber cuánto puede producir de cada tipo de figura para maximizar su producción sin superar los recursos disponibles.\n\nInformación:\nLa producción de un robot requiere 3 kg de plástico y 2 kg de metal.\nLa producción de un dinosaurio requiere 4 kg de plástico y 1 kg de metal.\nLa fábrica cuenta con 150 kg de plástico y 60 kg de metal disponibles al mes.\nEl precio de venta de un robot es $50, y el de un dinosaurio es $40.\n\n¿Puedes ayudar a la fábrica a determinar cuántos robots y dinosaurios deben producir para maximizar sus ingresos?",
+          "pregunta": [
+            "¿Cuál es el ingreso máximo mensual que puede alcanzar la fábrica?",
+            "¿Sobran materiales?",
+            "¿Cómo afecta a los ingresos si la fábrica decide producir solo un tipo de figura?"
+          ],
+          "respuesta": [
+            "$2250",
+            "No",
+            "Si la fábrica decide producir solo robots, podrá fabricar 50 unidades, generando un ingreso de $2500. En cambio, si opta por producir únicamente dinosaurios, podrá producir 60 unidades, lo que resultará en un ingreso de $2400. Esto demuestra que centrarse en la producción de robots maximiza los ingresos mensuales."
+          ]
+        },
+        {
+          "nombre_ejercicio": "Planificación de producción de una fábrica ",
+          "ejercicio": " Una fábrica de juguetes produce dos tipos de figuras: robots y dinosaurios. Cada tipo de figura requiere diferentes cantidades de plástico y metal, y el costo de cada unidad depende de los materiales usados y la mano de obra necesaria. La fábrica tiene una capacidad limitada de recursos para cada mes, y el dueño necesita saber cuánto puede producir de cada tipo de figura para maximizar su producción sin superar los recursos disponibles.\n\nInformación:\nLa producción de un robot requiere 3 kg de plástico y 2 kg de metal.\nLa producción de un dinosaurio requiere 4 kg de plástico y 1 kg de metal.\nLa fábrica cuenta con 150 kg de plástico y 60 kg de metal disponibles al mes.\nEl precio de venta de un robot es $50, y el de un dinosaurio es $40.\n\n¿Puedes ayudar a la fábrica a determinar cuántos robots y dinosaurios deben producir para maximizar sus ingresos?",
+          "pregunta": [
+            "¿Cuál es el ingreso máximo mensual que puede alcanzar la fábrica?",
+            "¿Sobran materiales?",
+            "¿Cómo afecta a los ingresos si la fábrica decide producir solo un tipo de figura?"
+          ],
+          "respuesta": [
+            "$2250",
+            "No",
+            "Si la fábrica decide producir solo robots, podrá fabricar 50 unidades, generando un ingreso de $2500. En cambio, si opta por producir únicamente dinosaurios, podrá producir 60 unidades, lo que resultará en un ingreso de $2400. Esto demuestra que centrarse en la producción de robots maximiza los ingresos mensuales."
+          ]
+        },
+        {
+          "nombre_ejercicio": "Planificación de producción de una fábrica ",
+          "ejercicio": " Una fábrica de juguetes produce dos tipos de figuras: robots y dinosaurios. Cada tipo de figura requiere diferentes cantidades de plástico y metal, y el costo de cada unidad depende de los materiales usados y la mano de obra necesaria. La fábrica tiene una capacidad limitada de recursos para cada mes, y el dueño necesita saber cuánto puede producir de cada tipo de figura para maximizar su producción sin superar los recursos disponibles.\n\nInformación:\nLa producción de un robot requiere 3 kg de plástico y 2 kg de metal.\nLa producción de un dinosaurio requiere 4 kg de plástico y 1 kg de metal.\nLa fábrica cuenta con 150 kg de plástico y 60 kg de metal disponibles al mes.\nEl precio de venta de un robot es $50, y el de un dinosaurio es $40.\n\n¿Puedes ayudar a la fábrica a determinar cuántos robots y dinosaurios deben producir para maximizar sus ingresos?",
+          "pregunta": [
+            "¿Cuál es el ingreso máximo mensual que puede alcanzar la fábrica?",
+            "¿Sobran materiales?",
+            "¿Cómo afecta a los ingresos si la fábrica decide producir solo un tipo de figura?"
+          ],
+          "respuesta": [
+            "$2250",
+            "No",
+            "Si la fábrica decide producir solo robots, podrá fabricar 50 unidades, generando un ingreso de $2500. En cambio, si opta por producir únicamente dinosaurios, podrá producir 60 unidades, lo que resultará en un ingreso de $2400. Esto demuestra que centrarse en la producción de robots maximiza los ingresos mensuales."
+          ]
+        }
+      ]
+    },
+    {
+      "nombre_tema": "Productos Notables",
+      "introduccion": "El lenguaje algebraico permite describir y resolver situaciones reales mediante símbolos y expresiones, haciendo las matemáticas más versátiles y aplicables.el modelado algebraico nos ayuda a traducir problemas complejos en ecuaciones y fórmulas,    cual es fundamental en áreas como las ciencias, la economía, y la tecnología. La habilidad de modelar matemáticamente permite abordar problemas de manera sistemática y lógica, facilitando predicciones y análisis. . Este conocimiento es esencial para avanzar en matemáticas, desarrollar habilidades de pensamiento crítico y tomar decisiones fundamentadas en diversas áreas de la vida.",
+      "ejercicios": [
+        {
+          "nombre_ejercicio": "Planificación de producción de una fábrica ",
+          "ejercicio": " Una fábrica de juguetes produce dos tipos de figuras: robots y dinosaurios. Cada tipo de figura requiere diferentes cantidades de plástico y metal, y el costo de cada unidad depende de los materiales usados y la mano de obra necesaria. La fábrica tiene una capacidad limitada de recursos para cada mes, y el dueño necesita saber cuánto puede producir de cada tipo de figura para maximizar su producción sin superar los recursos disponibles.\n\nInformación:\nLa producción de un robot requiere 3 kg de plástico y 2 kg de metal.\nLa producción de un dinosaurio requiere 4 kg de plástico y 1 kg de metal.\nLa fábrica cuenta con 150 kg de plástico y 60 kg de metal disponibles al mes.\nEl precio de venta de un robot es $50, y el de un dinosaurio es $40.\n\n¿Puedes ayudar a la fábrica a determinar cuántos robots y dinosaurios deben producir para maximizar sus ingresos?",
+          "pregunta": [
+            "¿Cuál es el ingreso máximo mensual que puede alcanzar la fábrica?",
+            "¿Sobran materiales?",
+            "¿Cómo afecta a los ingresos si la fábrica decide producir solo un tipo de figura?"
+          ],
+          "respuesta": [
+            "$2250",
+            "No",
+            "Si la fábrica decide producir solo robots, podrá fabricar 50 unidades, generando un ingreso de $2500. En cambio, si opta por producir únicamente dinosaurios, podrá producir 60 unidades, lo que resultará en un ingreso de $2400. Esto demuestra que centrarse en la producción de robots maximiza los ingresos mensuales."
+          ]
+        },
+        {
+          "nombre_ejercicio": "Planificación de producción de una fábrica ",
+          "ejercicio": " Una fábrica de juguetes produce dos tipos de figuras: robots y dinosaurios. Cada tipo de figura requiere diferentes cantidades de plástico y metal, y el costo de cada unidad depende de los materiales usados y la mano de obra necesaria. La fábrica tiene una capacidad limitada de recursos para cada mes, y el dueño necesita saber cuánto puede producir de cada tipo de figura para maximizar su producción sin superar los recursos disponibles.\n\nInformación:\nLa producción de un robot requiere 3 kg de plástico y 2 kg de metal.\nLa producción de un dinosaurio requiere 4 kg de plástico y 1 kg de metal.\nLa fábrica cuenta con 150 kg de plástico y 60 kg de metal disponibles al mes.\nEl precio de venta de un robot es $50, y el de un dinosaurio es $40.\n\n¿Puedes ayudar a la fábrica a determinar cuántos robots y dinosaurios deben producir para maximizar sus ingresos?",
+          "pregunta": [
+            "¿Cuál es el ingreso máximo mensual que puede alcanzar la fábrica?",
+            "¿Sobran materiales?",
+            "¿Cómo afecta a los ingresos si la fábrica decide producir solo un tipo de figura?"
+          ],
+          "respuesta": [
+            "$2250",
+            "No",
+            "Si la fábrica decide producir solo robots, podrá fabricar 50 unidades, generando un ingreso de $2500. En cambio, si opta por producir únicamente dinosaurios, podrá producir 60 unidades, lo que resultará en un ingreso de $2400. Esto demuestra que centrarse en la producción de robots maximiza los ingresos mensuales."
+          ]
+        },
+        {
+          "nombre_ejercicio": "Planificación de producción de una fábrica ",
+          "ejercicio": " Una fábrica de juguetes produce dos tipos de figuras: robots y dinosaurios. Cada tipo de figura requiere diferentes cantidades de plástico y metal, y el costo de cada unidad depende de los materiales usados y la mano de obra necesaria. La fábrica tiene una capacidad limitada de recursos para cada mes, y el dueño necesita saber cuánto puede producir de cada tipo de figura para maximizar su producción sin superar los recursos disponibles.\n\nInformación:\nLa producción de un robot requiere 3 kg de plástico y 2 kg de metal.\nLa producción de un dinosaurio requiere 4 kg de plástico y 1 kg de metal.\nLa fábrica cuenta con 150 kg de plástico y 60 kg de metal disponibles al mes.\nEl precio de venta de un robot es $50, y el de un dinosaurio es $40.\n\n¿Puedes ayudar a la fábrica a determinar cuántos robots y dinosaurios deben producir para maximizar sus ingresos?",
+          "pregunta": [
+            "¿Cuál es el ingreso máximo mensual que puede alcanzar la fábrica?",
+            "¿Sobran materiales?",
+            "¿Cómo afecta a los ingresos si la fábrica decide producir solo un tipo de figura?"
+          ],
+          "respuesta": [
+            "$2250",
+            "No",
+            "Si la fábrica decide producir solo robots, podrá fabricar 50 unidades, generando un ingreso de $2500. En cambio, si opta por producir únicamente dinosaurios, podrá producir 60 unidades, lo que resultará en un ingreso de $2400. Esto demuestra que centrarse en la producción de robots maximiza los ingresos mensuales."
+          ]
+        },
+        {
+          "nombre_ejercicio": "Planificación de producción de una fábrica ",
+          "ejercicio": " Una fábrica de juguetes produce dos tipos de figuras: robots y dinosaurios. Cada tipo de figura requiere diferentes cantidades de plástico y metal, y el costo de cada unidad depende de los materiales usados y la mano de obra necesaria. La fábrica tiene una capacidad limitada de recursos para cada mes, y el dueño necesita saber cuánto puede producir de cada tipo de figura para maximizar su producción sin superar los recursos disponibles.\n\nInformación:\nLa producción de un robot requiere 3 kg de plástico y 2 kg de metal.\nLa producción de un dinosaurio requiere 4 kg de plástico y 1 kg de metal.\nLa fábrica cuenta con 150 kg de plástico y 60 kg de metal disponibles al mes.\nEl precio de venta de un robot es $50, y el de un dinosaurio es $40.\n\n¿Puedes ayudar a la fábrica a determinar cuántos robots y dinosaurios deben producir para maximizar sus ingresos?",
+          "pregunta": [
+            "¿Cuál es el ingreso máximo mensual que puede alcanzar la fábrica?",
+            "¿Sobran materiales?",
+            "¿Cómo afecta a los ingresos si la fábrica decide producir solo un tipo de figura?"
+          ],
+          "respuesta": [
+            "$2250",
+            "No",
+            "Si la fábrica decide producir solo robots, podrá fabricar 50 unidades, generando un ingreso de $2500. En cambio, si opta por producir únicamente dinosaurios, podrá producir 60 unidades, lo que resultará en un ingreso de $2400. Esto demuestra que centrarse en la producción de robots maximiza los ingresos mensuales."
+          ]
+        },
+        {
+          "nombre_ejercicio": "Planificación de producción de una fábrica ",
+          "ejercicio": " Una fábrica de juguetes produce dos tipos de figuras: robots y dinosaurios. Cada tipo de figura requiere diferentes cantidades de plástico y metal, y el costo de cada unidad depende de los materiales usados y la mano de obra necesaria. La fábrica tiene una capacidad limitada de recursos para cada mes, y el dueño necesita saber cuánto puede producir de cada tipo de figura para maximizar su producción sin superar los recursos disponibles.\n\nInformación:\nLa producción de un robot requiere 3 kg de plástico y 2 kg de metal.\nLa producción de un dinosaurio requiere 4 kg de plástico y 1 kg de metal.\nLa fábrica cuenta con 150 kg de plástico y 60 kg de metal disponibles al mes.\nEl precio de venta de un robot es $50, y el de un dinosaurio es $40.\n\n¿Puedes ayudar a la fábrica a determinar cuántos robots y dinosaurios deben producir para maximizar sus ingresos?",
+          "pregunta": [
+            "¿Cuál es el ingreso máximo mensual que puede alcanzar la fábrica?",
+            "¿Sobran materiales?",
+            "¿Cómo afecta a los ingresos si la fábrica decide producir solo un tipo de figura?"
+          ],
+          "respuesta": [
+            "$2250",
+            "No",
+            "Si la fábrica decide producir solo robots, podrá fabricar 50 unidades, generando un ingreso de $2500. En cambio, si opta por producir únicamente dinosaurios, podrá producir 60 unidades, lo que resultará en un ingreso de $2400. Esto demuestra que centrarse en la producción de robots maximiza los ingresos mensuales."
+          ]
+        }
+      ]
+    }
+
+  ]
+}

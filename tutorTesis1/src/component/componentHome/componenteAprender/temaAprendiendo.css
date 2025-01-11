@@ -1,0 +1,164 @@
+.tema{
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    background-color: rgb(246, 248, 252);
+    
+}
+
+.estudio{
+    margin-top: 20px;
+    margin:10px 100px 300px 100px;
+    
+}
+.ventana-etapa{
+    background-color: rgb(177, 129, 240); 
+    border-radius: 20px;
+    padding: 10px 20px;
+    box-shadow: 6px 6px 8px rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px;
+}
+.ventana-etapa h1{
+    color: white;
+}
+.ventana-etapa h2{
+    color: white;
+    font-size: 18px;
+}
+.ventana-etapa p{
+    text-align: left;
+    color: white;
+}
+.ventana-etapa .entrada-bloc {
+    background-color: #f9f9f9; /* Color claro para el fondo */
+    width: 100%; /* Ajusta el ancho al 100% del contenedor */
+    font-size: 16px; /* Tamaño de fuente */
+    padding: 10px; /* Espaciado interno */
+    border: 1px solid #ccc; /* Borde gris */
+    border-radius: 5px; /* Bordes redondeados */
+    box-sizing: border-box;
+    resize: vertical; /* Permite que el usuario ajuste la altura */
+    line-height: 1.5; /* Espacio entre líneas */
+    min-height: 100px; /* Altura mínima para ver al menos 5 renglones */
+}
+
+.ventana-auxiliar{
+    background-color: rgb(4, 204, 187); 
+    border-radius: 20px;
+    padding: 10px 20px;
+    box-shadow: 6px 6px 8px rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px;
+}
+.ventana-auxiliar p{
+    color: white;
+    font-weight: bold;
+}
+.ventana-auxiliar h1{
+    color: white;
+    font-weight: bold;
+}
+.lista-botones{
+    display: flex;
+    background-color: rgb(4, 204, 187); 
+    border-radius: 20px;
+    padding: 10px 20px;
+    box-shadow: 6px 6px 8px rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px;
+    align-items: center;
+}
+.lista-botones p{
+    color: white;
+    margin-right: 10px;
+    font-weight: bold;
+}
+.boton{
+    
+    padding: 4px 12px;
+    font-size: 30px;
+    color: white;
+    background-color: #0f9ad6;
+    border: none;
+    cursor: pointer;
+    border-radius: 30px;
+    margin: 5px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.8);
+}
+.boton.activo {
+    background-color: #007bff;
+    color: white;
+    opacity: 1;
+  }
+  
+.boton.desactivado {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed; /* Cambia el cursor para indicar que no se puede hacer clic */
+    opacity: 0.6;
+  }
+.entrada-respuesta {
+    width: 15%; /* Ocupa el ancho completo del contenedor */
+    padding: 10px; /* Espaciado interno para que el texto no esté pegado al borde */
+    font-size: 18px; /* Tamaño de fuente más grande */
+    border: 2px solid #ccc; /* Borde ligero */
+    border-radius: 5px; /* Bordes redondeados */
+    margin-top: 10px; /* Separación superior */
+    margin-bottom: 20px; /* Separación inferior */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra ligera para darle profundidad */
+    outline: none; /* Quita el contorno azul predeterminado */
+    transition: border-color 0.3s, box-shadow 0.3s; /* Animación para efectos visuales */
+    text-align: center;
+  }
+  .boton-resuelto {
+    background-color: green;
+    color: white;
+  }
+  
+  .resultado-correcto {
+    color: white;
+    background-color: green;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    display: inline-block;
+    margin-right: 10px;
+    font-size: 40px; /* Tamaño del texto más grande */
+  }
+  
+  .resultado-incorrecto {
+    color: white;
+    background-color: red;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    display: inline-block;
+    margin-right: 10px;
+    font-size: 40px;
+  }
+  
+.entrada-respuesta:focus {
+    border-color: #007BFF; /* Cambia el color del borde al enfocarse */
+    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.5); /* Sombra más pronunciada */
+}
+.guardar:hover {
+    background-color:rgb(177, 129, 240);
+}
+.guardado {
+    background-color:  #04ccbb;
+}
+.boton.enviado {
+    background-color: #04ccbb; /* Verde para indicar éxito */
+    color: white;
+}
+.boton.enviado:hover{
+    background-color:rgb(177, 129, 240);
+}
+.selectorProblema{
+    font-size: 20px;
+}
+.boton-actual {
+    font-size: 32px;
+}
+.imgenes-problema{
+    width: 200px;
+    padding: 10px;
+}
