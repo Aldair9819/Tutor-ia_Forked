@@ -38,9 +38,8 @@ export class LeerBDTemas {
 
   async obtenerDetallesDelTema(idTema) {
     try {
-      const response = await axios.get(`http://localhost:8000/api/temas/${idTema}`);
+      const response = await axios.get(`${URI}/temas/${idTema}`);
       const tema = response.data;
-  
       // Validar que la respuesta contenga los datos esperados
       if (tema && tema.nombre && tema.descripcion) {
         return {
@@ -69,9 +68,7 @@ export class LeerBDTemas {
     if (numTema >= 0 && numProblema >= 0) {
       try {
         // Hacer la solicitud a la API para obtener todos los ejercicios del tema
-        console.log("haciendo consulta")
         const response = await axios.get(`${URI}ejercicios/tema/${numTema}`);
-        console.log(" consulta reaizada")
         
             
         // Verificar que la respuesta de la API sea exitosa
@@ -82,8 +79,6 @@ export class LeerBDTemas {
           if (ejercicios.length > 0 && numProblema <= ejercicios.length) {
             // Obtener el ejercicio en la posición numProblema
             const ejercicio = ejercicios[numProblema-1];
-            console.log("el problema que sale es")
-            console.log(ejercicio)
             return {
               problema: ejercicio
             };
@@ -107,9 +102,7 @@ export class LeerBDTemas {
 
 
   async devolverCantidadDeProblemas(numTema) {
-    
     try {
-      console.log("actualizandooo")
       // Llamada a la API para obtener los ejercicios del tema
       const response = await axios.get(`${URI}ejercicios/tema/${numTema}`);
       // Validar si la respuesta contiene un arreglo y devolver su longitud

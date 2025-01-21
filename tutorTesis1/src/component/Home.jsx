@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 // Home.js
 import React, { useState } from 'react';
 import Logo from '../../imagenes/Logo.svg'
@@ -14,10 +15,7 @@ import LogoPerfil from '../../imagenes/perfil.svg'
 import LogoPrincipal from '../../imagenes/principal.svg'
 import { TemaProvider } from './componentHome/componenteAprender/TemaContext';
 import { useNavigate } from 'react-router-dom';
-import { useUsuario } from './componentHome/componenteAprender/usuarioContext';
 const Header =({setMenu, menuDisplay})=>{
-  const { idUsuario, setIdUsuario } = useUsuario();
-  console.log("el id es en home" + idUsuario)
   const navigate = useNavigate();
   const clickButonMenu =()=> {
     setMenu(!menuDisplay)
@@ -37,7 +35,6 @@ const Header =({setMenu, menuDisplay})=>{
         <img src={Logo} alt="" />
       </div>
       <div className='caja-botones'>
-        <button>Usuario</button>
         <button onClick={clickButonCerrarSecion}>Cerrar Seción</button>
       </div>
       
@@ -47,21 +44,26 @@ const Header =({setMenu, menuDisplay})=>{
 }
 
 
-function Menu ({menuDisplay, setVentanaDisplay}){
+function Menu ({menuDisplay, setVentanaDisplay, setMenu}){
   const clickHome=()=>{
     setVentanaDisplay("principal")
+    setMenu(false)
   }
   const clickAprender=()=>{
     setVentanaDisplay("aprender")
+    setMenu(false)
   }
   const clickCalificacion =()=>{
     setVentanaDisplay("calificacion")
+    setMenu(false)
   }
   const clickInformacion=()=>{
     setVentanaDisplay("informacion")
+    setMenu(false)
   }
   const clickPerfil=()=>{
     setVentanaDisplay("perfil")
+    setMenu(false)
   }
   return(
     menuDisplay &&(
@@ -80,7 +82,6 @@ function Menu ({menuDisplay, setVentanaDisplay}){
 function Home() {
   const [menuDisplay, setMeunDisplay] = useState(false)
   const [ventanaDisplay, setVentanaDisplay] = useState("principal")
-
   const renderVentana = () => {
     switch (ventanaDisplay) {
     case "principal":
@@ -105,7 +106,7 @@ function Home() {
     <div className='home-page'>
       <Header setMenu={setMeunDisplay} menuDisplay={menuDisplay}/>
       <div className={`ventana ${menuDisplay?"with-menu":""}`}>
-        <Menu menuDisplay={menuDisplay} setVentanaDisplay={setVentanaDisplay}/>
+        <Menu menuDisplay={menuDisplay} setVentanaDisplay={setVentanaDisplay} setMenu={setMeunDisplay}/>
         <div className='ventanaHome'>
           {renderVentana()}
         </div>

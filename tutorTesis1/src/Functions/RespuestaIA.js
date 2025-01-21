@@ -21,8 +21,6 @@ export async function RepuestaIA({ systemText, userText }) {
 }
 
 async function getGroqChatCompletion({ systemText, userText }) {
-  console.log("SystenText",systemText)
-  console.log("userText",userText)
 
   return groq.chat.completions.create({
     messages: [

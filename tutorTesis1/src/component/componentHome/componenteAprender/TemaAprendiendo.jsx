@@ -7,7 +7,7 @@ import { LeerBDTemas } from "../../../Functions/leerBDTemas"
 import { LeerBDUsuario } from "../../../Functions/leerBDUsuario"
 import { RepuestaIA } from "../../../Functions/RespuestaIA"
 import { useUsuario } from "./usuarioContext"
-
+import Robot from '../../../../imagenes/Robot.png'
 export function TemaAprendiendo(){
   const {seleccionTema} = useContext(TemaContext)
   
@@ -39,14 +39,13 @@ const VentanaEstudio = ({ tema }) => {
     const obtenerProblema = async () => {
       const cantidadPro= await leerBD.devolverCantidadDeProblemas(tema);
       setcantidadProblemas(cantidadPro)
-      console.log("ooooo")
       const problemasResueltosBD = await usuarioBD.devolverProblemasResueltosDelTema(idUsuario, tema);
-      console.log("xxx")
       setProblemasResueltos(problemasResueltosBD);
-      const problemaActualBD =2
+      const problemaActualBD =1
       
       setProblemaAcutual(problemaActualBD)
       try {
+
         const problema = await leerBD.devolverProblemas(tema, problemaActualBD);
         setProblema(problema);
         if (problema) {
@@ -80,7 +79,6 @@ const VentanaEstudio = ({ tema }) => {
   }, [problemaActual, tema]); // Este useEffect depende de problemaActual y tema
  
   const obtenerImagenes = async (idProblema) => {
-  
     try {
       const respuesta = await leerBD.obtenerRutaDeImagen(idProblema);
   
@@ -109,7 +107,7 @@ const VentanaEstudio = ({ tema }) => {
     if (etapa >= 5 && problema) ventanas.push(<VentanaGuia key={4} problema={problema.problema} ideasInvestigacion={ideasInvestigacion} />);
     if (etapa >= 6) ventanas.push(<VentanaProceso key={5} />);
     if (etapa >= 7) ventanas.push(<VentanaConclucion key={6} setResultado={setResultado} resultado={resultado} procedimiento={procedimiento} setProcedimiento={setProcedimiento} setNext={setNext} />);
-    if (etapa >= 8) ventanas.push(<VentanaResultado key={6} problemaAct={problema.problema} respuestaAlumno={resultado} setEvaluacion={setEvaluacion}/>);
+    if (etapa >= 8) ventanas.push(<VentanaResultado key={6} problemaAct={problema.problema} respuestaAlumno={resultado} setEvaluacion={setEvaluacion} usuarioBD={usuarioBD} idUsuario={idUsuario} ideasInvestigacion={ideasInvestigacion} procedimiento={procedimiento}/>);
     if (etapa >= 9) ventanas.push(<VentanaRetroalimentacion key={7} procedimiento={procedimiento} respuestaAlumno={resultado} problemaAct={problema.problema} evaluacion= {evaluacion}/>);
 
     return ventanas;
@@ -126,8 +124,13 @@ const VentanaEstudio = ({ tema }) => {
         onClick={() => {
           if (etapa === 10 && evaluacion) {
             setEtapa(2); // Regresa a la etapa 2 si la evaluación es true
+            console.log("el problema id es");
+            console.log(problema.problema.id)
+
           } else if (etapa === 10 && !evaluacion) {
-            setEtapa(4); // Regresa a la etapa 4 si la evaluación es false
+            setEtapa(3); // Regresa a la etapa 4 si la evaluación es false
+            console.log(problema.problema.id)
+
           } else if (next) {
             clickSiguiente(); // Avanza normalmente
           }
@@ -151,7 +154,6 @@ const VentanaEstudio = ({ tema }) => {
 
 const VentanaIntroduccion = ({ tema }) => {
   const [datosTema, setDatosTema] = useState({ nombre: "Cargando...", descripcion: "" });
-  
   useEffect(() => {
     const leerBD = new LeerBDTemas();
   
@@ -187,12 +189,9 @@ const VentanaAuxProblema=()=>{
 
 const VentanaPlantearProblema = ({ problema, urlImagen }) => {
   // Verificar si el problema está disponible antes de renderizar
-  console.log("ventana "+problema)
-  console.log(problema)
   if (!problema) {
     return <div>Loading...</div>; // Mostrar un mensaje mientras se carga el problema
   }
-
   return (
     <div className="ventana-etapa">
       <h1>{problema.problema.titulo}</h1>
@@ -200,11 +199,11 @@ const VentanaPlantearProblema = ({ problema, urlImagen }) => {
       <div>
         {urlImagen && urlImagen.length > 0 ? (
           urlImagen.map((url, index) => (
-            <img className="imgenes-problema"
-              key={index}
-              // Usa una ruta relativa para las imágenes
+            <img 
+              className="imgenes-problema"
+              key={`${url}-${index}`} // Usa el nombre del archivo como clave
               src={`/imagenes/imgEjercicios/${url}`} 
-              alt={`Imagen ${index + 1}`}
+              alt={`Imagen ${url}`} // Opcionalmente, incluye más contexto en el alt
             />
           ))
         ) : (
@@ -224,25 +223,25 @@ const VentanaAuxDeInvestigacion=()=>{
   )
 }
 
-const VentanaInvestigacion = ({ ideasInvestigacion, setIdeasInvestigacion, setNext }) => {
+const VentanaInvestigacion = ({ setIdeasInvestigacion, setNext }) => {
   const inputRef = useRef(null);
   const [guardado, setGuardar] = useState(false); // Estado para controlar si las ideas están guardadas
 
-  // Establecer el estado inicial de `next` según `guardado`
+  // Efecto para actualizar el estado `setNext` basado en `guardado`
   if(!guardado){
     setNext(false)
   }else{
     setNext(true)
   }
-  
-
   // Función para guardar las ideas al hacer clic en el botón
   const clickGuardarIdeas = () => {
-    setIdeasInvestigacion(inputRef.current.value); // Guarda las ideas del textarea
-    setGuardar(true); // Marca como guardado
+    const ideas = inputRef.current.value.trim(); // Elimina espacios en blanco
+    if (ideas) {
+      setIdeasInvestigacion(ideas); // Guarda las ideas del textarea
+      setGuardar(true); // Marca como guardado
 
-    // Cambia `guardado` a `false` después de 3 segundos
-    
+      // Cambia `guardado` a `false` después de 3 segundos (opcional)
+    }
   };
 
   return (
@@ -259,6 +258,7 @@ const VentanaInvestigacion = ({ ideasInvestigacion, setIdeasInvestigacion, setNe
       <button
         className={`boton guardar ${guardado ? "guardado" : ""}`} // Cambia la clase si está guardado
         onClick={clickGuardarIdeas}
+        disabled={guardado} // Desactiva el botón si ya está guardado
       >
         {guardado ? "Guardado" : "Guardar Ideas"}
       </button>
@@ -266,14 +266,17 @@ const VentanaInvestigacion = ({ ideasInvestigacion, setIdeasInvestigacion, setNe
   );
 };
 
+
 const VentanaGuia=({problema,ideasInvestigacion})=>{ 
   const problemaAct = problema.descripcion
   const respuestaIA = useRepuestaGuia({problemaAct, ideasInvestigacion})
     
   return(
     <div className="ventana-auxiliar">
-      <h1>ventana para guia</h1>
-      <p>{respuestaIA.respuesta}</p>
+      <div className="guiaRobot">
+        <img src={Robot} alt="" />
+        <p>{respuestaIA.respuesta}</p>
+      </div>
     </div>
   )
 }
@@ -303,6 +306,7 @@ const VentanaConclucion = ({ setResultado, resultado, setProcedimiento, procedim
     setResultado(tempResultado); // Actualiza la variable real al enviar
     setProcedimiento(tempProcedimiento); // Actualiza la variable real al enviar
     setEnviado(true); // Cambia el estado a enviado
+
   };
   if(!enviado){
     setNext(false)
@@ -312,10 +316,10 @@ const VentanaConclucion = ({ setResultado, resultado, setProcedimiento, procedim
   return (
     <div className="ventana-etapa">
       <div>
-        <h1>Ingresa el resultado del ejercicio</h1>
+        <h1>Ingresa la respuesta del ejercicio</h1>
         <input
           className="entrada-respuesta"
-          type="text"
+          type="number"
           onChange={handleTempResultadoChange}
           placeholder="Escribe tu resultado"
         />
@@ -339,12 +343,12 @@ const VentanaConclucion = ({ setResultado, resultado, setProcedimiento, procedim
   );
 };
 
-const VentanaResultado = ({ problemaAct, respuestaAlumno, setEvaluacion }) => {
+const VentanaResultado = ({ problemaAct, respuestaAlumno, setEvaluacion, usuarioBD, idUsuario, ideasInvestigacion, procedimiento }) => {
   const respuestaCorrecta = Number(problemaAct.respuesta);
 
   if (isNaN(respuestaCorrecta)) {
     return (
-      <div className="ventana-auxiliar">
+      <div className="ventana-auxiliar evaluacion">
         <h1>Evaluación</h1>
         <p>Error: La respuesta correcta no es un número válido.</p>
       </div>
@@ -354,15 +358,20 @@ const VentanaResultado = ({ problemaAct, respuestaAlumno, setEvaluacion }) => {
   const margen = respuestaCorrecta * 0.02; // Margen de error (2%)
   const diferencia = Math.abs(respuestaCorrecta - respuestaAlumno); // Diferencia absoluta
   const esRespuestaCorrecta = diferencia <= margen; // Verifica si está dentro del margen
-  setEvaluacion(esRespuestaCorrecta)
+
+  // Guardar el intento solo al montar el componente
+  useEffect(() => {
+    usuarioBD.registrarIntento(idUsuario, problemaAct.id, ideasInvestigacion, procedimiento, esRespuestaCorrecta)
+    setEvaluacion(esRespuestaCorrecta);
+  }, []); // Dependencia vacía para que solo se ejecute al montar
+
   return (
-    <div className="ventana-auxiliar">
+    <div className="ventana-auxiliar evaluacion">
       <h1>Evaluación</h1>
       <p>
         {esRespuestaCorrecta ? (
           <>
             <span className="resultado-correcto">✔</span> {/* Palomita */}
-            
           </>
         ) : (
           <>
@@ -377,36 +386,59 @@ const VentanaResultado = ({ problemaAct, respuestaAlumno, setEvaluacion }) => {
 
 
 
+
 const VentanaRetroalimentacion=({procedimiento, respuestaAlumno,  problemaAct})=>{
   const respuestaIA = useRepuestaRetroalimentacion({procedimiento,respuestaAlumno, problemaAct})
   return(
     <div className="ventana-auxiliar">
-      <h1>Algunos Consejos</h1>
-      <p>{respuestaIA.respuesta}</p>
+      <div className="guiaRobot">
+        <img src={Robot} alt="" />
+        <p>{respuestaIA.respuesta}</p>
+      </div>
     </div>
   )
 }
 
 
-const CadenaBotones=({cantidadProblemas, problemaActual ,setProblemaAcutual, setNext, setEtapa, problemaResueltos})=>{
-  const botones = Array.from({length:cantidadProblemas},(_,index)=> index + 1)
-  setNext(true); // Desactiva el botón al oprimirlo
-  const clickCanenaBoton=(num)=>{
-    setProblemaAcutual(num)
-    setEtapa(3)
+const CadenaBotones = ({ cantidadProblemas, problemaActual, setProblemaAcutual, setNext, setEtapa, problemaResueltos }) => {
+  // Validar si cantidadProblemas es un número válido
+  if (typeof cantidadProblemas !== "number" || cantidadProblemas <= 0) {
+    setNext(false); // Desactiva el botón al oprimirlo
+    return (
+      <div className="lista-botones">
+        <p style={{ margin: "12px auto" }}>{ "No hay ejercicios disponibles"}</p>
+      </div>
+    );
   }
-  return(
+
+  const botones = Array.from({ length: cantidadProblemas }, (_, index) => index + 1);
+
+  const clickCanenaBoton = (num) => {
+    setProblemaAcutual(num);
+    setEtapa(3);
+    setNext(true);
+  };
+
+  return (
     <div className="lista-botones">
       <p>Lista de Problemas</p>
-      {botones.map((num)=>(
-        <button 
+      {botones.map((num) => (
+        <button
           className={`boton selectorProblema ${num === problemaActual ? "boton-actual" : ""} ${problemaResueltos.includes(num) ? "boton-resuelto" : ""}`}
-          onClick={() => clickCanenaBoton(num)} key={num}
-        >{num}</button>
+          onClick={() => clickCanenaBoton(num)} 
+          key={num}
+        >
+          {problemaResueltos.includes(num) && (
+            <span>
+              <i className="fas fa-check"></i> {/* Palomita verde */}
+            </span>
+          )}
+          {num}
+        </button>
       ))}
-    </div>   
-  )
-}
+    </div>
+  );
+};
 
 const useRepuestaGuia = ({ problemaAct, ideasInvestigacion }) => {
   const [respuesta, setRespuesta] = useState(null);

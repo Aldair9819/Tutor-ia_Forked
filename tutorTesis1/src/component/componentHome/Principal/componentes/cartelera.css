@@ -1,0 +1,82 @@
+/* cartelera.css */
+
+
+#parent-container {
+    width: 100%; /* El ancho total */
+    max-width: 1200px; /* Opcional: un ancho máximo para la cartelera */
+    margin: 0 auto; /* Centrar el contenedor principal */
+}
+
+.cartelera {
+    display: flex; /* Asegura que el contenedor use flexbox */
+    width: 90%; /* Aumenté el ancho al 70% del viewport */
+    height: 30vw; /* Mantén la altura deseada */
+    align-items: center; /* Centra verticalmente */
+    justify-content: center; /* Centra horizontalmente */
+    position: relative; /* Cambié a relative para que no se quede fija */
+    margin: 0;
+    overflow: hidden; /* Oculta cualquier parte de la imagen que sobresalga */
+    top: 80px;
+    margin-left: 1vw; /* Agrega margen a la izquierda proporcional al ancho de la pantalla */
+}
+
+.cartelera img {
+    width: 100%; /* Ajusta la imagen al ancho del contenedor */
+    height: 100%; /* Ajusta la imagen al alto del contenedor */
+    object-fit: cover; /* Mantiene la proporción y llena el contenedor */
+    
+}
+.cartelera p{
+    color: black;
+    font-size: 1.5rem;
+}
+
+.banner {
+    position: absolute;
+    bottom: 20px; /* Posición del banner desde la parte inferior */
+    left: 100px; /* Centra horizontalmente el banner */
+    background-color: rgba(255, 255, 255, 1); /* Fondo semi-transparente para el banner */
+    text-align: center; /* Centra el texto dentro del banner */
+    padding: 10px; /* Espaciado dentro del banner */
+    border-radius: 8px; /* Opcional: esquinas redondeadas para el banner */
+    max-width: 500px; /* Limita el ancho del banner para que no exceda el contenedor */
+    
+}
+
+.banner h1 {
+    margin: 20px 40px; /* Elimina márgenes para que se ajuste bien al banner */
+    font-size: 1.5rem; /* Ajusta el tamaño de la fuente */
+    color: rgb(0, 0, 0); /* Color del texto para contraste */
+    text-align: left;
+    
+
+}
+.banner p{
+    margin: 0 10px 20px; /* Elimina márgenes para que se ajuste bien al banner */
+    text-align: left;
+    
+}
+
+.move-button{
+    position: absolute; /* Posiciona los botones en relación a la cartelera */
+    top: 50%; /* Centra verticalmente */
+    transform: translateY(-50%); /* Ajusta para centrar verticalmente */
+    background-color: rgba(255, 255, 255, 1); /* Fondo semi-transparente */
+    border-radius: 100px; /* Esquinas redondeadas */
+    padding: 12px 15px; /* Espaciado interno */
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    z-index: 1; /* Asegúrate de que estén encima del contenido */
+}
+.right{
+    right: 10px; /* Posición a la derecha */
+}
+.left{
+    left: 10px; /* Posición a la izquierda */
+}
+
+.button-vermas{
+    left: 10px;
+    background-color: black;
+    border-radius: 50px;
+    color: white;
+}

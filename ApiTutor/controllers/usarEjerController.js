@@ -42,7 +42,7 @@ export const getEjerciciosPorUsuario = async (req, res) => {
 
         // Verificar si se encontraron registros
         if (!ejerciciosbyTema.length || !ejerciciosUsuario.length) {
-            return res.status(404).json({ message: `No se encontraron registros para el usuario con ID ${id} o para el tema ${tema}` });
+             return res.json([]); // Retorna un arreglo vacío en lugar de un error
         }
 
         // Convertir los resultados a JSON para facilitar el filtrado
@@ -53,7 +53,50 @@ export const getEjerciciosPorUsuario = async (req, res) => {
 
         // Verificar si hay ejercicios filtrados
         if (!ejerciciosFiltrados.length) {
-            return res.status(404).json({ message: `No se encontraron coincidencias entre los ejercicios del tema y los del usuario` });
+            return res.json([]); // Retorna un arreglo vacío en lugar de un error
+        }
+
+        // Retornar los ejercicios filtrados
+        res.json(ejerciciosFiltrados);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error al obtener los ejercicios por usuario" });
+    }
+};
+
+export const getEjerciciosPorUsuarioTodos = async (req, res) => {
+    try {
+        // Obtener el idusuario y el tema desde los parámetros de la URL
+        const { id, tema } = req.body;
+
+        // Consultar los ejercicios del tema especificado
+        const ejerciciosbyTema = await EjerciciosModels.findAll({
+            where: {
+                temaId: tema
+            }
+        });
+
+        // Consultar los ejercicios realizados por el usuario
+        const ejerciciosUsuario = await UsuarioEjerciciosModel.findAll({
+            where: {
+                idusuario: id
+            }
+        });
+        
+        // Verificar si se encontraron registros
+        if (!ejerciciosbyTema.length || !ejerciciosUsuario.length) {
+             return res.json([]); // Retorna un arreglo vacío en lugar de un error
+        }
+
+        // Convertir los resultados a JSON para facilitar el filtrado
+        const ejerciciosTemaIds = ejerciciosbyTema.map(item => item.id);
+        const ejerciciosFiltrados = ejerciciosUsuario
+            .filter(ejercicio => ejerciciosTemaIds.includes(ejercicio.idejercicio))
+            .map(ejercicio => ejercicio.toJSON());
+
+        // Verificar si hay ejercicios filtrados
+        if (!ejerciciosFiltrados.length) {
+            return res.json([]); // Retorna un arreglo vacío en lugar de un error
         }
 
         // Retornar los ejercicios filtrados

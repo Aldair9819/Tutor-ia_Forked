@@ -1,0 +1,44 @@
+.ventana-perfil {
+    margin: 2% auto; /* Centra el contenedor horizontalmente */
+    background-color: #f5f5f5; /* Color claro y neutro */
+    width: 40%; /* Ancho equilibrado */
+    height: 80%; /* Proporción adecuada */
+    border-radius: 20px; /* Curvatura sutil */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra para profundidad */
+    padding: 2rem; /* Espaciado interno */
+    display: flex; /* Uso de flexbox */
+    flex-direction: column; /* Organización vertical */
+    align-items: center; /* Centrado horizontal */
+    font-family: 'Roboto', sans-serif; /* Fuente moderna */
+    color: #333; /* Color de texto oscuro */
+    text-align: left; /* Texto alineado a la izquierda */
+}
+
+.ventana-perfil img {
+    width: 60%; /* Imagen con ancho ajustado */
+    border-radius: 10px; /* Bordes ligeramente redondeados */
+    margin-bottom: 1rem; /* Espaciado debajo de la imagen */
+}
+
+.ventana-perfil h1 {
+    font-size: 1.8rem; /* Tamaño del texto del título */
+    font-weight: 700; /* Texto en negrita */
+    margin-bottom: 0.5rem; /* Espaciado inferior */
+}
+
+.ventana-perfil h2 {
+    padding: 10px;
+    color: #555; /* Color gris para subtítulos */
+    font-size: 1.2rem; /* Tamaño de texto cómodo */
+    font-weight: 400; /* Peso moderado */
+    text-align: justify; /* Texto justificado */
+    line-height: 1.6; /* Espaciado entre líneas */
+}
+
+.ventana-perfil p {
+    padding: 10px 0; /* Espaciado arriba y abajo */
+    color: #444; /* Color de texto gris medio */
+    font-size: 1rem; /* Tamaño estándar del párrafo */
+    text-align: justify; /* Texto justificado */
+    line-height: 1.8; /* Mejora la legibilidad */
+}

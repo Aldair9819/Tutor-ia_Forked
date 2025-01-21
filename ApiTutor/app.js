@@ -6,6 +6,8 @@ import ejerciciosRoutes from "./routes/ejerciciosRoutes.js";
 import temasRouter from "./routes/temasRoutes.js";
 import imagenesEjerRoutes from "./routes/imagenesEjerRoutes.js"
 import userEjerRoutes from "./routes/userEjerRoutes.js"
+import ideasRoutes from "./routes/ideasRoutes.js"
+
 // Importar los modelos para que se apliquen las asociaciones automáticamente
 import "./models/relations.js"; // Esto ahora se importa para aplicar las asociaciones automáticamente
 
@@ -19,6 +21,7 @@ app.use("/api", ejerciciosRoutes);
 app.use("/api", temasRouter);
 app.use("/api",imagenesEjerRoutes);
 app.use("/api", userEjerRoutes);
+app.use("/api", ideasRoutes);
 
 // Función para iniciar el servidor
 const startServer = async () => {

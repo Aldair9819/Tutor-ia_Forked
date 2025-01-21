@@ -11,8 +11,8 @@ html, body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
   width: 100%; /* Fuerza el ancho completo de la ventana */
+  he
 }
 
 .Header {
@@ -59,11 +59,12 @@ html, body {
     margin-right: 10px; /* Espacio entre el botón y el logo */
     margin: 25px;
   }
-  .ventana{
+  .ventana {
     display: flex;
-    max-width:  100%;
-    height: 100vh;
-    
+    width: 80%; /* Garantiza que ocupe todo el ancho */
+    height: 100%; /* Toda la altura de la ventana del navegador */
+    margin-left: 50px;
+    margin-right: 50px;
   }
   .ventana.with-menu{
     margin-left: 200px;
@@ -103,10 +104,11 @@ html, body {
     width: 100%;
     padding: 0px;
     margin-top: 50px;
-    background-color: #f2f6fc; /* Color de fondo claro */
+    background-color: #ffffff; /* Color de fondo claro */
     border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Sombra alrededor de la ventana */
     text-align: center;
+    display: flex;
+    justify-content: center;
   }
 
 

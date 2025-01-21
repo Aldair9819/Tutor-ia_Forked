@@ -1,0 +1,14 @@
+/* Principal-container que organiza los componentes verticalmente */
+.principal-container {
+    display: flex;
+    flex-direction: column; /* Organiza los elementos en columnas */
+    align-items: center;
+    
+  }
+  
+  /* Opcional: Puedes ajustar los márgenes y los tamaños de los componentes */
+  .cartelera {
+    margin-bottom: 20px; /* Espacio entre Cartelera y Informacion */
+  }
+  
+ 

@@ -1,0 +1,9 @@
+.logos {
+    display: flex;
+    gap: 15vw; /* Define la separación uniforme entre los elementos */
+    justify-content: center; /* Centra los elementos en el contenedor */
+}
+
+.logos img {
+    width: 7vw;
+}

@@ -33,7 +33,7 @@ export const getEjerciciosByTema = async (req, res) => {
 
         // Verifica si no se encontraron ejercicios
         if (!ejercicios || ejercicios.length === 0) {
-            return res.status(404).json({ message: "No se encontraron ejercicios para este tema" });
+            return res.json([]); // Devuelve un arreglo vacío
         }
 
         // Retorna los ejercicios encontrados

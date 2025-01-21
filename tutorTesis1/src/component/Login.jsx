@@ -1,5 +1,5 @@
 // Login.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../../imagenes/Logo.svg'
 import imgSecion from '../../imagenes/imgInicioSecion.webp';
@@ -29,19 +29,23 @@ function Login({ setIsAuthenticated }) { //home de la pagina
   const closeModal=()=>{
     setModalVisible(false)
   }
-
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/home', { replace: true }); // Reemplaza la entrada en el historial
+    }
+  }, [navigate]);
 
   const handleLogin = async (usuario, contrasena) => {
     // Simula autenticación
     
     const resultado = await bdUsuario.validarUsuarioyContraseña({usuario,contrasena})
-    console.log("el resultado es: ")
-    console.log(resultado.data.idUsuario)
-    setIdUsuario(resultado.data.idUsuario)
     if (resultado.success) {
-      console.log("contraseña correcta")
+      setIdUsuario(resultado.data.idUsuario)
       setIsAuthenticated(true);
       localStorage.setItem('token', resultado.data.token);
+      localStorage.setItem('idUsuario', resultado.data.idUsuario);
+
       navigate('/home'); // Navegar a la página principal
     } else {
       alert('Credenciales incorrectas');

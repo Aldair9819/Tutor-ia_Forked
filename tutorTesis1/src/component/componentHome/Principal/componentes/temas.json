@@ -1,0 +1,15 @@
+{
+    "temas": {
+      "1": "Matemáticas Básicas",
+      "2": "Álgebra",
+      "3": "Geometría",
+      "4": "Cálculo"
+    },
+    "descriptions": {
+      "1": "Las matemáticas pueden ser un reto, pero recuerda, ¡tienes una IA que siempre está contigo!",
+      "2": "No temas equivocarte, de los errores nacen grandes aprendizajes.",
+      "3": "Explora las formas y figuras geométricas.",
+      "4": "Adéntrate en los conceptos avanzados del cálculo."
+    }
+  }
+  

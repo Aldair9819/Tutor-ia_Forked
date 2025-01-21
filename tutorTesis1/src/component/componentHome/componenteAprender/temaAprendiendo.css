@@ -11,6 +11,7 @@
     margin:10px 100px 300px 100px;
     
 }
+
 .ventana-etapa{
     background-color: rgb(177, 129, 240); 
     border-radius: 20px;
@@ -74,7 +75,7 @@
 .boton{
     
     padding: 4px 12px;
-    font-size: 30px;
+    font-size: 2rem;
     color: white;
     background-color: #0f9ad6;
     border: none;
@@ -95,6 +96,7 @@
     cursor: not-allowed; /* Cambia el cursor para indicar que no se puede hacer clic */
     opacity: 0.6;
   }
+  
 .entrada-respuesta {
     width: 15%; /* Ocupa el ancho completo del contenedor */
     padding: 10px; /* Espaciado interno para que el texto no esté pegado al borde */
@@ -156,9 +158,29 @@
     font-size: 20px;
 }
 .boton-actual {
-    font-size: 32px;
+    font-size: 1.5rem;
+    width: 4.5rem;
+    height: 4.5rem;
 }
 .imgenes-problema{
-    width: 200px;
+    width: 16vw;
     padding: 10px;
+}
+.evaluacion {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.guiaRobot{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.guiaRobot img{
+    width: 9rem;
+    height: 100%;
+}
+.guiaRobot p{
+    padding: 0.2rem;
+    margin-right: 1rem;
 }

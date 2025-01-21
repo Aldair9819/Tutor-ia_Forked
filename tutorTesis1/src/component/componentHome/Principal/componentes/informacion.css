@@ -1,0 +1,39 @@
+/* informacion.css */
+
+.informacion-container {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+    padding: 20px;
+    margin-top: 70px;
+    
+  }
+  
+  .informacion-columna {
+    width: 25%;
+    text-align: center;
+    background-color: #05b0fc;
+    padding: 2vh 0px;
+    border-radius: 30px;
+    
+  }
+  
+  .informacion-imagen {
+    width: 50%;
+    height: auto;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: white;
+    padding: 0vh 2vw; /* 2vh para arriba y abajo, 4vw para los lados (izquierda y derecha) */
+  }
+  
+  p {
+    padding: 1vh 2vw; /* 2vh para arriba y abajo, 4vw para los lados (izquierda y derecha) */
+    font-size: 1rem;
+    color: #ffffff;
+    text-align: justify; /* Justifica el texto */
+  }
+  

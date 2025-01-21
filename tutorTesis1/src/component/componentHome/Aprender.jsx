@@ -18,7 +18,6 @@ export function Aprender(){
   }
   return(
     <div className="aprender">
-      <h1>Estoy en la ventana de aprender</h1>
       <VentanaTemas/>
     </div>
   )
@@ -57,7 +56,7 @@ const Button =({numTema, nombreTema})=>{
 
   return(
     <button onClick={clickTemaButton} className="boton-tema">
-      <h1>Tema {numTema}</h1>
+      <h1 >Tema {numTema}</h1>
       <div className="boton-conenido"> 
         <img src={LogoAprender} alt="" />
         <p>{nombreTema}</p>

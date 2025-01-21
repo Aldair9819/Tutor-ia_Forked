@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { Axios } from "axios";
 const URI = "http://localhost:8000/api/"
 export class LeerBDUsuario {
   // Validar usuario y contraseña
@@ -40,6 +40,15 @@ export class LeerBDUsuario {
       return { success: false, message };
     }
   }
+  async devolverUsuariosById({idUsuario}){
+    try{
+      const res = await axios.get(`${URI}users/${idUsuario}`)
+      return res.data;
+    } catch (error){
+      const message = error.response?.data?.message || "Error al conectar con el servidor";
+      return { success: false, message };
+    } 
+  }
 
   // Retornar temas concluidos
   devolverTemasConcluidos(usuario) {
@@ -48,7 +57,6 @@ export class LeerBDUsuario {
 
   // Retornar problemas resueltos
   async devolverProblemasResueltosDelTema(usuario, tema) {
-    console.log("devolver problemas resueltos")
     try {
       // Enviar usuario y tema como parámetros en la solicitud POST
       const res = await axios.post(`${URI}ejerciciosResueltosbytema`, {
@@ -64,14 +72,9 @@ export class LeerBDUsuario {
         ...ejercicio, // Copiar las propiedades originales
         nuevaId: index + 1, // Asignar nueva ID secuencial
       }));
-      console.log("ejercicios nueva id")
-      console.log(ejerciciosConNuevaId)
 
-      // Filtrar los ejercicios que están resueltos en res
-      const ejerciciosResueltos = res.data.filter(ejercicio => ejercicio.resultado === true);
-      
       // Comparar las id de ejercicios resueltos con los de res2 y devolver la nuevaId
-      const nuevaIdsResueltos = ejerciciosResueltos
+      const nuevaIdsResueltos =res.data
         .map(ejercicioResuelto => {
           // Buscar el ejercicio correspondiente en res2
           const ejercicioConNuevaId = ejerciciosConNuevaId.find(ejercicio => ejercicio.id === ejercicioResuelto.idejercicio);
@@ -79,9 +82,6 @@ export class LeerBDUsuario {
           return ejercicioConNuevaId ? ejercicioConNuevaId.nuevaId : null;
         })
         .filter(nuevaId => nuevaId !== null); // Filtrar los valores nulos en caso de que no haya coincidencias
-      console.log("ejercicios nuevaIdsResueltos ")
-      console.log(nuevaIdsResueltos)
-      // Retornar las nuevas IDs de los ejercicios resueltos
       return nuevaIdsResueltos;
   
     } catch (error) {
@@ -90,7 +90,44 @@ export class LeerBDUsuario {
       return { success: false, message };
     }
   }
+
+  async devolverAvancesDelTema(usuario, tema) {
+    try {
   
+      // Enviar usuario y tema como parámetros en la solicitud POST
+      const res = await axios.post(`${URI}ejerciciosResueltosbytemaT`, {
+        id: usuario,
+        tema: tema,
+      });
+      // Obtener los ejercicios del tema
+      const res2 = await axios.get(`${URI}ejercicios/tema/${tema}`);
+      // Agregar nueva ID secuencial a todos los ejercicios en res2
+      const ejerciciosConNuevaId = res2.data.map((ejercicio, index) => ({
+        ...ejercicio, // Copiar las propiedades originales
+        nuevaId: index + 1, // Asignar nueva ID secuencial
+      }));
+  
+      // Comparar las id de ejercicios resueltos con los de res2 y devolver la nueva estructura
+      const ejerciciosConAvance = ejerciciosConNuevaId.map(ejercicio => {
+        // Buscar el ejercicio resuelto en res.data
+        const ejercicioResuelto = res.data.find(
+          resuelto => resuelto.idejercicio === ejercicio.id
+        );
+      
+        return {
+          ejercicio: ejercicio.nuevaId, // Usar la nueva ID secuencial
+          intentos: ejercicioResuelto ? ejercicioResuelto.intentos : 0, // Número de intentos (o 0 si no está resuelto)
+          resultado: ejercicioResuelto ? ejercicioResuelto.resuelto : false, // Resultado del ejercicio (o false si no está resuelto)
+        };
+      });
+  
+      return ejerciciosConAvance; // Devuelve el arreglo con el formato completo
+    } catch (error) {
+      const message =
+        error.response?.data?.message || "Error al conectar con el servidor";
+      return { success: false, message };
+    }
+  }
 
   // Marcar todos los ejercicios de un usuario como no resueltos
   async reiniciarEjerciciosDeUsuario(usuario) {
@@ -100,6 +137,33 @@ export class LeerBDUsuario {
     } catch (error) {
       const message = error.response?.data?.message || "Error al conectar con el servidor";
       return { success: false, message };
+    }
+  }
+
+  async registrarIntento( usuario, idejercicio, idea, conclusion, resultado, intento){
+    try{
+      console.log("id us: " + usuario + " id ej: "+ idejercicio+ " idea: "+ idea + " conclusion " + conclusion + " resultado: "+ resultado +  " intento: " + intento)
+
+      const res = await axios.post(`${URI}ideasusuario`,{
+        "idusuario": usuario,
+        "idejercicio": idejercicio,
+        "idea": idea,
+        "conclusion": conclusion,
+        "resultado": resultado,
+        "intento": 5
+      });          
+       
+      if (res.status === 200 || res.status === 201) {
+        
+        return res.data; // Devuelve los datos de la respuesta si es necesario
+      } else {
+        console.error("Error en el registro del intento:", res.status, res.statusText);
+      }
+
+    }catch(error){
+      console.error("Error al registrar el intento:", error.message);
+      // Opcional: puedes manejar el error aquí o lanzar una excepción
+      throw error;
     }
   }
 }

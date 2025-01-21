@@ -1,5 +1,5 @@
 import express from "express";
-import {  getEjerciciosResueltosPorUsuario, getEjerciciosPorUsuario, actualizarEjercicioUsuario, resetearEjerciciosUsuario } from "../controllers/usarEjerController.js";
+import {  getEjerciciosResueltosPorUsuario,getEjerciciosPorUsuarioTodos, getEjerciciosPorUsuario, actualizarEjercicioUsuario, resetearEjerciciosUsuario } from "../controllers/usarEjerController.js";
 
 const router = express.Router();
 
@@ -8,6 +8,9 @@ router.get("/ejerciciosResueltos", getEjerciciosResueltosPorUsuario);
 router.post("/ejerciciosResueltosbytema", getEjerciciosPorUsuario);
 router.post("/ejerciciosResueltos", actualizarEjercicioUsuario);
 router.post("/resetearEjerciciosUsuario", resetearEjerciciosUsuario);
+router.post("/ejerciciosResueltosbytemaT", getEjerciciosPorUsuarioTodos);
+
+
 //Ruta para obtener los ejercicios resueltos por usuario
 //router.get("/ejercicios/resueltos/:idusuario", getEjerciciosResueltosPorUsuario);
 
