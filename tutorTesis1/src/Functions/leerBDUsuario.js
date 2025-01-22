@@ -143,7 +143,7 @@ export class LeerBDUsuario {
   async registrarIntento( usuario, idejercicio, idea, conclusion, resultado, intento){
     try{
       console.log("id us: " + usuario + " id ej: "+ idejercicio+ " idea: "+ idea + " conclusion " + conclusion + " resultado: "+ resultado +  " intento: " + intento)
-
+      console.log("guardadno")
       const res = await axios.post(`${URI}ideasusuario`,{
         "idusuario": usuario,
         "idejercicio": idejercicio,
@@ -154,7 +154,7 @@ export class LeerBDUsuario {
       });          
        
       if (res.status === 200 || res.status === 201) {
-        
+        console.log("registro excitoso")
         return res.data; // Devuelve los datos de la respuesta si es necesario
       } else {
         console.error("Error en el registro del intento:", res.status, res.statusText);
