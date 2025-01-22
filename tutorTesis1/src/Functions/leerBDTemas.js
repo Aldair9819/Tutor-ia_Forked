@@ -1,12 +1,9 @@
-import CursosBD from "C:/Codigo/MCC/TesisAvance/projects/tutorTesis1/mooks/BDpueba.json";
 import axios from "axios";
-const URI = "http://localhost:8000/api/"
+const URI = "https://proyectotutoria.onrender.com/api/"
 
 export class LeerBDTemas {
   // Constructor que inicializa la base de datos
-  constructor() {
-    this._cursosBD = CursosBD; // Variable privada que contiene la base de datos
-  }
+  
 
   // Método para obtener el nombre del tema
   async regresaNombreDelTema(numTema) {
@@ -54,14 +51,7 @@ export class LeerBDTemas {
       throw new Error("No se pudieron obtener los detalles del tema.");
     }
   }
-  devolverIntroduccion(numTema){
-    if (numTema >= 0 && numTema < this._cursosBD.temas.length) {
-      return this._cursosBD.temas[numTema].introduccion;
-    } else {
-      return "Tema no encontrado";
-    }
-
-  }
+  
   // Método para obtener los problemas de un tema específico
   async devolverProblemas(numTema, numProblema) {
     // Verificar que el tema y el problema son válidos

@@ -1,5 +1,5 @@
 import axios, { Axios } from "axios";
-const URI = "http://localhost:8000/api/"
+const URI = "https://proyectotutoria.onrender.com/api/"
 export class LeerBDUsuario {
   // Validar usuario y contraseña
   async validarUsuarioyContraseña({ usuario, contrasena }) {
