@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { useUsuario } from "./componenteAprender/usuarioContext";
 import { LeerBDUsuario } from "../../Functions/leerBDUsuario";
-import imgPerfil from '../../../imagenes/fotoPerfil.jpg'
+import imgPerfil from '../../imagenes/fotoPerfil.jpg'
 import "./Perfil.css"
 export function Perfil() {
   const [usuario, setUsuario] = useState(null); // Estado inicial vacío

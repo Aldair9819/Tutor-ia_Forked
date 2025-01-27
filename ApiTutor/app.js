@@ -36,7 +36,7 @@ const startServer = async () => {
 
         // Ruta raíz
         app.get("/", (req, res) => {
-            res.send("La API está funcionando correctamente");
+            res.send("La API está funcionando correctamente en la version 2.0");
         });
 
         // Iniciar el servidor en el puerto 8000

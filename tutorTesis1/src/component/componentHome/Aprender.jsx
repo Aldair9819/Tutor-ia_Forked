@@ -3,7 +3,7 @@
 //import CursosBD from "C:/Codigo/MCC/TesisAvance/projects/tutorTesis1/mooks/BDpueba.json";
 
 import "./Aprender.css"
-import LogoAprender from '../../../imagenes/libro.svg'
+import LogoAprender from '../../imagenes/libro.svg'
 import { useContext, useEffect, useState } from "react"
 import { TemaAprendiendo } from "./componenteAprender/TemaAprendiendo"
 import { TemaContext } from "./componenteAprender/TemaContext"

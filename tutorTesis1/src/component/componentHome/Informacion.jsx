@@ -1,8 +1,8 @@
 import React from "react";
-import tecCuliacan from '../../../imagenes/tecCuliacan.png'
-import tecNacional from '../../../imagenes/tecNacional.png'
+import tecCuliacan from '../../imagenes/tecCuliacan.png'
+import tecNacional from '../../imagenes/tecNacional.png'
 import "./informacion.css"
-import Logo from '../../../imagenes/Logo.svg'
+import Logo from '../../imagenes/Logo.svg'
 export function Informacion() {
   return (
     <div style={{ margin: "2rem auto", width: "80%", textAlign: "center" }}>

@@ -7,7 +7,8 @@ import { LeerBDTemas } from "../../../Functions/leerBDTemas"
 import { LeerBDUsuario } from "../../../Functions/leerBDUsuario"
 import { RepuestaIA } from "../../../Functions/RespuestaIA"
 import { useUsuario } from "./usuarioContext"
-import Robot from '../../../../imagenes/Robot.png'
+import imagenes from "./imagenesArreglo"
+
 export function TemaAprendiendo(){
   const {seleccionTema} = useContext(TemaContext)
   
@@ -81,7 +82,8 @@ const VentanaEstudio = ({ tema }) => {
   const obtenerImagenes = async (idProblema) => {
     try {
       const respuesta = await leerBD.obtenerRutaDeImagen(idProblema);
-  
+      console.log("la imagen ruta es")
+      console.log(respuesta)
       // Verifica si la respuesta tiene un arreglo válido de URLs
       if (Array.isArray(respuesta) && respuesta.length > 0) {
         setUrlImagen(respuesta); // Asigna directamente el arreglo de imágenes
@@ -189,6 +191,7 @@ const VentanaAuxProblema=()=>{
 
 const VentanaPlantearProblema = ({ problema, urlImagen }) => {
   // Verificar si el problema está disponible antes de renderizar
+  console.log("el url es "+ urlImagen)
   if (!problema) {
     return <div>Loading...</div>; // Mostrar un mensaje mientras se carga el problema
   }
@@ -202,7 +205,7 @@ const VentanaPlantearProblema = ({ problema, urlImagen }) => {
             <img 
               className="imgenes-problema"
               key={`${url}-${index}`} // Usa el nombre del archivo como clave
-              src={`/imagenes/imgEjercicios/${url}`} 
+              src={ imagenes[url]} 
               alt={`Imagen ${url}`} // Opcionalmente, incluye más contexto en el alt
             />
           ))

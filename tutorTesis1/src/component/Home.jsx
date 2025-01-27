@@ -1,18 +1,18 @@
 /* eslint-disable react/prop-types */
 // Home.js
 import React, { useState } from 'react';
-import Logo from '../../imagenes/Logo.svg'
+import Logo from '../imagenes/Logo.svg'
 import "./Home.css"
 import { Aprender } from './componentHome/Aprender';
 import { Principal } from './componentHome/Principal';
 import { Informacion } from './componentHome/Informacion';
 import { Perfil } from './componentHome/Perfil';
 import { Calificacion } from './componentHome/Calificacion';
-import LogoAprender from '../../imagenes/libro.svg'
-import LogoCalificacion from '../../imagenes/calificacion.svg'
-import LogoInformacion from '../../imagenes/informacion.svg'
-import LogoPerfil from '../../imagenes/perfil.svg'
-import LogoPrincipal from '../../imagenes/principal.svg'
+import LogoAprender from '../imagenes/libro.svg'
+import LogoCalificacion from '../imagenes/calificacion.svg'
+import LogoInformacion from '../imagenes/informacion.svg'
+import LogoPerfil from '../imagenes/perfil.svg'
+import LogoPrincipal from '../imagenes/principal.svg'
 import { TemaProvider } from './componentHome/componenteAprender/TemaContext';
 import { useNavigate } from 'react-router-dom';
 const Header =({setMenu, menuDisplay})=>{

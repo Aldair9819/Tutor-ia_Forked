@@ -13,7 +13,7 @@ export const TemasModel = db.define("Temas", {
     allowNull: false,
   },
   descripcion: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: true,
   },
 }, {

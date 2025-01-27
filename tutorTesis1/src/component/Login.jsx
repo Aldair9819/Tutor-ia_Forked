@@ -1,8 +1,8 @@
 // Login.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Logo from '../../imagenes/Logo.svg'
-import imgSecion from '../../imagenes/imgInicioSecion.webp';
+import Logo from '../imagenes/Logo.svg'
+import imgSecion from '../imagenes/imgInicioSecion.webp';
 import "./Login.css";
 import { Registro } from './Registro';
 import { FormularioLogin } from './Registro';

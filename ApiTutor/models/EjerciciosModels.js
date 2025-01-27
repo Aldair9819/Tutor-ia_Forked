@@ -13,7 +13,7 @@ export const EjerciciosModels = db.define("Ejercicios", {
         allowNull: false,
     },
     descripcion: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull: true,
     },
     respuesta: {
