@@ -1,6 +1,6 @@
 import CursosBD from "C:/Codigo/MCC/TesisAvance/projects/tutorTesis1/mooks/BDpueba.json";
 import axios from "axios";
-const URI = "https://proyectotutoria.onrender.com"
+const URI = "https://proyectotutoria.onrender.com/api/"
 
 export class LeerBDTemas {
   // Constructor que inicializa la base de datos

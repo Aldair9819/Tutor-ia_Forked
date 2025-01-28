@@ -8,7 +8,7 @@ import { LeerBDUsuario } from "../../../Functions/leerBDUsuario"
 import { RepuestaIA } from "../../../Functions/RespuestaIA"
 import { useUsuario } from "./usuarioContext"
 import imagenes from "./imagenesArreglo"
-
+import imagenesTema from "./arregloImgTemas"
 export function TemaAprendiendo(){
   const {seleccionTema} = useContext(TemaContext)
   
@@ -176,6 +176,12 @@ const VentanaIntroduccion = ({ tema }) => {
     <div className="ventana-etapa">
       <h1>{datosTema.nombre}</h1>
       <p>{datosTema.descripcion}</p>
+      <img 
+        className="imgenes-problema"
+        key={`$el${tema}`} // Usa el nombre del archivo como clave
+        src={ imagenesTema[tema-1]} 
+        alt={`Imagen ${tema}`} // Opcionalmente, incluye más contexto en el alt
+      />
     </div>
   );
 };
