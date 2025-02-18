@@ -144,13 +144,22 @@ export class LeerBDUsuario {
     try{
       console.log("id us: " + usuario + " id ej: "+ idejercicio+ " idea: "+ idea + " conclusion " + conclusion + " resultado: "+ resultado +  " intento: " + intento)
       console.log("guardadno")
+      const res1 = await axios.post(`${URI}ejerciciosResueltos`,{
+        "idusuario": usuario,
+        "idejercicio": idejercicio,
+        "resuelto": resultado
+      });
+      console.log("numero de intentos");
+      console.log(res1)
+      console.log(res1.data.registro.intentos)
+
       const res = await axios.post(`${URI}ideasusuario`,{
         "idusuario": usuario,
         "idejercicio": idejercicio,
         "idea": idea,
         "conclusion": conclusion,
         "resultado": resultado,
-        "intento": 5
+        "intento": res1.data.registro.intentos
       });          
        
       if (res.status === 200 || res.status === 201) {

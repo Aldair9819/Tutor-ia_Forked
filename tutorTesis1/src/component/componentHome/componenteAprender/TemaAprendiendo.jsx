@@ -9,6 +9,7 @@ import { RepuestaIA } from "../../../Functions/RespuestaIA"
 import { useUsuario } from "./usuarioContext"
 import imagenes from "./imagenesArreglo"
 import imagenesTema from "./arregloImgTemas"
+import Robot from "../../../imagenes/Robot.png"
 export function TemaAprendiendo(){
   const {seleccionTema} = useContext(TemaContext)
   
@@ -58,7 +59,7 @@ const VentanaEstudio = ({ tema }) => {
     };
 
     obtenerProblema();
-  }, [tema]);  // Este useEffect se ejecuta cada vez que cambia el tema
+  }, [tema, evaluacion]);  // Este useEffect se ejecuta cada vez que cambia el tema
 
   // useEffect para manejar la actualización del problemaActual
   useEffect(() => {
@@ -82,8 +83,6 @@ const VentanaEstudio = ({ tema }) => {
   const obtenerImagenes = async (idProblema) => {
     try {
       const respuesta = await leerBD.obtenerRutaDeImagen(idProblema);
-      console.log("la imagen ruta es")
-      console.log(respuesta)
       // Verifica si la respuesta tiene un arreglo válido de URLs
       if (Array.isArray(respuesta) && respuesta.length > 0) {
         setUrlImagen(respuesta); // Asigna directamente el arreglo de imágenes
@@ -109,7 +108,7 @@ const VentanaEstudio = ({ tema }) => {
     if (etapa >= 5 && problema) ventanas.push(<VentanaGuia key={4} problema={problema.problema} ideasInvestigacion={ideasInvestigacion} />);
     if (etapa >= 6) ventanas.push(<VentanaProceso key={5} />);
     if (etapa >= 7) ventanas.push(<VentanaConclucion key={6} setResultado={setResultado} resultado={resultado} procedimiento={procedimiento} setProcedimiento={setProcedimiento} setNext={setNext} />);
-    if (etapa >= 8) ventanas.push(<VentanaResultado key={6} problemaAct={problema.problema} respuestaAlumno={resultado} setEvaluacion={setEvaluacion} usuarioBD={usuarioBD} idUsuario={idUsuario} ideasInvestigacion={ideasInvestigacion} procedimiento={procedimiento}/>);
+    if (etapa >= 8) ventanas.push(<VentanaResultado key={6} problemaAct={problema.problema} respuestaAlumno={resultado} setEvaluacion={setEvaluacion} usuarioBD={usuarioBD} idUsuario={idUsuario} ideasInvestigacion={ideasInvestigacion} procedimiento={procedimiento} evaluacion={evaluacion}/>);
     if (etapa >= 9) ventanas.push(<VentanaRetroalimentacion key={7} procedimiento={procedimiento} respuestaAlumno={resultado} problemaAct={problema.problema} evaluacion= {evaluacion}/>);
 
     return ventanas;
@@ -126,12 +125,9 @@ const VentanaEstudio = ({ tema }) => {
         onClick={() => {
           if (etapa === 10 && evaluacion) {
             setEtapa(2); // Regresa a la etapa 2 si la evaluación es true
-            console.log("el problema id es");
-            console.log(problema.problema.id)
 
           } else if (etapa === 10 && !evaluacion) {
             setEtapa(3); // Regresa a la etapa 4 si la evaluación es false
-            console.log(problema.problema.id)
 
           } else if (next) {
             clickSiguiente(); // Avanza normalmente
@@ -197,7 +193,6 @@ const VentanaAuxProblema=()=>{
 
 const VentanaPlantearProblema = ({ problema, urlImagen }) => {
   // Verificar si el problema está disponible antes de renderizar
-  console.log("el url es "+ urlImagen)
   if (!problema) {
     return <div>Loading...</div>; // Mostrar un mensaje mientras se carga el problema
   }
@@ -335,7 +330,6 @@ const VentanaConclucion = ({ setResultado, resultado, setProcedimiento, procedim
         <h2>Explica el procedimiento que utilizaste</h2>
         <textarea
           className="entrada-bloc"
-          value={tempProcedimiento}
           onChange={handleTempProcedimientoChange}
           placeholder="Describe el procedimiento"
           rows="4"
@@ -352,7 +346,7 @@ const VentanaConclucion = ({ setResultado, resultado, setProcedimiento, procedim
   );
 };
 
-const VentanaResultado = ({ problemaAct, respuestaAlumno, setEvaluacion, usuarioBD, idUsuario, ideasInvestigacion, procedimiento }) => {
+const VentanaResultado = ({ problemaAct, respuestaAlumno, setEvaluacion, usuarioBD, idUsuario, ideasInvestigacion, procedimiento, evaluacion }) => {
   const respuestaCorrecta = Number(problemaAct.respuesta);
 
   if (isNaN(respuestaCorrecta)) {
@@ -370,6 +364,7 @@ const VentanaResultado = ({ problemaAct, respuestaAlumno, setEvaluacion, usuario
 
   // Guardar el intento solo al montar el componente
   useEffect(() => {
+
     usuarioBD.registrarIntento(idUsuario, problemaAct.id, ideasInvestigacion, procedimiento, esRespuestaCorrecta)
     setEvaluacion(esRespuestaCorrecta);
   }, []); // Dependencia vacía para que solo se ejecute al montar
@@ -378,7 +373,7 @@ const VentanaResultado = ({ problemaAct, respuestaAlumno, setEvaluacion, usuario
     <div className="ventana-auxiliar evaluacion">
       <h1>Evaluación</h1>
       <p>
-        {esRespuestaCorrecta ? (
+        {evaluacion ? (
           <>
             <span className="resultado-correcto">✔</span> {/* Palomita */}
           </>

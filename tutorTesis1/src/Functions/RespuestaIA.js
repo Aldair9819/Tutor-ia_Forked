@@ -33,7 +33,7 @@ async function getGroqChatCompletion({ systemText, userText }) {
         content: userText  // Asegurarse de que `userText` no sea undefined
       },
     ],
-    model: "llama-3.1-70b-versatile",
+    model: "llama-3.3-70b-versatile",
   });
 }
 
