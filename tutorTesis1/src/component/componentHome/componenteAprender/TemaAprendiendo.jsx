@@ -24,7 +24,7 @@ export function TemaAprendiendo(){
 const VentanaEstudio = ({ tema }) => {
   const [ideasInvestigacion, setIdeasInvestigacion] = useState('');
   const [etapa, setEtapa] = useState(1);
-  const [problemaActual, setProblemaAcutual] = useState(null);
+  const [problemaActual, setProblemaAcutual] = useState(1);
   const [problema, setProblema] = useState(null);
   const [urlImagen, setUrlImagen] = useState(null);
   const usuarioBD = new LeerBDUsuario();
@@ -43,12 +43,10 @@ const VentanaEstudio = ({ tema }) => {
       setcantidadProblemas(cantidadPro)
       const problemasResueltosBD = await usuarioBD.devolverProblemasResueltosDelTema(idUsuario, tema);
       setProblemasResueltos(problemasResueltosBD);
-      const problemaActualBD =1
-      
-      setProblemaAcutual(problemaActualBD)
+     
       try {
 
-        const problema = await leerBD.devolverProblemas(tema, problemaActualBD);
+        const problema = await leerBD.devolverProblemas(tema, problemaActual);
         setProblema(problema);
         if (problema) {
           obtenerImagenes(problema.problema.id);
@@ -57,7 +55,7 @@ const VentanaEstudio = ({ tema }) => {
         console.error("Error al obtener el problema:", error);
       }
     };
-
+    console.log("eejecutando use effect de acutualizar ventana")
     obtenerProblema();
   }, [tema, evaluacion]);  // Este useEffect se ejecuta cada vez que cambia el tema
 
@@ -125,7 +123,7 @@ const VentanaEstudio = ({ tema }) => {
         onClick={() => {
           if (etapa === 10 && evaluacion) {
             setEtapa(2); // Regresa a la etapa 2 si la evaluación es true
-
+            setEvaluacion(false)
           } else if (etapa === 10 && !evaluacion) {
             setEtapa(3); // Regresa a la etapa 4 si la evaluación es false
 
@@ -310,7 +308,6 @@ const VentanaConclucion = ({ setResultado, resultado, setProcedimiento, procedim
     setResultado(tempResultado); // Actualiza la variable real al enviar
     setProcedimiento(tempProcedimiento); // Actualiza la variable real al enviar
     setEnviado(true); // Cambia el estado a enviado
-
   };
   if(!enviado){
     setNext(false)
@@ -327,6 +324,18 @@ const VentanaConclucion = ({ setResultado, resultado, setProcedimiento, procedim
           onChange={handleTempResultadoChange}
           placeholder="Escribe tu resultado"
         />
+
+
+        <select className="entrada-respuesta" >
+          <option value="">Unidad</option>
+          <option value="m">metros</option>
+          <option value="cm">centímetros</option>
+          <option value="km">kilómetros</option>
+          <option value="g">gramos</option>
+          <option value="kg">kilogramos</option>
+          <option value="s">segundos</option>
+        </select>
+
         <h2>Explica el procedimiento que utilizaste</h2>
         <textarea
           className="entrada-bloc"
@@ -361,12 +370,14 @@ const VentanaResultado = ({ problemaAct, respuestaAlumno, setEvaluacion, usuario
   const margen = respuestaCorrecta * 0.02; // Margen de error (2%)
   const diferencia = Math.abs(respuestaCorrecta - respuestaAlumno); // Diferencia absoluta
   const esRespuestaCorrecta = diferencia <= margen; // Verifica si está dentro del margen
-
+  
   // Guardar el intento solo al montar el componente
   useEffect(() => {
-
-    usuarioBD.registrarIntento(idUsuario, problemaAct.id, ideasInvestigacion, procedimiento, esRespuestaCorrecta)
+    console.log("la respuesta correcta es"+ esRespuestaCorrecta)
     setEvaluacion(esRespuestaCorrecta);
+    console.log("registrando el intento C:")
+    usuarioBD.registrarIntento(idUsuario, problemaAct.id, ideasInvestigacion, procedimiento, esRespuestaCorrecta)
+    
   }, []); // Dependencia vacía para que solo se ejecute al montar
 
   return (
@@ -391,7 +402,7 @@ const VentanaResultado = ({ problemaAct, respuestaAlumno, setEvaluacion, usuario
 
 
 
-const VentanaRetroalimentacion=({procedimiento, respuestaAlumno,  problemaAct})=>{
+const VentanaRetroalimentacion=({procedimiento, respuestaAlumno,  problemaAct })=>{
   const respuestaIA = useRepuestaRetroalimentacion({procedimiento,respuestaAlumno, problemaAct})
   return(
     <div className="ventana-auxiliar">

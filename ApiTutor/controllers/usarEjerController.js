@@ -109,7 +109,7 @@ export const getEjerciciosPorUsuarioTodos = async (req, res) => {
 
 export const actualizarEjercicioUsuario = async (req, res) => {
     try {
-        const { idusuario, idejercicio, resuelto } = req.body;
+        const { idusuario, idejercicio,   } = req.body;
 
         if (!idusuario || !idejercicio || typeof resuelto !== "boolean") {
             return res.status(400).json({ message: "Faltan parámetros requeridos o son inválidos" });

@@ -20,6 +20,14 @@ export const EjerciciosModels = db.define("Ejercicios", {
         type: DataTypes.STRING,
         allowNull: true,
     },
+    unidad: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    unidadopciones: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
     tema: {
         type: DataTypes.STRING,
         allowNull: true,

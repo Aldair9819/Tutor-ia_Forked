@@ -15,6 +15,7 @@ import LogoPerfil from '../imagenes/perfil.svg'
 import LogoPrincipal from '../imagenes/principal.svg'
 import { TemaProvider } from './componentHome/componenteAprender/TemaContext';
 import { useNavigate } from 'react-router-dom';
+
 const Header =({setMenu, menuDisplay})=>{
   const navigate = useNavigate();
   const clickButonMenu =()=> {
@@ -44,12 +45,13 @@ const Header =({setMenu, menuDisplay})=>{
 }
 
 
-function Menu ({menuDisplay, setVentanaDisplay, setMenu}){
+function Menu ({menuDisplay, setVentanaDisplay, setMenu,  setResetKey}){
   const clickHome=()=>{
     setVentanaDisplay("principal")
     setMenu(false)
   }
   const clickAprender=()=>{
+    setResetKey(prevKey => prevKey + 1);
     setVentanaDisplay("aprender")
     setMenu(false)
   }
@@ -80,16 +82,19 @@ function Menu ({menuDisplay, setVentanaDisplay, setMenu}){
 }
 
 function Home() {
-  const [menuDisplay, setMeunDisplay] = useState(false)
+  const [menuDisplay, setMeunDisplay] = useState(true)
   const [ventanaDisplay, setVentanaDisplay] = useState("principal")
+  const [resetKey, setResetKey] = useState(0);
   const renderVentana = () => {
     switch (ventanaDisplay) {
     case "principal":
       return <Principal />;
     case "aprender":
+      console.log("selecciona aprender")
+
       return(
         <TemaProvider>
-          <Aprender />
+          <Aprender key={resetKey}/>
         </TemaProvider>
       );
     case "calificacion":
@@ -106,7 +111,7 @@ function Home() {
     <div className='home-page'>
       <Header setMenu={setMeunDisplay} menuDisplay={menuDisplay}/>
       <div className={`ventana ${menuDisplay?"with-menu":""}`}>
-        <Menu menuDisplay={menuDisplay} setVentanaDisplay={setVentanaDisplay} setMenu={setMeunDisplay}/>
+        <Menu menuDisplay={menuDisplay} setVentanaDisplay={setVentanaDisplay} setResetKey={setResetKey} setMenu={setMeunDisplay}/>
         <div className='ventanaHome'>
           {renderVentana()}
         </div>
