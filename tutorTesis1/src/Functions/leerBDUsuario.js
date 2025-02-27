@@ -140,7 +140,7 @@ export class LeerBDUsuario {
     }
   }
 
-  async registrarIntento( usuario, idejercicio, idea, conclusion, resultado){
+  async registrarIntento( usuario, idejercicio, idea, conclusion, resultado, respuesta){
     console.log("usuario: "+ usuario +" ideejercicio: " + idejercicio+ " idea: "+ idea + " conclusion: " + conclusion + " resultado: "+resultado)
     try{
       console.log("registrandoooo0");
@@ -162,7 +162,8 @@ export class LeerBDUsuario {
         "idea": idea,
         "conclusion": conclusion,
         "resultado": resultado,
-        "intento": res1.data.registro.intentos
+        "intento": res1.data.registro.intentos,
+        "respuesta": respuesta
       });          
       console.log("registrandoooo2");
        
@@ -178,28 +179,31 @@ export class LeerBDUsuario {
       throw error;
     }
   }
-  async registraridea( usuario, idejercicio, idea, conclusion, resultado){
+  async registraridea( usuario, idejercicio, idea, conclusion){
     console.log("usuario: "+ usuario +" ideejercicio: " + idejercicio+ " idea: "+ idea + " conclusion: " + conclusion + " resultado: "+resultado)
     try{
       console.log("registrandoooo idaa 0");
-      const res1 = await axios.get(`${URI}ejerciciosAvanceId`,{
+      const res1 = await axios.post(`${URI}ejerciciosAvanceId`,{
         "id": usuario,
         "idejercicio": idejercicio
       });
       console.log("registrandoooo1");
       console.log(res1);
       
-      if (!res1.data || !res1.data.registro || typeof res1.data.registro.intentos === "undefined") {
+      if (!res1.data  || typeof res1.data.intentos === "undefined") {
         console.error("Error: No se pudo obtener el número de intentos del primer registro.");
         return; // Salir si no hay datos válidos
       }
+      console.log("num intentos " + res1.data.intentos);
+      
       const res = await axios.post(`${URI}ideasusuario`,{
         "idusuario": usuario,
         "idejercicio": idejercicio,
         "idea": idea,
-        "conclusion": null,
-        "resultado": resultado,
-        "intento": res1.data.registro.intentos
+        "conclusion": "No Aplica",
+        "resultado": res.data.resuelto,
+        "intento": res1.data.intentos,
+        "respuesta": null
       });          
       console.log("registrandoooo2");
        

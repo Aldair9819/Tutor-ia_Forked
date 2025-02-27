@@ -128,10 +128,10 @@ const VentanaEstudio = ({ tema }) => {
           if (etapa === 9 && evaluacion) {
             setEtapa(2); // Regresa a la etapa 2 si la evaluación es true
             setEvaluacion(false)
-            usuarioBD.registrarIntento(idUsuario, problema.problema.id, ideasInvestigacion, procedimiento, evaluacion);
+            usuarioBD.registrarIntento(idUsuario, problema.problema.id, ideasInvestigacion, procedimiento, evaluacion, resultado);
           } else if (etapa === 9 && !evaluacion) {
             setEtapa(3); // Regresa a la etapa 4 si la evaluación es false
-            usuarioBD.registrarIntento(idUsuario, problema.problema.id, ideasInvestigacion, procedimiento, evaluacion);
+            usuarioBD.registrarIntento(idUsuario, problema.problema.id, ideasInvestigacion, procedimiento, evaluacion, resultado);
           } else if (next) {
             clickSiguiente(); // Avanza normalmente
           }

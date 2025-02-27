@@ -27,6 +27,10 @@ export const ideasModels = db.define('ideasusuario', {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
+      respuesta: {
+        type: DataTypes.TEXT,
+        allowNull:true,
+      }
     }, {
       tableName: 'ideasusuario', // Nombre de la tabla en la base de datos
       timestamps: false, // No tiene columnas createdAt o updatedAt

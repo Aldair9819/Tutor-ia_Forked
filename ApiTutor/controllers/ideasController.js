@@ -12,9 +12,9 @@ export const getIdeasUsuarios = async (req, res) => {
 
  export const createIdeaUsuario = async (req, res) => {
     try {
-      const { idusuario, idejercicio, idea, conclusion, resultado, intento } = req.body;
-      console.log("idu: "+ idusuario + "ide: " + idejercicio + "idea: " + idea + "conculusion: " + conclusion + " resultado: " + resultado + "intento : "+ intento) 
-      const nuevaIdea = await ideasModels.create({ idusuario, idejercicio, idea, conclusion, resultado, intento });
+      const { idusuario, idejercicio, idea, conclusion, resultado, intento, respuesta } = req.body;
+      console.log("idu: "+ idusuario + "ide: " + idejercicio + "idea: " + idea + "conculusion: " + conclusion + " respuesta:"+respuesta+ " resultado: " + resultado + "intento : "+ intento ) 
+      const nuevaIdea = await ideasModels.create({ idusuario, idejercicio, idea, conclusion, resultado, intento, respuesta });
       res.status(201).json(nuevaIdea);
     } catch (error) {
       res.status(500).json({ error: 'Error al crear la idea de usuario' });
