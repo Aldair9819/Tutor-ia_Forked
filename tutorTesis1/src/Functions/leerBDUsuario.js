@@ -140,84 +140,119 @@ export class LeerBDUsuario {
     }
   }
 
-  async registrarIntento( usuario, idejercicio, idea, conclusion, resultado, respuesta){
-    console.log("usuario: "+ usuario +" ideejercicio: " + idejercicio+ " idea: "+ idea + " conclusion: " + conclusion + " resultado: "+resultado)
-    try{
-      console.log("registrandoooo0");
-      const res1 = await axios.post(`${URI}ejerciciosResueltos`,{
+  async registraridea(usuario, idejercicio, idea) {
+    console.log("usuario: "+ usuario +" idejercicio: " + idejercicio+ " idea: "+ idea + " conclusion: " );
+
+    try {
+      console.log("Registrando idea - Paso 0");
+
+      // Primera consulta para obtener información del ejercicio
+      const res1 = await axios.post(`${URI}ejerciciosAvanceId`, {
+        "id": usuario,
+        "idejercicio": idejercicio
+      });
+
+      console.log("Registrando idea - Paso 1");
+      console.log(res1.data);
+
+      // Validamos que res1.data tenga la estructura esperada
+      let resultado = 0;
+      let intento = 0;
+
+      if (res1.data && typeof res1.data.intentos !== "undefined") {
+        resultado = res1.data.resuelto ? 1 : 0; // Asegurar que `resuelto` sea un número
+        intento = res1.data.intentos;
+      } else {
+        console.warn("Advertencia: No se obtuvo información válida de intentos, se usará 0.");
+      }
+
+      console.log(`Número de intentos: ${intento}, Resultado: ${resultado}`);
+
+      // Segunda consulta para registrar la idea
+      const res = await axios.post(`${URI}ideasusuario`, {
         "idusuario": usuario,
         "idejercicio": idejercicio,
-        "resuelto": resultado
+        "idea": idea,
+        "conclusion": "No Aplica",
+        "resultado": resultado,
+        "intento": intento,
+        "respuesta": "vacio"
       });
-      console.log("registrandoooo1");
-      console.log(res1);
-      
-      if (!res1.data || !res1.data.registro || typeof res1.data.registro.intentos === "undefined") {
-        console.error("Error: No se pudo obtener el número de intentos del primer registro.");
-        return; // Salir si no hay datos válidos
+
+      console.log("Registrando idea - Paso 2");
+
+      // Validar si la respuesta fue exitosa
+      if (res.status === 200 || res.status === 201) {
+        return res.data; // Devolver los datos registrados
+      } else {
+        console.error("Error en el registro del intento:", res.status, res.statusText);
       }
-      const res = await axios.post(`${URI}ideasusuario`,{
+    } catch (error) {
+      console.error("Error al registrar el intento:", error.message);
+      throw error; // Propagar el error si es necesario
+    }
+  }
+  async  registrarIntento(usuario, idejercicio, idea, conclusion, resultado, respuesta) {
+    console.log(`usuario: ${usuario}, idejercicio: ${idejercicio}, idea: ${idea}, conclusion: ${conclusion}, resultado: ${resultado}, respuesta: ${respuesta}`);
+  
+    try {
+      console.log("Registrando intento - Paso 0");
+  
+      let intento = 0; // Valor predeterminado
+  
+      try {
+        // Primer POST para obtener el número de intentos previos
+        const res1 = await axios.post(`${URI}ejerciciosResueltos`, {
+          "idusuario": usuario,
+          "idejercicio": idejercicio,
+          "resuelto": resultado
+        });
+  
+        console.log("Registrando intento - Paso 1", res1.data);
+  
+        // Verificamos si la respuesta contiene datos válidos
+        if (res1.data && res1.data.registro && typeof res1.data.registro.intentos !== "undefined") {
+          intento = res1.data.registro.intentos;
+          console.log(`Número de intentos recibidos: ${intento}`);
+        } else {
+          console.warn("Advertencia: No se obtuvo el número de intentos. Se usará 0.");
+        }
+      } catch (error) {
+        // Si la primera solicitud falla, registramos el error y detenemos el flujo
+        console.error("Error en la solicitud de intentos:", error.message);
+        return null; // Detenemos el flujo si hay un error en esta solicitud
+      }
+  
+      console.log("Ejecutando segunda consulta...");
+  
+      // Segundo POST para registrar la idea
+      const res2 = await axios.post(`${URI}ideasusuario`, {
         "idusuario": usuario,
         "idejercicio": idejercicio,
         "idea": idea,
         "conclusion": conclusion,
         "resultado": resultado,
-        "intento": res1.data.registro.intentos,
-        "respuesta": respuesta
-      });          
-      console.log("registrandoooo2");
-       
-      if (res.status === 200 || res.status === 201) {
-        return res.data; // Devuelve los datos de la respuesta si es necesario
-      } else {
-        console.error("Error en el registro del intento:", res.status, res.statusText);
-      }
-
-    }catch(error){
-      console.error("Error al registrar el intento:", error.message);
-      // Opcional: puedes manejar el error aquí o lanzar una excepción
-      throw error;
-    }
-  }
-  async registraridea( usuario, idejercicio, idea, conclusion){
-    console.log("usuario: "+ usuario +" ideejercicio: " + idejercicio+ " idea: "+ idea + " conclusion: " + conclusion + " resultado: "+resultado)
-    try{
-      console.log("registrandoooo idaa 0");
-      const res1 = await axios.post(`${URI}ejerciciosAvanceId`,{
-        "id": usuario,
-        "idejercicio": idejercicio
+        "intento": intento,
+        "respuesta": respuesta || 30  // Usamos el valor de respuesta o 30 si no está definido
       });
-      console.log("registrandoooo1");
-      console.log(res1);
-      
-      if (!res1.data  || typeof res1.data.intentos === "undefined") {
-        console.error("Error: No se pudo obtener el número de intentos del primer registro.");
-        return; // Salir si no hay datos válidos
-      }
-      console.log("num intentos " + res1.data.intentos);
-      
-      const res = await axios.post(`${URI}ideasusuario`,{
-        "idusuario": usuario,
-        "idejercicio": idejercicio,
-        "idea": idea,
-        "conclusion": "No Aplica",
-        "resultado": res.data.resuelto,
-        "intento": res1.data.intentos,
-        "respuesta": null
-      });          
-      console.log("registrandoooo2");
-       
-      if (res.status === 200 || res.status === 201) {
-        return res.data; // Devuelve los datos de la respuesta si es necesario
+  
+      console.log("Registrando intento - Paso 2");
+  
+      // Validamos si la respuesta del segundo POST fue exitosa
+      if (res2.status === 200 || res2.status === 201) {
+        console.log("Registro exitoso");
+        return res2.data; // Devolver los datos registrados
       } else {
-        console.error("Error en el registro del intento:", res.status, res.statusText);
+        // Si el código de estado no es 200 o 201, mostramos detalles del error
+        console.error("Error en el registro del intento:", res2.status, res2.statusText, res2.data);
+        return null;
       }
-
-    }catch(error){
-      console.error("Error al registrar el intento:", error.message);
-      // Opcional: puedes manejar el error aquí o lanzar una excepción
-      throw error;
+    } catch (error) {
+      // Manejo de errores global en caso de que algo falle en la función principal
+      console.error("Error general al registrar el intento:", error.message);
+      return null; // En caso de error general, retornamos null
     }
   }
   
 }
+

@@ -22,7 +22,7 @@ export function TemaAprendiendo(){
 
 
 const VentanaEstudio = ({ tema }) => {
-  const [ideasInvestigacion, setIdeasInvestigacion] = useState('');
+  const [ideasInvestigacion, setIdeasInvestigacion] = useState();
   const [etapa, setEtapa] = useState(1);
   const [problemaActual, setProblemaAcutual] = useState(1);
   const [problema, setProblema] = useState(null);
@@ -45,7 +45,8 @@ const VentanaEstudio = ({ tema }) => {
       setProblemasResueltos(problemasResueltosBD);
      
       try {
-
+        console.log("buscando problema 1..");
+        
         const problema = await leerBD.devolverProblemas(tema, problemaActual);
         setProblema(problema);
         if (problema) {
@@ -63,8 +64,11 @@ const VentanaEstudio = ({ tema }) => {
     if (problemaActual) {
       const obtenerNuevoProblema = async () => {
         try {
+          console.log("buscando problema 2..");
           
           const nuevoProblema = await leerBD.devolverProblemas(tema, problemaActual);
+          console.log(nuevoProblema);
+          
           setProblema(nuevoProblema);
           if (nuevoProblema) {
             obtenerImagenes(nuevoProblema.problema.id);
@@ -79,9 +83,17 @@ const VentanaEstudio = ({ tema }) => {
  
   useEffect(() => {
     console.log("cambiaron las ideas");
-    usuarioBD.registraridea(idUsuario, problema.problema.id, ideasInvestigacion, procedimiento, evaluacion)
+    if (!problema || !problema.problema) {
+      console.warn("No hay problema disponible, evitando registrar idea.");
+      return; // Salimos del useEffect si problema es null o no tiene datos
+    }
+  
+    const conclusion = evaluacion[0] + evaluacion[1];
+    console.log("Registrando idea con problema:", problema);
+  
+    usuarioBD.registraridea(idUsuario, problema.problema.id, ideasInvestigacion, procedimiento, conclusion);
   }, [ideasInvestigacion]); // registrar ideas
-
+  
   const obtenerImagenes = async (idProblema) => {
     try {
       const respuesta = await leerBD.obtenerRutaDeImagen(idProblema);
