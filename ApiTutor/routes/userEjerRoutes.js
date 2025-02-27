@@ -9,7 +9,7 @@ router.post("/ejerciciosResueltosbytema", getEjerciciosPorUsuario);
 router.post("/ejerciciosResueltos", actualizarEjercicioUsuario);
 router.post("/resetearEjerciciosUsuario", resetearEjerciciosUsuario);
 router.post("/ejerciciosResueltosbytemaT", getEjerciciosPorUsuarioTodos);
-router.get("/ejerciciosAvanceId", getEjerciciosPorId);
+router.post("/ejerciciosAvanceId", getEjerciciosPorId);
 //Ruta para obtener los ejercicios resueltos por usuario
 //router.get("/ejercicios/resueltos/:idusuario", getEjerciciosResueltosPorUsuario);
 
