@@ -89,7 +89,10 @@
     color: white;
     opacity: 1;
   }
-  
+.boton:disabled:hover{
+    cursor: not-allowed;
+    
+}
 .boton.desactivado {
     background-color: #ccc;
     color: #666;
@@ -110,6 +113,29 @@
     transition: border-color 0.3s, box-shadow 0.3s; /* Animación para efectos visuales */
     text-align: center;
   }
+
+.entrada-unidad{
+    width: 10%; /* Ocupa el ancho completo del contenedor */
+    padding: 10px; /* Espaciado interno para que el texto no esté pegado al borde */
+    font-size: 18px; /* Tamaño de fuente más grande */
+    border: 2px solid #ccc; /* Borde ligero */
+    border-radius: 5px; /* Bordes redondeados */
+    margin-top: 10px; /* Separación superior */
+    margin-bottom: 20px; /* Separación inferior */
+    margin-left: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra ligera para darle profundidad */
+    outline: none; /* Quita el contorno azul predeterminado */
+    transition: border-color 0.3s, box-shadow 0.3s; /* Animación para efectos visuales */
+    text-align: center;
+}
+.entrada-respuesta:disabled,
+.entrada-bloc:disabled,
+.entrada-unidad:disabled {
+  background-color: #f0f0f0; /* Cambia el color de fondo */
+  color: #000000; /* Cambia el color del texto */
+  cursor: not-allowed; /* Cambia el cursor */
+}
+
   .boton-resuelto {
     background-color: green;
     color: white;
@@ -163,7 +189,7 @@
     height: 4.5rem;
 }
 .imgenes-problema{
-    width: 16vw;
+    height: 14vw;
     padding: 10px;
 }
 .evaluacion {
@@ -184,3 +210,10 @@
     padding: 0.2rem;
     margin-right: 1rem;
 }
+.linea {
+    display: flex; /* Activa Flexbox */
+    align-items: center; /* Alinea los elementos verticalmente */
+    justify-content: center;
+    margin-left: 15%;
+  }
+  

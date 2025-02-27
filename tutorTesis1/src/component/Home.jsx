@@ -36,7 +36,7 @@ const Header =({setMenu, menuDisplay})=>{
         <img src={Logo} alt="" />
       </div>
       <div className='caja-botones'>
-        <button onClick={clickButonCerrarSecion}>Cerrar Seción</button>
+        <button onClick={clickButonCerrarSecion}>Cerrar Sesión</button>
       </div>
       
 

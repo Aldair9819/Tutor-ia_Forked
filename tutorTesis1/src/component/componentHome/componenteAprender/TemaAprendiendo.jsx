@@ -55,7 +55,6 @@ const VentanaEstudio = ({ tema }) => {
         console.error("Error al obtener el problema:", error);
       }
     };
-    console.log("eejecutando use effect de acutualizar ventana")
     obtenerProblema();
   }, [tema, evaluacion]);  // Este useEffect se ejecuta cada vez que cambia el tema
 
@@ -102,10 +101,10 @@ const VentanaEstudio = ({ tema }) => {
     if (etapa >= 1) ventanas.push(<VentanaIntroduccion key={1} tema={tema} />);
     if (etapa >= 2) ventanas.push(<VentanaAuxProblema />, <CadenaBotones numProblemas={leerBD.devolverCantidadDeProblemas(tema)} problemaActual={problemaActual} setEtapa={setEtapa} setProblemaAcutual={setProblemaAcutual} problemaResueltos={problemaResueltos} setNext={setNext} cantidadProblemas={cantidadProblemas}/>);
     if (etapa >= 3 && problema) ventanas.push(<VentanaPlantearProblema key={2} problema={problema} urlImagen ={urlImagen}/>);
-    if (etapa >= 4) ventanas.push(<VentanaAuxDeInvestigacion />, <VentanaInvestigacion key={3} tema={tema} ideasInvestigacion={ideasInvestigacion} setIdeasInvestigacion={setIdeasInvestigacion} setNext={setNext}/>);
+    if (etapa >= 4) ventanas.push(<VentanaAuxDeInvestigacion />, <VentanaInvestigacion key={3} tema={tema} ideasInvestigacion={ideasInvestigacion} setIdeasInvestigacion={setIdeasInvestigacion} setNext={setNext} etapa={etapa}/>);
     if (etapa >= 5 && problema) ventanas.push(<VentanaGuia key={4} problema={problema.problema} ideasInvestigacion={ideasInvestigacion} />);
     if (etapa >= 6) ventanas.push(<VentanaProceso key={5} />);
-    if (etapa >= 7) ventanas.push(<VentanaConclucion key={6} setResultado={setResultado} resultado={resultado} procedimiento={procedimiento} setProcedimiento={setProcedimiento} setNext={setNext} />);
+    if (etapa >= 7) ventanas.push(<VentanaConclucion key={6} setResultado={setResultado} problema={problema} procedimiento={procedimiento} setProcedimiento={setProcedimiento} setNext={setNext} />);
     if (etapa >= 8) ventanas.push(<VentanaResultado key={6} problemaAct={problema.problema} respuestaAlumno={resultado} setEvaluacion={setEvaluacion} usuarioBD={usuarioBD} idUsuario={idUsuario} ideasInvestigacion={ideasInvestigacion} procedimiento={procedimiento} evaluacion={evaluacion}/>);
     if (etapa >= 9) ventanas.push(<VentanaRetroalimentacion key={7} procedimiento={procedimiento} respuestaAlumno={resultado} problemaAct={problema.problema} evaluacion= {evaluacion}/>);
 
@@ -121,10 +120,10 @@ const VentanaEstudio = ({ tema }) => {
       {renderVentanas()}
       <button
         onClick={() => {
-          if (etapa === 10 && evaluacion) {
+          if (etapa === 9 && evaluacion) {
             setEtapa(2); // Regresa a la etapa 2 si la evaluación es true
             setEvaluacion(false)
-          } else if (etapa === 10 && !evaluacion) {
+          } else if (etapa === 9 && !evaluacion) {
             setEtapa(3); // Regresa a la etapa 4 si la evaluación es false
 
           } else if (next) {
@@ -134,7 +133,7 @@ const VentanaEstudio = ({ tema }) => {
         className={`boton ${next || etapa === 10 ? 'activo' : 'desactivado'}`} // Clase dinámica para etapa 9
         disabled={!next && etapa !== 10} // Deshabilita si no está activo y no está en la etapa 9
       >
-        {etapa === 10 
+        {etapa === 9
           ? evaluacion 
             ? "Terminar" 
             : "Intentar otra vez" 
@@ -225,7 +224,7 @@ const VentanaAuxDeInvestigacion=()=>{
   )
 }
 
-const VentanaInvestigacion = ({ setIdeasInvestigacion, setNext }) => {
+const VentanaInvestigacion = ({ setIdeasInvestigacion, setNext, etapa }) => {
   const inputRef = useRef(null);
   const [guardado, setGuardar] = useState(false); // Estado para controlar si las ideas están guardadas
 
@@ -260,9 +259,9 @@ const VentanaInvestigacion = ({ setIdeasInvestigacion, setNext }) => {
       <button
         className={`boton guardar ${guardado ? "guardado" : ""}`} // Cambia la clase si está guardado
         onClick={clickGuardarIdeas}
-        disabled={guardado} // Desactiva el botón si ya está guardado
+        
       >
-        {guardado ? "Guardado" : "Guardar Ideas"}
+        {guardado ? (etapa > 5 ? "Consultar" : "Guardado") : "Guardar Ideas"}
       </button>
     </div>
   );
@@ -291,11 +290,14 @@ const VentanaProceso=()=>{
   )
 }
 
-const VentanaConclucion = ({ setResultado, resultado, setProcedimiento, procedimiento, setNext}) => {
+const VentanaConclucion = ({ setResultado, setProcedimiento, procedimiento, setNext, problema}) => {
   const [enviado, setEnviado] = useState(false); // Estado para controlar si los datos fueron enviados
-  const [tempResultado, setTempResultado] = useState(resultado); // Estado temporal para el resultado
+  const [tempResultado, setTempResultado] = useState(); // Estado temporal para el resultado
   const [tempProcedimiento, setTempProcedimiento] = useState(procedimiento); // Estado temporal para el procedimiento
-
+  const [selectedUnidad, setSelectedUnidad] = useState("");
+  
+  const unidades = problema.problema.unidadopciones ? problema.problema.unidadopciones.split(",") : [];
+  
   const handleTempResultadoChange = (e) => {
     setTempResultado(e.target.value); // Actualiza el estado temporal
   };
@@ -303,9 +305,13 @@ const VentanaConclucion = ({ setResultado, resultado, setProcedimiento, procedim
   const handleTempProcedimientoChange = (e) => {
     setTempProcedimiento(e.target.value); // Actualiza el estado temporal
   };
+  const handleUnidadChange = (e) => {
+    setSelectedUnidad(e.target.value);
+  };
 
   const handleSubmit = () => {
-    setResultado(tempResultado); // Actualiza la variable real al enviar
+    const resultado = [tempResultado, selectedUnidad]
+    setResultado(resultado); // Actualiza la variable real al enviar
     setProcedimiento(tempProcedimiento); // Actualiza la variable real al enviar
     setEnviado(true); // Cambia el estado a enviado
   };
@@ -316,26 +322,29 @@ const VentanaConclucion = ({ setResultado, resultado, setProcedimiento, procedim
   }
   return (
     <div className="ventana-etapa">
-      <div>
+      <div >
         <h1>Ingresa la respuesta del ejercicio</h1>
-        <input
-          className="entrada-respuesta"
-          type="number"
-          onChange={handleTempResultadoChange}
-          placeholder="Escribe tu resultado"
-        />
+        <div className="linea">
+          <input
+            className="entrada-respuesta"
+            type="number"
+            onChange={handleTempResultadoChange}
+            placeholder="Resultado.."
+            disabled={enviado}
+          />
 
 
-        <select className="entrada-respuesta" >
-          <option value="">Unidad</option>
-          <option value="m">metros</option>
-          <option value="cm">centímetros</option>
-          <option value="km">kilómetros</option>
-          <option value="g">gramos</option>
-          <option value="kg">kilogramos</option>
-          <option value="s">segundos</option>
-        </select>
-
+          <select className="entrada-unidad" value={selectedUnidad} onChange={handleUnidadChange} disabled={enviado}>
+          
+            {unidades.map((unidad, index) => (
+              <option key={index} value={unidad.trim()}>
+                {unidad.trim()}
+              </option>
+            ))}
+          </select>
+          <p>tolerancia 2%</p>
+        </div>
+        
         <h2>Explica el procedimiento que utilizaste</h2>
         <textarea
           className="entrada-bloc"
@@ -343,10 +352,13 @@ const VentanaConclucion = ({ setResultado, resultado, setProcedimiento, procedim
           placeholder="Describe el procedimiento"
           rows="4"
           cols="50"
+          disabled={enviado}
         />
       </div>
+
       <button
         onClick={handleSubmit}
+        disabled={enviado}
         className={`boton ${enviado ? "enviado" : ""}`} // Clase adicional si el estado es enviado
       >
         {enviado ? "Enviado" : "Enviar"}
@@ -355,10 +367,13 @@ const VentanaConclucion = ({ setResultado, resultado, setProcedimiento, procedim
   );
 };
 
-const VentanaResultado = ({ problemaAct, respuestaAlumno, setEvaluacion, usuarioBD, idUsuario, ideasInvestigacion, procedimiento, evaluacion }) => {
+const VentanaResultado = ({ problemaAct, respuestaAlumno, setEvaluacion, usuarioBD, idUsuario, ideasInvestigacion, procedimiento }) => {
   const respuestaCorrecta = Number(problemaAct.respuesta);
+  const unidadCorrecta = problemaAct.unidad ? problemaAct.unidad.trim() : "";
+  const respuestavalor = parseFloat(respuestaAlumno[0]);
+  const respuestaunidad = respuestaAlumno[1] ? respuestaAlumno[1].trim() : "";
 
-  if (isNaN(respuestaCorrecta)) {
+  if (isNaN(respuestaCorrecta) || isNaN(respuestavalor)) {
     return (
       <div className="ventana-auxiliar evaluacion">
         <h1>Evaluación</h1>
@@ -367,31 +382,24 @@ const VentanaResultado = ({ problemaAct, respuestaAlumno, setEvaluacion, usuario
     );
   }
 
-  const margen = respuestaCorrecta * 0.02; // Margen de error (2%)
-  const diferencia = Math.abs(respuestaCorrecta - respuestaAlumno); // Diferencia absoluta
-  const esRespuestaCorrecta = diferencia <= margen; // Verifica si está dentro del margen
-  
-  // Guardar el intento solo al montar el componente
+  const margen = respuestaCorrecta * 0.02; // 2% de margen de error
+  const diferencia = Math.abs(respuestaCorrecta - respuestavalor);
+  const esRespuestaCorrecta = diferencia <= margen && unidadCorrecta === respuestaunidad;
+
   useEffect(() => {
-    console.log("la respuesta correcta es"+ esRespuestaCorrecta)
-    setEvaluacion(esRespuestaCorrecta);
-    console.log("registrando el intento C:")
-    usuarioBD.registrarIntento(idUsuario, problemaAct.id, ideasInvestigacion, procedimiento, esRespuestaCorrecta)
-    
-  }, []); // Dependencia vacía para que solo se ejecute al montar
+    console.log("Registrando intento...");
+    setEvaluacion(esRespuestaCorrecta); // Asegura que el estado refleje la evaluación
+    usuarioBD.registrarIntento(idUsuario, problemaAct.id, ideasInvestigacion, procedimiento, esRespuestaCorrecta);
+  }, [esRespuestaCorrecta, setEvaluacion, usuarioBD, idUsuario, problemaAct.id, ideasInvestigacion, procedimiento]); // Dependencias necesarias
 
   return (
     <div className="ventana-auxiliar evaluacion">
       <h1>Evaluación</h1>
       <p>
-        {evaluacion ? (
-          <>
-            <span className="resultado-correcto">✔</span> {/* Palomita */}
-          </>
+        {esRespuestaCorrecta ? (
+          <span className="resultado-correcto">✔ Respuesta correcta</span>
         ) : (
-          <>
-            <span className="resultado-incorrecto">✘</span> {/* Tacha */}
-          </>
+          <span className="resultado-incorrecto">✘ Respuesta incorrecta</span>
         )}
       </p>
     </div>
@@ -494,14 +502,26 @@ const useRepuestaRetroalimentacion = ({ respuestaAlumno, procedimiento, problema
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   // Definir el texto de contexto del sistema
-  const contextoSistema = `el alumno se enfrenta al siguiente problema: ${problemaAct.descripcion}. la resuesta correcta del problema es ${problemaAct.respuesta}, la respuesta del alumno es: ${respuestaAlumno}, el alumno va compartir el procedimiento y tienes que darle retroalimentacion a su trabajo y en caso de que el resultado sea incorrecto guiarlo para que vuelva a realizar el ejercicio, no le des la respuesta correcta `;
-    
+  const contextoSistema = 
+  `El alumno se enfrenta al siguiente problema: ${problemaAct.descripcion}.  
+  La respuesta correcta del problema es ${problemaAct.respuesta} ${problemaAct.unidad}, con una tolerancia del 2%.  
+  El alumno va a compartir su procedimiento y resultado.  
+
+  Debes darle retroalimentación sobre su trabajo solo en caso de que tenga un error en su respuesta o el procedimiento.  
+  - Si su respuesta está dentro del margen de tolerancia del 2% es completamente correcta. 
+  - Si su respuesta es incorrecta, guíalo para que vuelva a realizar el ejercicio de nuevo.  
+  - No muestres la respuesta correcta en la retroalimentacion.  
+  - No hagas preguntas ni le pidas más información, ya que no puede responderte.  
+
+  Recuerda enfocarte en ayudarlo a identificar errores sin darle la respuesta final.`;
+
+  const respuestaAl = `respuesta ${respuestaAlumno[0]} ${respuestaAlumno[1]}, metodo para resolverlo ${procedimiento}`
   useEffect(() => {
     // Llamar a la API cuando el componente se monta
     const obtenerRespuestaIA = async () => {
       const prop = {
         systemText: contextoSistema,
-        userText: procedimiento
+        userText: respuestaAl
       };
   
       try {

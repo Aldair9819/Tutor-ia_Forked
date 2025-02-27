@@ -109,27 +109,28 @@ export const getEjerciciosPorUsuarioTodos = async (req, res) => {
 
 export const actualizarEjercicioUsuario = async (req, res) => {
     try {
-        const { idusuario, idejercicio,   } = req.body;
+        const { idusuario, idejercicio, resuelto } = req.body;
 
-        if (!idusuario || !idejercicio || typeof resuelto !== "boolean") {
+        // Convertir `resuelto` a booleano en caso de que venga como string
+        const resueltoBoolean = resuelto === true || resuelto === "true"; 
+        console.log("dotos recibidos");
+        
+        if (!idusuario || !idejercicio || typeof resueltoBoolean !== "boolean") {
             return res.status(400).json({ message: "Faltan parámetros requeridos o son inválidos" });
         }
 
         const registro = await UsuarioEjerciciosModel.findOne({
-            where: {
-                idusuario,
-                idejercicio,
-            },
+            where: { idusuario, idejercicio },
         });
 
         if (registro) {
             // Verificar si se intenta cambiar de true a false
-            if (registro.resuelto === true ) {
-                return res.json(registro); // Retorna el registro sin actualizar
+            if (registro.resuelto === true) {
+                return res.json({ message: "El ejercicio ya está resuelto y no puede cambiarse a falso", registro });
             }
 
             registro.intentos += 1;
-            registro.resuelto = resuelto; // Solo se cambiará si es válido
+            registro.resuelto = resueltoBoolean; // Solo se cambiará si es válido
             registro.fecha_ultimo_intento = new Date();
             await registro.save();
             return res.json({ message: "Registro actualizado", registro });
@@ -137,7 +138,7 @@ export const actualizarEjercicioUsuario = async (req, res) => {
             const nuevoRegistro = await UsuarioEjerciciosModel.create({
                 idusuario,
                 idejercicio,
-                resuelto,
+                resuelto: resueltoBoolean,
                 fecha_ultimo_intento: new Date(),
                 intentos: 1,
             });

@@ -142,12 +142,13 @@ export class LeerBDUsuario {
 
   async registrarIntento( usuario, idejercicio, idea, conclusion, resultado, intento){
     try{
+      console.log("registrandoooo0");
       const res1 = await axios.post(`${URI}ejerciciosResueltos`,{
         "idusuario": usuario,
         "idejercicio": idejercicio,
         "resuelto": resultado
       });
-
+      console.log("registrandoooo1");
       const res = await axios.post(`${URI}ideasusuario`,{
         "idusuario": usuario,
         "idejercicio": idejercicio,
@@ -156,6 +157,7 @@ export class LeerBDUsuario {
         "resultado": resultado,
         "intento": res1.data.registro.intentos
       });          
+      console.log("registrandoooo2");
        
       if (res.status === 200 || res.status === 201) {
         return res.data; // Devuelve los datos de la respuesta si es necesario
