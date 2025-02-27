@@ -77,6 +77,11 @@ const VentanaEstudio = ({ tema }) => {
     }
   }, [problemaActual, tema]); // Este useEffect depende de problemaActual y tema
  
+  useEffect(() => {
+    console.log("cambiaron las ideas");
+    usuarioBD.registraridea(idUsuario, problema.problema.id, ideasInvestigacion, procedimiento, evaluacion)
+  }, [ideasInvestigacion]); // registrar ideas
+
   const obtenerImagenes = async (idProblema) => {
     try {
       const respuesta = await leerBD.obtenerRutaDeImagen(idProblema);
@@ -101,7 +106,7 @@ const VentanaEstudio = ({ tema }) => {
     if (etapa >= 1) ventanas.push(<VentanaIntroduccion key={1} tema={tema} />);
     if (etapa >= 2) ventanas.push(<VentanaAuxProblema />, <CadenaBotones numProblemas={leerBD.devolverCantidadDeProblemas(tema)} problemaActual={problemaActual} setEtapa={setEtapa} setProblemaAcutual={setProblemaAcutual} problemaResueltos={problemaResueltos} setNext={setNext} cantidadProblemas={cantidadProblemas}/>);
     if (etapa >= 3 && problema) ventanas.push(<VentanaPlantearProblema key={2} problema={problema} urlImagen ={urlImagen}/>);
-    if (etapa >= 4) ventanas.push(<VentanaAuxDeInvestigacion />, <VentanaInvestigacion key={3} tema={tema} ideasInvestigacion={ideasInvestigacion} setIdeasInvestigacion={setIdeasInvestigacion} setNext={setNext} etapa={etapa}/>);
+    if (etapa >= 4) ventanas.push(<VentanaAuxDeInvestigacion />, <VentanaInvestigacion key={3} tema={tema} usuarioBD={usuarioBD} ideasInvestigacion={ideasInvestigacion} setIdeasInvestigacion={setIdeasInvestigacion} setNext={setNext} etapa={etapa}/>);
     if (etapa >= 5 && problema) ventanas.push(<VentanaGuia key={4} problema={problema.problema} ideasInvestigacion={ideasInvestigacion} />);
     if (etapa >= 6) ventanas.push(<VentanaProceso key={5} />);
     if (etapa >= 7) ventanas.push(<VentanaConclucion key={6} setResultado={setResultado} problema={problema} procedimiento={procedimiento} setProcedimiento={setProcedimiento} setNext={setNext} />);
@@ -123,9 +128,10 @@ const VentanaEstudio = ({ tema }) => {
           if (etapa === 9 && evaluacion) {
             setEtapa(2); // Regresa a la etapa 2 si la evaluación es true
             setEvaluacion(false)
+            usuarioBD.registrarIntento(idUsuario, problema.problema.id, ideasInvestigacion, procedimiento, evaluacion);
           } else if (etapa === 9 && !evaluacion) {
             setEtapa(3); // Regresa a la etapa 4 si la evaluación es false
-
+            usuarioBD.registrarIntento(idUsuario, problema.problema.id, ideasInvestigacion, procedimiento, evaluacion);
           } else if (next) {
             clickSiguiente(); // Avanza normalmente
           }
@@ -240,7 +246,6 @@ const VentanaInvestigacion = ({ setIdeasInvestigacion, setNext, etapa }) => {
     if (ideas) {
       setIdeasInvestigacion(ideas); // Guarda las ideas del textarea
       setGuardar(true); // Marca como guardado
-
       // Cambia `guardado` a `false` después de 3 segundos (opcional)
     }
   };
@@ -385,12 +390,7 @@ const VentanaResultado = ({ problemaAct, respuestaAlumno, setEvaluacion, usuario
   const margen = respuestaCorrecta * 0.02; // 2% de margen de error
   const diferencia = Math.abs(respuestaCorrecta - respuestavalor);
   const esRespuestaCorrecta = diferencia <= margen && unidadCorrecta === respuestaunidad;
-
-  useEffect(() => {
-    console.log("Registrando intento...");
-    setEvaluacion(esRespuestaCorrecta); // Asegura que el estado refleje la evaluación
-    usuarioBD.registrarIntento(idUsuario, problemaAct.id, ideasInvestigacion, procedimiento, esRespuestaCorrecta);
-  }, [esRespuestaCorrecta, setEvaluacion, usuarioBD, idUsuario, problemaAct.id, ideasInvestigacion, procedimiento]); // Dependencias necesarias
+  setEvaluacion(esRespuestaCorrecta); // Asegura que el estado refleje la evaluación
 
   return (
     <div className="ventana-auxiliar evaluacion">

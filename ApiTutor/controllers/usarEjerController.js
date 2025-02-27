@@ -64,6 +64,42 @@ export const getEjerciciosPorUsuario = async (req, res) => {
     }
 };
 
+export const getEjerciciosPorId = async (req, res) => {
+    try {
+        // Obtener el idusuario y el idejercicio desde los parámetros de la URL
+        const { id, idejercicio } = req.body;  // Asegúrate de que el body contenga id y idejercicio
+
+        // Consultar el ejercicio realizado por el usuario con el idusuario y idejercicio especificados
+        const ejercicioUsuario = await UsuarioEjerciciosModel.findOne({
+            where: {
+                idusuario: id,
+                idejercicio: idejercicio
+            }
+        });
+
+        // Verificar si se encontró el ejercicio
+        if (!ejercicioUsuario) {
+            return res.json({});  // Si no se encuentra el ejercicio, se retorna un objeto vacío
+        }
+
+        // Convertir los datos a JSON y retornarlos con el formato que pides
+        const ejercicioData = ejercicioUsuario.toJSON();
+        
+        // Devolver la respuesta en el formato solicitado
+        res.json({
+            idusuario: ejercicioData.idusuario,
+            idejercicio: ejercicioData.idejercicio,
+            resuelto: ejercicioData.resuelto,
+            fecha_ultimo_intento: ejercicioData.fecha_ultimo_intento,
+            intentos: ejercicioData.intentos
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error al obtener el ejercicio por ID de usuario" });
+    }
+};
+
 export const getEjerciciosPorUsuarioTodos = async (req, res) => {
     try {
         // Obtener el idusuario y el tema desde los parámetros de la URL

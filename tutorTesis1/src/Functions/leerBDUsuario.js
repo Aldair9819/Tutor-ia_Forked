@@ -140,7 +140,8 @@ export class LeerBDUsuario {
     }
   }
 
-  async registrarIntento( usuario, idejercicio, idea, conclusion, resultado, intento){
+  async registrarIntento( usuario, idejercicio, idea, conclusion, resultado){
+    console.log("usuario: "+ usuario +" ideejercicio: " + idejercicio+ " idea: "+ idea + " conclusion: " + conclusion + " resultado: "+resultado)
     try{
       console.log("registrandoooo0");
       const res1 = await axios.post(`${URI}ejerciciosResueltos`,{
@@ -149,6 +150,12 @@ export class LeerBDUsuario {
         "resuelto": resultado
       });
       console.log("registrandoooo1");
+      console.log(res1);
+      
+      if (!res1.data || !res1.data.registro || typeof res1.data.registro.intentos === "undefined") {
+        console.error("Error: No se pudo obtener el número de intentos del primer registro.");
+        return; // Salir si no hay datos válidos
+      }
       const res = await axios.post(`${URI}ideasusuario`,{
         "idusuario": usuario,
         "idejercicio": idejercicio,
@@ -171,4 +178,42 @@ export class LeerBDUsuario {
       throw error;
     }
   }
+  async registraridea( usuario, idejercicio, idea, conclusion, resultado){
+    console.log("usuario: "+ usuario +" ideejercicio: " + idejercicio+ " idea: "+ idea + " conclusion: " + conclusion + " resultado: "+resultado)
+    try{
+      console.log("registrandoooo idaa 0");
+      const res1 = await axios.get(`${URI}ejerciciosAvanceId`,{
+        "id": usuario,
+        "idejercicio": idejercicio
+      });
+      console.log("registrandoooo1");
+      console.log(res1);
+      
+      if (!res1.data || !res1.data.registro || typeof res1.data.registro.intentos === "undefined") {
+        console.error("Error: No se pudo obtener el número de intentos del primer registro.");
+        return; // Salir si no hay datos válidos
+      }
+      const res = await axios.post(`${URI}ideasusuario`,{
+        "idusuario": usuario,
+        "idejercicio": idejercicio,
+        "idea": idea,
+        "conclusion": null,
+        "resultado": resultado,
+        "intento": res1.data.registro.intentos
+      });          
+      console.log("registrandoooo2");
+       
+      if (res.status === 200 || res.status === 201) {
+        return res.data; // Devuelve los datos de la respuesta si es necesario
+      } else {
+        console.error("Error en el registro del intento:", res.status, res.statusText);
+      }
+
+    }catch(error){
+      console.error("Error al registrar el intento:", error.message);
+      // Opcional: puedes manejar el error aquí o lanzar una excepción
+      throw error;
+    }
+  }
+  
 }
