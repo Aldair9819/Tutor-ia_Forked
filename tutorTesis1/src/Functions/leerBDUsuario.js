@@ -140,90 +140,35 @@ export class LeerBDUsuario {
     }
   }
 
-  async registraridea(usuario, idejercicio, idea) {
-    console.log("usuario: "+ usuario +" idejercicio: " + idejercicio+ " idea: "+ idea + " conclusion: " );
-
-    try {
-      console.log("Registrando idea - Paso 0");
-
-      // Primera consulta para obtener información del ejercicio
-      const res1 = await axios.post(`${URI}ejerciciosAvanceId`, {
-        "id": usuario,
-        "idejercicio": idejercicio
-      });
-
-      console.log("Registrando idea - Paso 1");
-      console.log(res1.data);
-
-      // Validamos que res1.data tenga la estructura esperada
-      let resultado = 0;
-      let intento = 0;
-
-      if (res1.data && typeof res1.data.intentos !== "undefined") {
-        resultado = res1.data.resuelto ? 1 : 0; // Asegurar que `resuelto` sea un número
-        intento = res1.data.intentos;
-      } else {
-        console.warn("Advertencia: No se obtuvo información válida de intentos, se usará 0.");
-      }
-
-      console.log(`Número de intentos: ${intento}, Resultado: ${resultado}`);
-
-      // Segunda consulta para registrar la idea
-      const res = await axios.post(`${URI}ideasusuario`, {
-        "idusuario": usuario,
-        "idejercicio": idejercicio,
-        "idea": idea,
-        "conclusion": "No Aplica",
-        "resultado": resultado,
-        "intento": intento,
-        "respuesta": "vacio"
-      });
-
-      console.log("Registrando idea - Paso 2");
-
-      // Validar si la respuesta fue exitosa
-      if (res.status === 200 || res.status === 201) {
-        return res.data; // Devolver los datos registrados
-      } else {
-        console.error("Error en el registro del intento:", res.status, res.statusText);
-      }
-    } catch (error) {
-      console.error("Error al registrar el intento:", error.message);
-      throw error; // Propagar el error si es necesario
-    }
-  }
   async  registrarIntento(usuario, idejercicio, idea, conclusion, resultado, respuesta) {
-    console.log(`usuario: ${usuario}, idejercicio: ${idejercicio}, idea: ${idea}, conclusion: ${conclusion}, resultado: ${resultado}, respuesta: ${respuesta}`);
-  
+    
     try {
-      console.log("Registrando intento - Paso 0");
   
       let intento = 0; // Valor predeterminado
   
+      // Primer POST para obtener el número de intentos previos
       try {
-        // Primer POST para obtener el número de intentos previos
         const res1 = await axios.post(`${URI}ejerciciosResueltos`, {
           "idusuario": usuario,
           "idejercicio": idejercicio,
           "resuelto": resultado
         });
   
-        console.log("Registrando intento - Paso 1", res1.data);
   
         // Verificamos si la respuesta contiene datos válidos
         if (res1.data && res1.data.registro && typeof res1.data.registro.intentos !== "undefined") {
           intento = res1.data.registro.intentos;
-          console.log(`Número de intentos recibidos: ${intento}`);
         } else {
           console.warn("Advertencia: No se obtuvo el número de intentos. Se usará 0.");
         }
       } catch (error) {
-        // Si la primera solicitud falla, registramos el error y detenemos el flujo
         console.error("Error en la solicitud de intentos:", error.message);
         return null; // Detenemos el flujo si hay un error en esta solicitud
       }
   
-      console.log("Ejecutando segunda consulta...");
+  
+      // Validamos que respuesta sea un array, si no, asignamos valor predeterminado
+      const respuestaFinal = Array.isArray(respuesta) ? respuesta.join(',') : respuesta || "vacio";
   
       // Segundo POST para registrar la idea
       const res2 = await axios.post(`${URI}ideasusuario`, {
@@ -233,14 +178,12 @@ export class LeerBDUsuario {
         "conclusion": conclusion,
         "resultado": resultado,
         "intento": intento,
-        "respuesta": respuesta || 30  // Usamos el valor de respuesta o 30 si no está definido
+        "respuesta": respuestaFinal // Usamos el valor procesado de respuesta
       });
   
-      console.log("Registrando intento - Paso 2");
   
       // Validamos si la respuesta del segundo POST fue exitosa
       if (res2.status === 200 || res2.status === 201) {
-        console.log("Registro exitoso");
         return res2.data; // Devolver los datos registrados
       } else {
         // Si el código de estado no es 200 o 201, mostramos detalles del error
@@ -251,6 +194,52 @@ export class LeerBDUsuario {
       // Manejo de errores global en caso de que algo falle en la función principal
       console.error("Error general al registrar el intento:", error.message);
       return null; // En caso de error general, retornamos null
+    }
+  }
+  
+  async  registraridea(usuario, idejercicio, idea) {
+  
+    try {
+  
+      // Primera consulta para obtener información del ejercicio
+      const res1 = await axios.post(`${URI}ejerciciosAvanceId`, {
+        "id": usuario,
+        "idejercicio": idejercicio
+      });
+  
+  
+      // Validamos que res1.data tenga la estructura esperada
+      let resultado = false;  // Asignamos un valor booleano por defecto
+      let intento = 0;
+  
+      if (res1.data && typeof res1.data.intentos !== "undefined") {
+        resultado = res1.data.resuelto === true;  // Evaluamos directamente como booleano
+        intento = res1.data.intentos;
+      } else {
+        console.warn("Advertencia: No se obtuvo información válida de intentos, se usará 0.");
+      }
+  
+      // Segunda consulta para registrar la idea
+      const res = await axios.post(`${URI}ideasusuario`, {
+        "idusuario": usuario,
+        "idejercicio": idejercicio,
+        "idea": idea,
+        "conclusion":  "No Aplica",
+        "resultado": resultado,
+        "intento": intento,
+        "respuesta": "vacio"
+      });
+  
+  
+      // Validar si la respuesta fue exitosa
+      if (res.status === 200 || res.status === 201) {
+        return res.data; // Devolver los datos registrados
+      } else {
+        console.error("Error en el registro del intento:", res.status, res.statusText);
+      }
+    } catch (error) {
+      console.error("Error al registrar el intento:", error.message);
+      throw error; // Propagar el error si es necesario
     }
   }
   

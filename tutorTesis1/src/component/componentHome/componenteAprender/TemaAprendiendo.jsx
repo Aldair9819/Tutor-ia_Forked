@@ -45,7 +45,6 @@ const VentanaEstudio = ({ tema }) => {
       setProblemasResueltos(problemasResueltosBD);
      
       try {
-        console.log("buscando problema 1..");
         
         const problema = await leerBD.devolverProblemas(tema, problemaActual);
         setProblema(problema);
@@ -64,10 +63,8 @@ const VentanaEstudio = ({ tema }) => {
     if (problemaActual) {
       const obtenerNuevoProblema = async () => {
         try {
-          console.log("buscando problema 2..");
           
           const nuevoProblema = await leerBD.devolverProblemas(tema, problemaActual);
-          console.log(nuevoProblema);
           
           setProblema(nuevoProblema);
           if (nuevoProblema) {
@@ -82,14 +79,12 @@ const VentanaEstudio = ({ tema }) => {
   }, [problemaActual, tema]); // Este useEffect depende de problemaActual y tema
  
   useEffect(() => {
-    console.log("cambiaron las ideas");
     if (!problema || !problema.problema) {
-      console.warn("No hay problema disponible, evitando registrar idea.");
+      
       return; // Salimos del useEffect si problema es null o no tiene datos
     }
   
     const conclusion = evaluacion[0] + evaluacion[1];
-    console.log("Registrando idea con problema:", problema);
   
     usuarioBD.registraridea(idUsuario, problema.problema.id, ideasInvestigacion, procedimiento, conclusion);
   }, [ideasInvestigacion]); // registrar ideas
@@ -513,21 +508,31 @@ const useRepuestaRetroalimentacion = ({ respuestaAlumno, procedimiento, problema
   const [respuesta, setRespuesta] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  let comprobacionUnidad=""
+  if(respuestaAlumno[1]==problemaAct.unidad){
+    comprobacionUnidad = "la unidad es correcta"
+  }else{
+    comprobacionUnidad = "la unidad es incorrecta"
+  } 
+  console.log(comprobacionUnidad);
+  
   // Definir el texto de contexto del sistema
   const contextoSistema = 
   `El alumno se enfrenta al siguiente problema: ${problemaAct.descripcion}.  
-  La respuesta correcta del problema es ${problemaAct.respuesta} ${problemaAct.unidad}, con una tolerancia del 2%.  
+  La respuesta correcta del problema es ${problemaAct.respuesta} ${problemaAct.unidad}.  
+  Se considera correcta cualquier respuesta que se encuentre dentro de un margen de tolerancia del 2%.  
+  Recuerda que es muy importante que la unidad de medida sea la correcta si es incorrecta mensiona el error
   El alumno va a compartir su procedimiento y resultado.  
 
-  Debes darle retroalimentación sobre su trabajo solo en caso de que tenga un error en su respuesta o el procedimiento.  
-  - Si su respuesta está dentro del margen de tolerancia del 2% es completamente correcta. 
-  - Si su respuesta es incorrecta, guíalo para que vuelva a realizar el ejercicio de nuevo.  
-  - No muestres la respuesta correcta en la retroalimentacion.  
-  - No hagas preguntas ni le pidas más información, ya que no puede responderte.  
+**Instrucciones para la retroalimentación:**  
+- Si la respuesta del alumno está dentro del margen de tolerancia, considera su respuesta como correcta y felicítalo. **No sugieras revisar cálculos ni mencionar que hay un margen de tolerancia.**  
+- Si la respuesta está fuera del margen de tolerancia o el procedimiento es incorrecto, guíalo para que vuelva a realizar el ejercicio.  
+- **Nunca menciones la respuesta correcta.**  
+- **No hagas preguntas ni le pidas más información, ya que no puede responderte.**  
 
-  Recuerda enfocarte en ayudarlo a identificar errores sin darle la respuesta final.`;
+Tu objetivo es ayudarlo a identificar errores sin darle la respuesta final. `;
 
-  const respuestaAl = `respuesta ${respuestaAlumno[0]} ${respuestaAlumno[1]}, metodo para resolverlo ${procedimiento}`
+  const respuestaAl = `respuesta ${respuestaAlumno[0]} ${respuestaAlumno[1]} ${comprobacionUnidad}, metodo para resolverlo ${procedimiento}`
   useEffect(() => {
     // Llamar a la API cuando el componente se monta
     const obtenerRespuestaIA = async () => {
