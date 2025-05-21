@@ -51,9 +51,7 @@ export function Calificacion() {
             avances.push({ temaId: tema.id, avance }); // Agrega el avance al arreglo
           }
         }
-        console.log("el avance es:")
 
-        console.log(avances)
         setAvancesPorTema(avances); // Actualiza el estado con los avances
       } catch (error) {
         console.error("Error al cargar los avances:", error);
@@ -81,8 +79,6 @@ export function Calificacion() {
     acc[item.tema].push(item);
     return acc;
   }, {});
-  console.log("tema agrupado")
-  console.log(temasAgrupados)
   return (
     <div style={{ margin: "2rem auto", width: "80%", textAlign: "center" }}>
       <h1>Calificaciones</h1>

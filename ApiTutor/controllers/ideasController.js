@@ -19,7 +19,6 @@ export const getIdeasUsuarios = async (req, res) => {
             return res.status(400).json({ error: "Faltan parámetros requeridos o son inválidos" });
         }
 
-        console.log("Datos recibidos: ", { idusuario, idejercicio, idea, conclusion, resultado, intento, respuesta });
 
         // Intentar crear el registro en la base de datos
         const nuevaIdea = await ideasModels.create({

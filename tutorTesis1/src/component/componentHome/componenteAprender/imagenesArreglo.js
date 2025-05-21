@@ -9,7 +9,11 @@ import img8 from "../../../imagenes/imagen8.jpg";
 import img9 from "../../../imagenes/imagen9.jpg";
 import img10 from "../../../imagenes/imagen10.jpg";
 import img11 from "../../../imagenes/imagen11.jpg";
+import img12 from "../../../imagenes/imagen12.jpg";
+import img13 from "../../../imagenes/imagen13.jpg";
+import img14 from "../../../imagenes/imagen14.jpg";
+import img15 from "../../../imagenes/imagen15.jpg";
 
-const imagenes = [img1, img2, img3, img4, img5, img6, img7, img8, img9, img10, img11];
+const imagenes = [img1, img2, img3, img4, img5, img6, img7, img8, img9, img10, img11, img12, img13, img14, img15];
 
 export default imagenes;

@@ -8,12 +8,10 @@ export function Perfil() {
   const [usuario, setUsuario] = useState(null); // Estado inicial vacío
   const { idUsuario } = useUsuario(); // Obtiene el ID del usuario del contexto
   const leerUsuario = new LeerBDUsuario();
-  console.log("el usuaridel context: "+ idUsuario)
   // Efecto para cargar los datos del usuario
   useEffect(() => {
     const fetchUsuario = async () => {
       const datosUsuario = await leerUsuario.devolverUsuariosById({idUsuario}); // Llamada a la función asíncrona
-      console.log(datosUsuario)
       setUsuario(datosUsuario); // Actualiza el estado con los datos del usuario
     };
 

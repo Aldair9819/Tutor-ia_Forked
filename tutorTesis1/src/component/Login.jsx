@@ -18,8 +18,6 @@ function Login({ setIsAuthenticated }) { //home de la pagina
   const { setIdUsuario } = useUsuario();
   const showModalIncio=()=>{
     setModalContent(<FormularioLogin onLogin={handleLogin}/>)
-    console.log("desplegando modal inicio.....")
-    console.log(bdUsuario.devolverUsuarios())
     setModalVisible(true)    
   }
   const showModalRegistro=()=>{

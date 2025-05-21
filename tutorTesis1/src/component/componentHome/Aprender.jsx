@@ -12,7 +12,7 @@ import { LeerBDTemas } from "../../Functions/leerBDTemas"
 export function Aprender(){
   const {seleccionTema, setSeleccionTema}=useContext(TemaContext)
   useEffect(() => {
-    //setSeleccionTema(null); // linea comentada miestras programo
+    setSeleccionTema(null); // linea comentada miestras programo
 
   }, []); // Se ejecuta solo una vez cuando el componente se monta
 

@@ -135,9 +135,11 @@ const VentanaEstudio = ({ tema }) => {
           if (etapa === 9 && evaluacion) {
             setEtapa(2); // Regresa a la etapa 2 si la evaluación es true
             setEvaluacion(false)
+            setProcedimiento("")
             usuarioBD.registrarIntento(idUsuario, problema.problema.id, ideasInvestigacion, procedimiento, evaluacion, resultado);
           } else if (etapa === 9 && !evaluacion) {
             setEtapa(3); // Regresa a la etapa 4 si la evaluación es false
+            setProcedimiento("")
             usuarioBD.registrarIntento(idUsuario, problema.problema.id, ideasInvestigacion, procedimiento, evaluacion, resultado);
           } else if (next) {
             clickSiguiente(); // Avanza normalmente
@@ -237,104 +239,118 @@ const VentanaAuxDeInvestigacion=()=>{
   )
 }
 
-const VentanaInvestigacion = ({ setIdeasInvestigacion, setNext, etapa }) => {
-  const inputRef = useRef(null);
-  const [guardado, setGuardar] = useState(false); // Estado para controlar si las ideas están guardadas
 
-  // Efecto para actualizar el estado `setNext` basado en `guardado`
-  if(!guardado){
-    setNext(false)
-  }else{
-    setNext(true)
-  }
-  // Función para guardar las ideas al hacer clic en el botón
+const VentanaInvestigacion = ({ setIdeasInvestigacion, etapa }) => {
+  const inputRef = useRef(null);
+  const [guardado, setGuardar] = useState(false);
+  const [texto, setTexto] = useState(""); // Estado para el textarea
+  const { grabando, iniciarGrabacion, detenerGrabacion } = useSpeechRecognition(setTexto);
+
+  const manejarGrabacion = () => {
+    if (grabando) {
+      detenerGrabacion();
+    } else {
+      iniciarGrabacion();
+    }
+  };
+
   const clickGuardarIdeas = () => {
-    const ideas = inputRef.current.value.trim(); // Elimina espacios en blanco
-    if (ideas) {
-      setIdeasInvestigacion(ideas); // Guarda las ideas del textarea
-      setGuardar(true); // Marca como guardado
-      // Cambia `guardado` a `false` después de 3 segundos (opcional)
+    if (texto.trim()) {
+      setIdeasInvestigacion(texto.trim());
+      setGuardar(true);
     }
   };
 
   return (
     <div className="ventana-etapa">
-      <h2>¡Excelente! Ahora, escribe las ideas que tienes para resolver el problema</h2>
-
-      <textarea
-        className="entrada-bloc"
-        ref={inputRef}
-        placeholder="Escribe tus ideas aquí..."
-        rows="5"
-      />
-
-      <button
-        className={`boton guardar ${guardado ? "guardado" : ""}`} // Cambia la clase si está guardado
-        onClick={clickGuardarIdeas}
-        
-      >
-        {guardado ? (etapa > 5 ? "Consultar" : "Guardado") : "Guardar Ideas"}
+      <h2>Escribe tu razonamiento para resolver el problema o has preguntas al tutor virtual.</h2>
+      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        <textarea
+          className="entrada-bloc"
+          value={texto} // Se actualiza en tiempo real
+          onChange={(e) => setTexto(e.target.value)}
+          placeholder="Escribe tus ideas aquí..."
+          rows="5"
+        />
+        <button className="boton grabar" onClick={manejarGrabacion}>
+          {grabando ? "🔴 Grabando..." : "🎤 Grabar"}
+        </button>
+      </div>
+      <button className={`boton guardar ${guardado ? "guardado" : ""}`} onClick={clickGuardarIdeas}>
+        {guardado ? (etapa > 5 ? "Consultar" : "Guardado") : "Consultar"}
       </button>
     </div>
   );
 };
 
 
-const VentanaGuia=({problema,ideasInvestigacion})=>{ 
-  const problemaAct = problema.descripcion
-  const respuestaIA = useRepuestaGuia({problemaAct, ideasInvestigacion})
-    
-  return(
+
+const VentanaGuia = ({ problema, ideasInvestigacion }) => {
+  const problemaAct = problema.descripcion;
+  const respuestaIA = useRepuestaGuia({ problemaAct, ideasInvestigacion });
+
+  // Usar el hook de lectura de texto
+  const { leerTexto, leyendo } = useTextToSpeech();
+
+  return (
     <div className="ventana-auxiliar">
       <div className="guiaRobot">
-        <img src={Robot} alt="" />
+        <img src={Robot} alt="Asistente Robot" />
         <p>{respuestaIA.respuesta}</p>
+        <button className="boton leer" onClick={() => leerTexto(respuestaIA.respuesta)}>
+          {leyendo ? "🔊 Leyendo..." : "🔊 Leer"}
+        </button>
       </div>
     </div>
-  )
-}
+  );
+};
+
+
 
 const VentanaProceso=()=>{
   return(
     <div className="ventana-auxiliar">
-      <p>Ahora es tiempo de que resuelvas el problema, si necesitas mas consejos puedes volver a escribir tus ideas en la etapa anterior</p>
+      <p>Ahora es tiempo de que resuelvas el problema; si necesitas más consejos, puedes hacer preguntas al tutor en la etapa anterior.</p>
+      
     </div>
   )
 }
 
-const VentanaConclucion = ({ setResultado, setProcedimiento, procedimiento, setNext, problema}) => {
-  const [enviado, setEnviado] = useState(false); // Estado para controlar si los datos fueron enviados
-  const [tempResultado, setTempResultado] = useState(); // Estado temporal para el resultado
-  const [tempProcedimiento, setTempProcedimiento] = useState(procedimiento); // Estado temporal para el procedimiento
+const VentanaConclucion = ({ setResultado, setProcedimiento, procedimiento, setNext, problema }) => {
+  const [enviado, setEnviado] = useState(false);
+  const [tempResultado, setTempResultado] = useState();
+  const [tempProcedimiento, setTempProcedimiento] = useState(procedimiento);
   const [selectedUnidad, setSelectedUnidad] = useState("");
-  
+  const inputRef = useRef(null);
   const unidades = problema.problema.unidadopciones ? problema.problema.unidadopciones.split(",") : [];
   
+  // Usar el hook de reconocimiento de voz
+  const { grabando, iniciarGrabacion, detenerGrabacion } = useSpeechRecognition(setTempProcedimiento);
+
   const handleTempResultadoChange = (e) => {
-    setTempResultado(e.target.value); // Actualiza el estado temporal
+    setTempResultado(e.target.value);
   };
 
-  const handleTempProcedimientoChange = (e) => {
-    setTempProcedimiento(e.target.value); // Actualiza el estado temporal
-  };
   const handleUnidadChange = (e) => {
     setSelectedUnidad(e.target.value);
   };
 
   const handleSubmit = () => {
-    const resultado = [tempResultado, selectedUnidad]
-    setResultado(resultado); // Actualiza la variable real al enviar
-    setProcedimiento(tempProcedimiento); // Actualiza la variable real al enviar
-    setEnviado(true); // Cambia el estado a enviado
+    const resultado = [tempResultado, selectedUnidad];
+    setResultado(resultado);
+    setProcedimiento(tempProcedimiento);
+    setEnviado(true);
   };
-  if(!enviado){
-    setNext(false)
-  }else{
-    setNext(true)
+
+  if (!enviado) {
+    setNext(false);
+  } else {
+    setNext(true);
   }
+
   return (
     <div className="ventana-etapa">
-      <div >
+      <div>
         <h1>Ingresa la respuesta del ejercicio</h1>
         <div className="linea">
           <input
@@ -344,10 +360,7 @@ const VentanaConclucion = ({ setResultado, setProcedimiento, procedimiento, setN
             placeholder="Resultado.."
             disabled={enviado}
           />
-
-
           <select className="entrada-unidad" value={selectedUnidad} onChange={handleUnidadChange} disabled={enviado}>
-          
             {unidades.map((unidad, index) => (
               <option key={index} value={unidad.trim()}>
                 {unidad.trim()}
@@ -356,23 +369,26 @@ const VentanaConclucion = ({ setResultado, setProcedimiento, procedimiento, setN
           </select>
           <p>tolerancia 2%</p>
         </div>
-        
+
         <h2>Explica el procedimiento que utilizaste</h2>
-        <textarea
-          className="entrada-bloc"
-          onChange={handleTempProcedimientoChange}
-          placeholder="Describe el procedimiento"
-          rows="4"
-          cols="50"
-          disabled={enviado}
-        />
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <textarea
+            className="entrada-bloc"
+            value={tempProcedimiento} // Aquí va el texto generado
+            placeholder="Describe el procedimiento"
+            ref={inputRef}
+            rows="4"
+            cols="50"
+            disabled={enviado}
+            onChange={(e) => setTempProcedimiento(e.target.value)} // <-- Agregado
+          />
+          <button className="boton grabar" onClick={iniciarGrabacion} disabled={grabando}>
+            {grabando ? "🔴 Grabando..." : "🎤 Grabar"}
+          </button>
+        </div>
       </div>
 
-      <button
-        onClick={handleSubmit}
-        disabled={enviado}
-        className={`boton ${enviado ? "enviado" : ""}`} // Clase adicional si el estado es enviado
-      >
+      <button onClick={handleSubmit} disabled={enviado} className={`boton ${enviado ? "enviado" : ""}`}>
         {enviado ? "Enviado" : "Enviar"}
       </button>
     </div>
@@ -419,11 +435,15 @@ const VentanaResultado = ({ problemaAct, respuestaAlumno, setEvaluacion, usuario
 
 const VentanaRetroalimentacion=({procedimiento, respuestaAlumno,  problemaAct })=>{
   const respuestaIA = useRepuestaRetroalimentacion({procedimiento,respuestaAlumno, problemaAct})
+  const { leerTexto, leyendo } = useTextToSpeech();
   return(
     <div className="ventana-auxiliar">
       <div className="guiaRobot">
         <img src={Robot} alt="" />
         <p>{respuestaIA.respuesta}</p>
+        <button className="boton leer" onClick={() => leerTexto(respuestaIA.respuesta)} disabled={leyendo}>
+          {leyendo ? "🔊 Leyendo..." : "🔊 Leer"}
+        </button>
       </div>
     </div>
   )
@@ -475,7 +495,7 @@ const useRepuestaGuia = ({ problemaAct, ideasInvestigacion }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   // Definir el texto de contexto del sistema
-  const contextoSistema = `Le vas a dar apoyo a un alumno que está estudiando solo. Solo le vas a decir si va por buen camino y un consejo. El alumno está haciendo preguntas para guiar una investigación que va a realizar para contestar el siguiente problema: ${problemaAct}. Es importante que no le des la respuesta al problema, solo un apoyo. Responde como si fueras el maestro del alumno, no le des la respuesta correcta, en caso de que el alumno de una respuesta incorrecta sugierele regresar a las etapas anteriores`;
+  const contextoSistema = `Le vas a dar apoyo a un alumno que está estudiando solo,  el tema es Formulación, justificación y uso del teorema de Pitágoras al resolver problemas . tienes que tomar el papel de un tutor apoyarlo en sus preguntas y brindarle un consejo para que avence. el alumno te va dar su razonamiento del siguiente problema:  ${problemaAct}. Es importante que no le des la respuesta al problema, solo un apoyo. Responde como si fueras el maestro del alumno, no le des la respuesta correcta, en caso de que el alumno de una respuesta incorrecta sugierele regresar a las etapas anteriores`;
     
   useEffect(() => {
     // Llamar a la API cuando el componente se monta
@@ -514,11 +534,11 @@ const useRepuestaRetroalimentacion = ({ respuestaAlumno, procedimiento, problema
   }else{
     comprobacionUnidad = "la unidad es incorrecta"
   } 
-  console.log(comprobacionUnidad);
   
   // Definir el texto de contexto del sistema
   const contextoSistema = 
   `El alumno se enfrenta al siguiente problema: ${problemaAct.descripcion}.  
+  
   La respuesta correcta del problema es ${problemaAct.respuesta} ${problemaAct.unidad}.  
   Se considera correcta cualquier respuesta que se encuentre dentro de un margen de tolerancia del 2%.  
   Recuerda que es muy importante que la unidad de medida sea la correcta si es incorrecta mensiona el error
@@ -527,7 +547,7 @@ const useRepuestaRetroalimentacion = ({ respuestaAlumno, procedimiento, problema
 **Instrucciones para la retroalimentación:**  
 - Si la respuesta del alumno está dentro del margen de tolerancia, considera su respuesta como correcta y felicítalo. **No sugieras revisar cálculos ni mencionar que hay un margen de tolerancia.**  
 - Si la respuesta está fuera del margen de tolerancia o el procedimiento es incorrecto, guíalo para que vuelva a realizar el ejercicio.  
-- **Nunca menciones la respuesta correcta.**  
+- **no le des la respuesta correcta ni le resuelvas el ejercicio**  
 - **No hagas preguntas ni le pidas más información, ya que no puede responderte.**  
 
 Tu objetivo es ayudarlo a identificar errores sin darle la respuesta final. `;
@@ -558,6 +578,112 @@ Tu objetivo es ayudarlo a identificar errores sin darle la respuesta final. `;
   }, [contextoSistema, procedimiento]);
   
   return { respuesta, loading, error }; // Devuelve respuesta, estado de carga y error
+};
+const useTextToSpeech = () => {
+  const [leyendo, setLeyendo] = useState(false);
+  const [voz, setVoz] = useState(null);
+
+  // Nombre de la voz preferida
+  const nombreVozPreferida = "Microsoft Dalia Online (Natural) - Spanish (Mexico)";
+
+  // Cargar las voces disponibles cuando el hook se inicializa
+  useEffect(() => {
+    const cargarVoces = () => {
+      const vocesDisponibles = window.speechSynthesis.getVoices();
+
+      // Buscar la voz preferida o una en español de México
+      const vozSeleccionada =
+        vocesDisponibles.find((v) => v.name === nombreVozPreferida) ||
+        vocesDisponibles.find((v) => v.lang === "es-MX");
+
+      setVoz(vozSeleccionada || null);
+    };
+
+    window.speechSynthesis.onvoiceschanged = cargarVoces;
+    cargarVoces();
+  }, []);
+
+  // Función para leer o detener la lectura de texto
+  const leerTexto = (texto) => {
+    if (window.speechSynthesis.speaking) {
+      // Si ya está hablando, detener la lectura
+      window.speechSynthesis.cancel();
+      setLeyendo(false);
+    } else {
+      if (!texto.trim()) return alert("No hay texto para leer.");
+
+      // Reemplazos para leer correctamente los exponentes
+      texto = texto
+        .replace(/²/g, " al cuadrado")
+        .replace(/³/g, " al cubo")
+        .replace(/(\w+)\^2/g, "$1 al cuadrado")
+        .replace(/(\w+)\^3/g, "$1 al cubo")
+        .replace(/(\w+)\^(\d+)/g, (match, base, exp) => {
+          return `${base} a la ${convertirNumero(exp)}`;
+        });
+
+      const utterance = new SpeechSynthesisUtterance(texto);
+      utterance.lang = "es-MX";
+      if (voz) utterance.voice = voz;
+
+      setLeyendo(true);
+      utterance.onend = () => setLeyendo(false); // Cambia el estado cuando termine
+
+      window.speechSynthesis.speak(utterance);
+    }
+  };
+
+  // Función para convertir números a palabras
+  const convertirNumero = (num) => {
+    const numeros = {
+      "1": "uno", "2": "dos", "3": "tres", "4": "cuatro", "5": "cinco",
+      "6": "seis", "7": "siete", "8": "ocho", "9": "nueve", "10": "diez",
+    };
+    return numeros[num] || num; // Si el número no está en la lista, lo deja igual
+  };
+
+  return { leerTexto, leyendo };
+};
+
+const useSpeechRecognition = (setTexto) => {
+  const [grabando, setGrabando] = useState(false);
+  const recognitionRef = useRef(null);
+
+  useEffect(() => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      recognitionRef.current = new SpeechRecognition();
+      recognitionRef.current.continuous = false; // No sigue grabando después de la pausa
+      recognitionRef.current.lang = "es-MX"; // Configura el idioma
+      recognitionRef.current.interimResults = false; // Solo muestra resultados finales
+
+      recognitionRef.current.onresult = (event) => {
+        let nuevoTexto = event.results[0][0].transcript.trim();
+        setTexto((prevTexto) => prevTexto + " " + nuevoTexto); // Agregar texto al textarea
+      };
+
+      recognitionRef.current.onend = () => {
+        setGrabando(false); // Se detiene automáticamente cuando ya no hay más voz
+      };
+    }
+  }, [setTexto]);
+
+  const iniciarGrabacion = () => {
+    if (!recognitionRef.current) {
+      alert("Tu navegador no soporta reconocimiento de voz.");
+      return;
+    }
+    setGrabando(true);
+    recognitionRef.current.start(); // Inicia el reconocimiento de voz
+  };
+
+  const detenerGrabacion = () => {
+    if (recognitionRef.current) {
+      recognitionRef.current.stop(); // Detiene el reconocimiento de voz
+      setGrabando(false);
+    }
+  };
+  return { grabando, iniciarGrabacion, detenerGrabacion };
 };
 
 export default useRepuestaGuia;
