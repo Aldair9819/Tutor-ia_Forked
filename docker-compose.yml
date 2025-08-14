@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  mariadb:
+    image: mariadb:11.3
+    container_name: mariadb-container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: tutor_db
+      MYSQL_USER: tutor_user
+      MYSQL_PASSWORD: tutor_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+  backend:
+    build:
+      context: ./ApiTutor
+    container_name: express-backend
+    restart: always
+    environment:
+      DB_HOST: mariadb
+      DB_USER: tutor_user
+      DB_PASSWORD: tutor_password
+      DB_NAME: tutor_db
+    ports:
+      - "3001:3001"
+    depends_on:
+      - mariadb
+    volumes:
+      - ./ApiTutor:/usr/src/app
+    command: ["npm", "start"]
+
+  frontend:
+    build:
+      context: ./tutorTesis1
+    container_name: vite-frontend
+    restart: always
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./tutorTesis1/src:/usr/src/app/src
+      - ./tutorTesis1/mooks:/usr/src/app/mooks
+      - ./tutorTesis1/vite.config.js:/usr/src/app/vite.config.js
+      - ./tutorTesis1/index.html:/usr/src/app/index.html
+      - ./tutorTesis1/eslint.config.js:/usr/src/app/eslint.config.js
+    working_dir: /usr/src/app
+    command: ["npm", "run", "dev", "--", "--host"]
+
+volumes:
+  mariadb_data:

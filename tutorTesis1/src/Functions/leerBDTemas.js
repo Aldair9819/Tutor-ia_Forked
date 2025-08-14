@@ -1,4 +1,4 @@
-import CursosBD from "C:/Codigo/MCC/TesisAvance/projects/tutorTesis1/mooks/BDpueba.json";
+import CursosBD from "../../mooks/BDpueba.json"; // Importa la base de datos de temas
 import axios from "axios";
 const URI = "https://proyectotutoria.onrender.com/api/"
 
