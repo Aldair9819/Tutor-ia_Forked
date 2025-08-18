@@ -4,40 +4,48 @@ services:
   mariadb:
     image: mariadb:11.3
     container_name: mariadb-container
-    restart: always
+    restart: no
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: tutor_db
-      MYSQL_USER: tutor_user
-      MYSQL_PASSWORD: tutor_password
+      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+      MYSQL_DATABASE: ${DATABASE_NAME}
+      MYSQL_USER: ${DATABASE_USER}
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
     ports:
-      - "3306:3306"
+      - "3306"
     volumes:
-      - mariadb_data:/var/lib/mysql
+      - ./mariaDB:/var/lib/mysql
+    networks:
+      - tutoria
+    env_file:
+      - .env
 
   backend:
     build:
       context: ./ApiTutor
-    container_name: express-backend
-    restart: always
+    container_name: tutor-ia-express-backend
+    restart: no
     environment:
-      DB_HOST: mariadb
-      DB_USER: tutor_user
-      DB_PASSWORD: tutor_password
-      DB_NAME: tutor_db
+      DB_HOST: ${DATABASE_HOST}
+      DB_USER: ${DATABASE_USER}
+      DB_PASSWORD: ${DATABASE_PASSWORD}
+      DB_NAME: ${DATABASE_NAME}
     ports:
-      - "3001:3001"
+      - "8000:8000"
     depends_on:
       - mariadb
     volumes:
       - ./ApiTutor:/usr/src/app
+    env_file:
+      - .env
+    networks:
+      - tutoria
     command: ["npm", "start"]
 
   frontend:
     build:
       context: ./tutorTesis1
-    container_name: vite-frontend
-    restart: always
+    container_name: tutor-ia-frontend
+    restart: no
     ports:
       - "5173:5173"
     volumes:
@@ -47,7 +55,11 @@ services:
       - ./tutorTesis1/index.html:/usr/src/app/index.html
       - ./tutorTesis1/eslint.config.js:/usr/src/app/eslint.config.js
     working_dir: /usr/src/app
+    env_file:
+      - .env
+    networks:
+      - tutoria
     command: ["npm", "run", "dev", "--", "--host"]
 
-volumes:
-  mariadb_data:
+networks:
+  tutoria:

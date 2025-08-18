@@ -29,3 +29,7 @@
     font-size: 16px; /* Tamaño de fuente */
     margin-bottom: 10px;
 }
+
+.registro h2 {
+    color: rgb(74, 46, 111); /* morado bonito */
+}

@@ -1,7 +1,26 @@
 import axios, { Axios } from "axios";
-const URI = "https://proyectotutoria.onrender.com/api/"
+///const URI = "https://proyectotutoria.onrender.com/api/"
+const URI = import.meta.env.VITE_URI;
+
 export class LeerBDUsuario {
   // Validar usuario y contraseña
+
+  async crearUsuario({ nombre, usuario, correo, contrasena }) {
+    
+    try {
+      const res = await axios.post(`${URI}users`, {
+        "user": usuario,
+        "nombre": nombre,
+        "correo": correo,
+        "contrasena": contrasena,
+      });
+      return { success: true, message: res.data };
+    } catch (error) {
+      const message = error || "Error al conectar con el servidor";
+      return { success: false, message: message.response?.data?.message || message };
+    }
+  }
+
   async validarUsuarioyContraseña({ usuario, contrasena }) {
     try {
       const res = await axios.post(`${URI}login`, {

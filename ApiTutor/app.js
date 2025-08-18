@@ -12,7 +12,11 @@ import dotenv from 'dotenv';
 import "./models/relations.js"; // Esto ahora se importa para aplicar las asociaciones automáticamente
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173', // Cambia esto al origen de tu frontend
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
+  credentials: true, // Si necesitas enviar cookies o encabezados de autenticación
+}));
 app.use(express.json());
 dotenv.config(); // Carga las variables de entorno desde el archivo .env
 // Configuración de rutas

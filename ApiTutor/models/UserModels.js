@@ -12,6 +12,7 @@ export const UserModels = db.define('User', {
     user: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     nombre: {
       type: DataTypes.STRING,
@@ -20,6 +21,11 @@ export const UserModels = db.define('User', {
     contrasena: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    correo: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
     },
   },
   {

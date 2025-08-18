@@ -99,7 +99,14 @@ export const updateUser = async (req, res) => {
 };
 //crear un usuario
 export const createUser = async (req, res) => {
-    const { user, nombre, contrasena } = req.body;
+    const { user, nombre, contrasena, correo } = req.body;
+    for (const [campo, valor] of Object.entries(req.body)) {
+    if (typeof valor === "string" && valor.trim() === "") {
+      return res
+        .status(400)
+        .json({ message: `El campo '${campo}' no puede estar vacío` });
+    }
+  }
     
     try {
         // Hashear la contraseña antes de guardarla
@@ -110,13 +117,16 @@ export const createUser = async (req, res) => {
         console.log('Contraseña hasheada:', hashedPassword);  // Verifica que la contraseña se haya hasheado correctamente
 
         // Crear el usuario con la contraseña encriptada
-        const newUser = await UserModels.create({ user, nombre, contrasena: hashedPassword });
+        const newUser = await UserModels.create({ user, nombre, contrasena: hashedPassword ,correo});
         console.log('Usuario creado:', newUser);  // Verifica el nuevo usuario creado
 
-        res.status(201).json({ message: "Usuario creado con éxito", user: newUser });
+        return res.status(201).json({ message: "Usuario creado con éxito", user: newUser });
     } catch (error) {
-        console.error('Error al crear usuario:', error.message);  // Muestra el error si ocurre
-        res.status(500).json({ message: error.message });
+        if (error.name === "SequelizeUniqueConstraintError") {
+      return res.status(400).json({ message: "El usuario o el correo ya están en uso" });
+        } else {
+        return res.status(500).json({ message: "Error al crear el usuario", error });
+        }
     }
 };
 //verificar login
