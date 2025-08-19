@@ -1,8 +1,4 @@
-import { GROQ_API_KEY } from './config.js';
-import Groq from "groq-sdk";
-
-const groq = new Groq({ apiKey: GROQ_API_KEY, dangerouslyAllowBrowser: true });
-const URL_API_MODEL_AI = "http://localhost:11434/";
+const URL_API_MODEL_AI = import.meta.env.VITE_URL_API_MODEL_AI;
 
 export async function RepuestaIA({ systemText, userText }) {
   // Validar que `systemText` y `userText` no sean undefined o vacíos
@@ -24,7 +20,7 @@ export async function RepuestaIA({ systemText, userText }) {
     console.error("Error al obtener la respuesta de la IA:", error);
   }
 }
-
+/*
 async function getGroqChatCompletion({ systemText, userText }) {
 
   return groq.chat.completions.create({
@@ -41,7 +37,7 @@ async function getGroqChatCompletion({ systemText, userText }) {
     model: "llama-3.3-70b-versatile",
   });
 }
-
+*/
 async function getAPINETChatCompletion({ systemText, userText }) {
   // Validar que los parámetros no sean undefined o null
   if (!systemText || !userText) {

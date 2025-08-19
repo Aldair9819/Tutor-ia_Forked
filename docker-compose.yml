@@ -9,9 +9,9 @@ services:
       MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
       MYSQL_DATABASE: ${DATABASE_NAME}
       MYSQL_USER: ${DATABASE_USER}
-      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
-    ports:
-      - "3306"
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD} 
+    #ports: #Esto es por si se quiere acceder a la red desde fuera
+    #  - "3306:3306" 
     volumes:
       - ./mariaDB:/var/lib/mysql
     networks:
@@ -49,11 +49,8 @@ services:
     ports:
       - "5173:5173"
     volumes:
-      - ./tutorTesis1/src:/usr/src/app/src
-      - ./tutorTesis1/mooks:/usr/src/app/mooks
-      - ./tutorTesis1/vite.config.js:/usr/src/app/vite.config.js
-      - ./tutorTesis1/index.html:/usr/src/app/index.html
-      - ./tutorTesis1/eslint.config.js:/usr/src/app/eslint.config.js
+      - ./tutorTesis1:/usr/src/app
+      - node_modules_front:/usr/src/app/node_modules
     working_dir: /usr/src/app
     env_file:
       - .env
@@ -63,3 +60,6 @@ services:
 
 networks:
   tutoria:
+
+volumes:
+  node_modules_front:
