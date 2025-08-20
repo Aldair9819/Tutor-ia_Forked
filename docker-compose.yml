@@ -14,6 +14,7 @@ services:
     #  - "3306:3306" 
     volumes:
       - ./mariaDB:/var/lib/mysql
+      - ./bdtutorias.sql:/docker-entrypoint-initdb.d/bdtutorias.sql
     networks:
       - tutoria
     env_file:
@@ -48,6 +49,8 @@ services:
     restart: no
     ports:
       - "5173:5173"
+    depends_on:
+      - backend
     volumes:
       - ./tutorTesis1:/usr/src/app
       - node_modules_front:/usr/src/app/node_modules

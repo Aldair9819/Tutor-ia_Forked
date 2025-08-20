@@ -9,10 +9,9 @@ export async function RepuestaIA({ systemText, userText }) {
   }
 
   try {
-    //const chatCompletion = await getGroqChatCompletion({ systemText, userText });
     const chatCompletion = await getAPINETChatCompletion({ systemText, userText });
     console.log("Este es chat completetion:", chatCompletion);
-    //const respuesta = chatCompletion.choices[0]?.message?.content || "";
+    
     const respuesta = chatCompletion.message.content || "";
     console.log("Esta es mi  respuesta definitiva: ",respuesta)
     return respuesta;
@@ -20,24 +19,7 @@ export async function RepuestaIA({ systemText, userText }) {
     console.error("Error al obtener la respuesta de la IA:", error);
   }
 }
-/*
-async function getGroqChatCompletion({ systemText, userText }) {
 
-  return groq.chat.completions.create({
-    messages: [
-      {
-        role: "system",
-        content: systemText  // Asegurarse de que `systemText` no sea undefined
-      },
-      {
-        role: "user",
-        content: userText  // Asegurarse de que `userText` no sea undefined
-      },
-    ],
-    model: "llama-3.3-70b-versatile",
-  });
-}
-*/
 async function getAPINETChatCompletion({ systemText, userText }) {
   // Validar que los parámetros no sean undefined o null
   if (!systemText || !userText) {

@@ -1,6 +1,6 @@
 import CursosBD from "../../mooks/BDpueba.json"; // Importa la base de datos de temas
 import axios from "axios";
-const URI = "https://proyectotutoria.onrender.com/api/"
+const URI = import.meta.env.VITE_URI;
 
 export class LeerBDTemas {
   // Constructor que inicializa la base de datos

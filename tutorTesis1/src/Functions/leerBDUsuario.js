@@ -1,5 +1,4 @@
 import axios, { Axios } from "axios";
-///const URI = "https://proyectotutoria.onrender.com/api/"
 const URI = import.meta.env.VITE_URI;
 
 export class LeerBDUsuario {

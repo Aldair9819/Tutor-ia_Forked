@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  mariadb:
+    image: mariadb:11.3
+    container_name: mariadb-container
+    restart: no
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+      MYSQL_DATABASE: ${DATABASE_NAME}
+      MYSQL_USER: ${DATABASE_USER}
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD} 
+    ports: #Esto es por si se quiere acceder a la red desde fuera
+      - "3306:3306" 
+    volumes:
+      - ./mariaDB:/var/lib/mysql
+      - ./bdtutorias.sql:/docker-entrypoint-initdb.d/bdtutorias.sql
+    networks:
+      - tutoria
+    env_file:
+      - .env
+
+
+networks:
+  tutoria:
