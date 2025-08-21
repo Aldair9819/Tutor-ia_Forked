@@ -34,8 +34,10 @@ services:
       - "8000:8000"
     depends_on:
       - mariadb
+    working_dir: /usr/src/app
     volumes:
       - ./ApiTutor:/usr/src/app
+      - /usr/src/app/node_modules
     env_file:
       - .env
     networks:
@@ -53,7 +55,7 @@ services:
       - backend
     volumes:
       - ./tutorTesis1:/usr/src/app
-      - node_modules_front:/usr/src/app/node_modules
+      - /usr/src/app/node_modules
     working_dir: /usr/src/app
     env_file:
       - .env
@@ -64,5 +66,4 @@ services:
 networks:
   tutoria:
 
-volumes:
-  node_modules_front:
+

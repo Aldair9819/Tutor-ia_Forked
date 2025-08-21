@@ -1,4 +1,4 @@
-import axios, { Axios } from "axios";
+import axios from "axios";
 const URI = import.meta.env.VITE_URI;
 
 export class LeerBDUsuario {
