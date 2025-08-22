@@ -1,8 +1,25 @@
-# React + Vite
+# Frontend: React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Instalación y uso en modo desarrollo
 
-Currently, two official plugins are available:
+La carpeta en la cual corre el Front-end tutorTesis1. Antes de correrlo es requerido que tanto el BackEnd como MariaDB o MySQL estén en ejecución.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+A su vez usar el .env_example para poner las variables de entorno y renombrarlo a .env.
+
+## Archivo .env
+
+Estas son las variables que contiene:
+
+- VITE_URL_API_MODEL_AI: URL para el uso de modelos LLM. Es necesario que empiece por VITE_ para que sea reconocido por Vite + React . El URL en localhost es <http://localhost:11434/>
+- VITE_API_KEY= La API KEY para el uso de modelos LLM. Realmente no se utiliza y es una implementación a futuro por si se requiere utilizar modelos LLM de fuentes externas
+- VITE_URI: URL que accede directamente al Backend corriendo en local. Esta por defecto es: <http://localhost:8000/api/>
+
+
+## Instalación y uso (modo desarrollo)
+
+- Ir a la terminal de la raíz del proyecto.
+- En terminal, ir a la carpeta ApiTutor: `cd tutorTesis1` 
+- En terminal, instalar las dependencias del programa: `npm install`
+- En terminal, correr el BackEnd: `npm run dev -- --host`
+
+Se inicializará y correrá en segundo plano. Dejar la terminal corriendo, o sino se detendrá el proceso.

@@ -42,19 +42,19 @@ Se debe de ejecutar dentro de MariaDB para que se creen las tablas y el contenid
 ### Backend
 
 La carpeta es ApiTutor. Antes de correrlo es requerido que MariaDB estén en ejecución.
-Pasos:
+Pasos para correrlo en modo desarrollador:
 
 - Ir a la terminal de la raíz del proyecto
 - En terminal, ir a la carpeta ApiTutor: `cd ApiTutor`
-- En terminal, instalar las dependencias del programa: `npm install --production`
-- En terminal, correr el BackEnd: `npm start`
+- En terminal, instalar las dependencias del programa: `npm install`
+- En terminal, correr el BackEnd: `npm run dev`
 
 Se inicializará y correrá en segundo plano. Dejar la terminal corriendo, o sino se detendrá el proceso.
 
 ### FrontEnd
 
 La carpeta es tutorTesis1. Antes de correrlo es requerido que tanto el BackEnd como MariaDB estén en ejecución.
-Pasos:
+Pasos para correrlo en modo desarrollador:
 
 - Ir a la terminal de la raíz del proyecto
 - En terminal, ir a la carpeta ApiTutor: `cd tutorTesis1`
@@ -63,9 +63,14 @@ Pasos:
 
 ## Instalación mediante docker
 
+**NOTA:** Este método solo funciona bien mediante todo el proyecto dentro de un entorno WSL2 o mediante un entorno Linux. Correrlo con Windows nativo causa problemas de enrutamiento, el hot-reload no funciona como debe o conexiones no adecuadas a la DB.
+
+### Instalación e inicialización (Modo desarrollo)
+
 - Renombrar el archivo .env_example a .env
 - Poner los valores del .env a los que sean particular al servidor que se maneje
-- Correr este comando: `docker compose up --build`
+- Abrir una terminal en la raíz del proyecto
+- Correr este comando: `docker compose -f docker-compose-dev.yml up --build`
   - Permite correr los tres contenedores a la vez:
         - MariaDB
             - Ya ejecuta el script `bdtutorias.sql` en automático
