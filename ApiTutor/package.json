@@ -5,8 +5,12 @@
   "type": "module",
   "scripts": {
     "start": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --legacy-watch --ext js,json --watch . app.js"
   },
+  "devDependencies": {
+ "nodemon": "^3.1.0"
+ },
   "keywords": [],
   "author": "",
   "license": "ISC",

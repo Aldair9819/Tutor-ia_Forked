@@ -10,8 +10,8 @@ services:
       MYSQL_DATABASE: ${DATABASE_NAME}
       MYSQL_USER: ${DATABASE_USER}
       MYSQL_PASSWORD: ${DATABASE_PASSWORD} 
-    #ports: #Esto es por si se quiere acceder a la red desde fuera
-    #  - "3306:3306" 
+    ports: #Esto es por si se quiere acceder a la red desde fuera
+      - "3306:3306"
     volumes:
       - ./mariaDB:/var/lib/mysql
       - ./bdtutorias.sql:/docker-entrypoint-initdb.d/bdtutorias.sql
@@ -23,6 +23,7 @@ services:
   backend:
     build:
       context: ./ApiTutor
+      dockerfile: Dockerfile-dev.backend
     container_name: tutor-ia-express-backend
     restart: no
     environment:
@@ -37,16 +38,16 @@ services:
     working_dir: /usr/src/app
     volumes:
       - ./ApiTutor:/usr/src/app
-      - /usr/src/app/node_modules
+      - node_modules_backend:/usr/src/app/node_modules
     env_file:
       - .env
     networks:
       - tutoria
-    command: ["npm", "start"]
 
   frontend:
     build:
       context: ./tutorTesis1
+      dockerfile: Dockerfile-dev.frontend
     container_name: tutor-ia-frontend
     restart: no
     ports:
@@ -55,15 +56,18 @@ services:
       - backend
     volumes:
       - ./tutorTesis1:/usr/src/app
-      - /usr/src/app/node_modules
+      - node_modules_frontend:/usr/src/app/node_modules
     working_dir: /usr/src/app
     env_file:
       - .env
     networks:
       - tutoria
-    command: ["npm", "run", "dev", "--", "--host"]
 
 networks:
   tutoria:
+
+volumes:
+  node_modules_backend:
+  node_modules_frontend:
 
 

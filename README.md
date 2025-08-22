@@ -17,7 +17,7 @@ Estas son las variables que contiene:
 - DATABASE_NAME: Nombre de la base de datos dentro de MariaDB
 - DATABASE_USER: Nombre del usuario para acceder a la DB
 - DATABASE_PASSWORD: Contraseña para acceder a la DB
-- DATABASE_HOST: URL del Host de la DB. Puede ser mediante red Docker o mediante red localhost
+- DATABASE_HOST: URL del Host de la DB. Puede ser mediante red Docker o mediante red localhost. Si usas docker usar `mariadb` como host porque el backend no tiene mariadb en su contenedor en el localhost.
 - DATABASE_PORT: Puerto de la DB. Por defecto MariaDB maneja el puerto 3306
 - VITE_URL_API_MODEL_AI: URL para el uso de modelos LLM. Es necesario que empiece por VITE_ para que sea reconocido por Vite + React . El URL en localhost es <http://localhost:11434/>
 - API_KEY= La API KEY para el uso de modelos LLM. Realmente no se utiliza y es una implementación a futuro por si se requiere utilizar modelos LLM de fuentes externas

@@ -1,1 +1,6 @@
-tutorTesis1/src/node_modules
+tutorTesis1/node_modules
+ApiTutor/node_modules
+node_modules
+npm-debug.log
+Dockerfile
+docker-compose.yml
