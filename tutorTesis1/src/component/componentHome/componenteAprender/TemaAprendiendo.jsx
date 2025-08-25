@@ -106,19 +106,39 @@ const VentanaEstudio = ({ tema }) => {
   };
   
 
-
   const renderVentanas = () => {
     const ventanas = [];
+    if (etapa >= 1) ventanas.push(<VentanaIntroduccion key={`render_ventana_1`} tema={tema} />);
+    if (etapa >= 2) {
+      ventanas.push(
+        <VentanaAuxProblema key={`render_ventana_2_aux`} />,
+        <CadenaBotones
+          key={`render_ventana_2_cadena`}
+          numProblemas={leerBD.devolverCantidadDeProblemas(tema)}
+          problemaActual={problemaActual}
+          setEtapa={setEtapa}
+          setProblemaAcutual={setProblemaAcutual}
+          problemaResueltos={problemaResueltos}
+          setNext={setNext}
+          cantidadProblemas={cantidadProblemas}
+        />
+      );
+    }
+    if (etapa >= 3 && problema) ventanas.push(<VentanaPlantearProblema key={`render_ventana_3`} problema={problema} urlImagen={urlImagen} />);
+    if (etapa >= 4) {
+      ventanas.push(
+        <VentanaAuxDeInvestigacion key={`render_ventana_4_aux`} />,
+        <VentanaInvestigacion key={`render_ventana_4_investigacion`} tema={tema} usuarioBD={usuarioBD} ideasInvestigacion={ideasInvestigacion} setIdeasInvestigacion={setIdeasInvestigacion} setNext={setNext} etapa={etapa} />
+      );
+    }
+    //Aqui
+    if (etapa >= 5 && problema) ventanas.push(<VentanaGuia key={`render_ventana_5`} problema={problema.problema} ideasInvestigacion={ideasInvestigacion} />);
 
-    if (etapa >= 1) ventanas.push(<VentanaIntroduccion key={1} tema={tema} />);
-    if (etapa >= 2) ventanas.push(<VentanaAuxProblema />, <CadenaBotones numProblemas={leerBD.devolverCantidadDeProblemas(tema)} problemaActual={problemaActual} setEtapa={setEtapa} setProblemaAcutual={setProblemaAcutual} problemaResueltos={problemaResueltos} setNext={setNext} cantidadProblemas={cantidadProblemas}/>);
-    if (etapa >= 3 && problema) ventanas.push(<VentanaPlantearProblema key={2} problema={problema} urlImagen ={urlImagen}/>);
-    if (etapa >= 4) ventanas.push(<VentanaAuxDeInvestigacion />, <VentanaInvestigacion key={3} tema={tema} usuarioBD={usuarioBD} ideasInvestigacion={ideasInvestigacion} setIdeasInvestigacion={setIdeasInvestigacion} setNext={setNext} etapa={etapa}/>);
-    if (etapa >= 5 && problema) ventanas.push(<VentanaGuia key={4} problema={problema.problema} ideasInvestigacion={ideasInvestigacion} />);
-    if (etapa >= 6) ventanas.push(<VentanaProceso key={5} />);
-    if (etapa >= 7) ventanas.push(<VentanaConclucion key={6} setResultado={setResultado} problema={problema} procedimiento={procedimiento} setProcedimiento={setProcedimiento} setNext={setNext} />);
-    if (etapa >= 8) ventanas.push(<VentanaResultado key={6} problemaAct={problema.problema} respuestaAlumno={resultado} setEvaluacion={setEvaluacion} usuarioBD={usuarioBD} idUsuario={idUsuario} ideasInvestigacion={ideasInvestigacion} procedimiento={procedimiento} evaluacion={evaluacion}/>);
-    if (etapa >= 9) ventanas.push(<VentanaRetroalimentacion key={7} procedimiento={procedimiento} respuestaAlumno={resultado} problemaAct={problema.problema} evaluacion= {evaluacion}/>);
+
+    if (etapa >= 6) ventanas.push(<VentanaProceso key={`render_ventana_6`} />);
+    if (etapa >= 7) ventanas.push(<VentanaConclucion key={`render_ventana_7`} setResultado={setResultado} problema={problema} procedimiento={procedimiento} setProcedimiento={setProcedimiento} setNext={setNext} />);
+    if (etapa >= 8) ventanas.push(<VentanaResultado key={`render_ventana_8`} problemaAct={problema.problema} respuestaAlumno={resultado} setEvaluacion={setEvaluacion} usuarioBD={usuarioBD} idUsuario={idUsuario} ideasInvestigacion={ideasInvestigacion} procedimiento={procedimiento} evaluacion={evaluacion} />);
+    if (etapa >= 9) ventanas.push(<VentanaRetroalimentacion key={`render_ventana_9`} procedimiento={procedimiento} respuestaAlumno={resultado} problemaAct={problema.problema} evaluacion={evaluacion} />);
 
     return ventanas;
   };
@@ -186,7 +206,7 @@ const VentanaIntroduccion = ({ tema }) => {
       <p>{datosTema.descripcion}</p>
       <img 
         className="imgenes-problema"
-        key={`$el${tema}`} // Usa el nombre del archivo como clave
+        key={`$imagenes_problema_${tema}`} // Usa el nombre del archivo como clave
         src={ imagenesTema[tema-1]} 
         alt={`Imagen ${tema}`} // Opcionalmente, incluye más contexto en el alt
       />
@@ -287,7 +307,7 @@ const VentanaInvestigacion = ({ setIdeasInvestigacion, etapa }) => {
 
 const VentanaGuia = ({ problema, ideasInvestigacion }) => {
   const problemaAct = problema.descripcion;
-  const respuestaIA = useRepuestaGuia({ problemaAct, ideasInvestigacion });
+  const { respuesta, loading, errorMsg } = useRepuestaGuia({ problemaAct, ideasInvestigacion });
 
   // Usar el hook de lectura de texto
   const { leerTexto, leyendo } = useTextToSpeech();
@@ -296,15 +316,16 @@ const VentanaGuia = ({ problema, ideasInvestigacion }) => {
     <div className="ventana-auxiliar">
       <div className="guiaRobot">
         <img src={Robot} alt="Asistente Robot" />
-        <p>{respuestaIA.respuesta}</p>
-        <button className="boton leer" onClick={() => leerTexto(respuestaIA.respuesta)}>
+        <p>{loading ? "Cargando..." : errorMsg ? errorMsg : respuesta}</p>
+        {loading || errorMsg ? null : <button className="boton leer" onClick={() => leerTexto(respuesta)}>
           {leyendo ? "🔊 Leyendo..." : "🔊 Leer"}
         </button>
+        }
+        
       </div>
     </div>
   );
 };
-
 
 
 const VentanaProceso=()=>{
@@ -434,16 +455,16 @@ const VentanaResultado = ({ problemaAct, respuestaAlumno, setEvaluacion, usuario
 
 
 const VentanaRetroalimentacion=({procedimiento, respuestaAlumno,  problemaAct })=>{
-  const respuestaIA = useRepuestaRetroalimentacion({procedimiento,respuestaAlumno, problemaAct})
+  const { respuesta, loading, error } = useRepuestaRetroalimentacion({procedimiento,respuestaAlumno, problemaAct}); // Devuelve respuesta, estado de carga y error
   const { leerTexto, leyendo } = useTextToSpeech();
   return(
     <div className="ventana-auxiliar">
       <div className="guiaRobot">
         <img src={Robot} alt="" />
-        <p>{respuestaIA.respuesta}</p>
-        <button className="boton leer" onClick={() => leerTexto(respuestaIA.respuesta)} disabled={leyendo}>
+        <p>{loading ? "Cargando..." : error ? error : respuesta}</p>
+        {loading || error ? null : <button className="boton leer" onClick={() => leerTexto(respuesta)} disabled={leyendo}>
           {leyendo ? "🔊 Leyendo..." : "🔊 Leer"}
-        </button>
+        </button>}
       </div>
     </div>
   )
@@ -493,7 +514,7 @@ const CadenaBotones = ({ cantidadProblemas, problemaActual, setProblemaAcutual, 
 const useRepuestaGuia = ({ problemaAct, ideasInvestigacion }) => {
   const [respuesta, setRespuesta] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
   // Definir el texto de contexto del sistema
   const contextoSistema = `Le vas a dar apoyo a un alumno que está estudiando solo,  el tema es Formulación, justificación y uso del teorema de Pitágoras al resolver problemas . tienes que tomar el papel de un tutor apoyarlo en sus preguntas y brindarle un consejo para que avence. el alumno te va dar su razonamiento del siguiente problema:  ${problemaAct}. Es importante que no le des la respuesta al problema, solo un apoyo. Responde como si fueras el maestro del alumno, no le des la respuesta correcta, en caso de que el alumno de una respuesta incorrecta sugierele regresar a las etapas anteriores`;
     
@@ -504,14 +525,16 @@ const useRepuestaGuia = ({ problemaAct, ideasInvestigacion }) => {
         systemText: contextoSistema,
         userText: ideasInvestigacion,
       };
-  
       try {
+        setErrorMsg(null); // Reinicia el mensaje de error antes de la solicitud
         setLoading(true); // Indica que la solicitud está en curso
         const respuestaIA = await RepuestaIA(prop);
         setRespuesta(respuestaIA);
+
       } catch (error) {
-        setError("Error al obtener la respuesta de la IA"); // Guarda el error en el estado
-        console.error("Error al obtener la respuesta de la IA:", error);
+        const mensaje_error = "Error al obtener la respuesta de la IA:" + error;
+        setErrorMsg(mensaje_error);
+        console.error(mensaje_error);
       } finally {
         setLoading(false); // Cambia el estado de carga una vez que finaliza
       }
@@ -521,7 +544,7 @@ const useRepuestaGuia = ({ problemaAct, ideasInvestigacion }) => {
     obtenerRespuestaIA();
   }, [contextoSistema, ideasInvestigacion]);
   
-  return { respuesta, loading, error }; // Devuelve respuesta, estado de carga y error
+  return { respuesta, loading, errorMsg }; // Devuelve respuesta, estado de carga y error
 };
   
 const useRepuestaRetroalimentacion = ({ respuestaAlumno, procedimiento, problemaAct }) => {

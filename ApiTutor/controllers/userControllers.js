@@ -3,6 +3,8 @@
 import UserModels from "../models/UserModels.js";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import nodemailer from "nodemailer";
+import "dotenv/config";
 
 //definir metodos para el CRUD
 
@@ -165,4 +167,55 @@ export const loginUser = async (req, res) => {
         console.error(error);
         res.status(500).json({ message: "Error al procesar la solicitud de inicio de sesión" });
     }
+};
+
+/* Este campo son pruebas para el envío de correos. No está implementado para campo real */
+export const enviarCorreo = async (req, res) => {
+
+  const { user, nombre, contrasena, correo } = req.body;
+
+  try {
+    // 1) Credenciales de prueba (no envíes nada real, solo vista previa)
+    const account = await nodemailer.createTestAccount();
+
+    // 2) Transporter para Ethereal
+    const transporter = nodemailer.createTransport({
+      host: "smtp.ethereal.email",
+      port: 587,
+      secure: false, // STARTTLS
+      auth: {
+        user: account.user,
+        pass: account.pass,
+      },
+      // logger: true, debug: true, // útil si quieres ver el diálogo SMTP
+    });
+
+    // 3) Enviar correo
+    const info = await transporter.sendMail({
+      from: `"Tutor-IA (dev)" <no-reply@tutoria.local>`, // puede ser cualquiera
+      to: correo,
+      subject: "Autentifica tu usuario en ¡Tutor-IA!",
+      text: `¡Hola! se acaba de crear un nuevo usuario ${user} a su correo electronico 🚀
+      Bienvenido a Tutor-IA!
+      Este es el enlace de verificación: [enlace de verificación]
+
+      Si usted no creó esta cuenta, puede ignorar este correo.
+      `,
+      // html: "<p>Hola! Este es un correo <b>de prueba</b> 🚀</p>",
+    });
+
+    // 4) URL de vista previa
+    const previewUrl = nodemailer.getTestMessageUrl(info);
+    console.log("✅ MessageID:", info.messageId);
+    console.log("🔎 Preview URL:", previewUrl);
+
+    return res?.status(200).json({
+      ok: true,
+      messageId: info.messageId,
+      previewUrl, // abre esto en el navegador para ver el correo
+    });
+  } catch (error) {
+    console.error("❌ Error al enviar:", error);
+    return res?.status(500).json({ ok: false, error: error.message });
+  }
 };

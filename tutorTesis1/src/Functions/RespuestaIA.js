@@ -1,8 +1,8 @@
 const URL_API_MODEL_AI = import.meta.env.VITE_URL_API_MODEL_AI;
+const MODEL_DEFAULT = import.meta.env.VITE_MODEL_DEFAULT;
 
 export async function RepuestaIA({ systemText, userText }) {
   // Validar que `systemText` y `userText` no sean undefined o vacíos
-  console.log(systemText, userText);
   if (!systemText || !userText) {
     console.error("Error: `systemText` o `userText` están vacíos o no definidos.");
     return;
@@ -10,13 +10,12 @@ export async function RepuestaIA({ systemText, userText }) {
 
   try {
     const chatCompletion = await getAPINETChatCompletion({ systemText, userText });
-    console.log("Este es chat completetion:", chatCompletion);
     
     const respuesta = chatCompletion.message.content || "";
-    console.log("Esta es mi  respuesta definitiva: ",respuesta)
     return respuesta;
   } catch (error) {
     console.error("Error al obtener la respuesta de la IA:", error);
+    throw error;
   }
 }
 
@@ -38,7 +37,7 @@ async function getAPINETChatCompletion({ systemText, userText }) {
         content: userText,
       },
     ],
-    model: "llama3.2",
+    model: MODEL_DEFAULT || 'llama3.2',
     stream: false,
   };
 
@@ -51,7 +50,6 @@ async function getAPINETChatCompletion({ systemText, userText }) {
       },
       body: JSON.stringify(response), // Enviar directamente el objeto response
     });
-    console.log(res)
 
     // Verificar si la respuesta es exitosa
     if (!res.ok) {

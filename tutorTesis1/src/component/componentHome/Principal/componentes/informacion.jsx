@@ -4,7 +4,6 @@ import img1 from "../imagenesInformacion/img1.jpg"
 import img2 from "../imagenesInformacion/img2.jpg"
 import img3 from "../imagenesInformacion/img3.jpg"
 
-console.log("imprime info")
 export function Informacion() {
   return (
     <div className="informacion-container">

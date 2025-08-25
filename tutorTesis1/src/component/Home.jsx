@@ -90,11 +90,9 @@ function Home() {
     case "principal":
       return <Principal />;
     case "aprender":
-      console.log("selecciona aprender")
-
       return(
         <TemaProvider>
-          <Aprender key={resetKey}/>
+          <Aprender key={`aprender_${resetKey}`}/>
         </TemaProvider>
       );
     case "calificacion":

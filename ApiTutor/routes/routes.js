@@ -1,12 +1,15 @@
 
 import express from 'express';
 
-import { getUsers, getUserById, createUser, updateUser, deleteUser, loginUser } from '../controllers/userControllers.js';
+import { getUsers, getUserById, createUser, updateUser, deleteUser, loginUser, enviarCorreo } from '../controllers/userControllers.js';
 
 const router = express.Router();
 
 // Ruta para obtener todos los usuarios
 router.get('/users', getUsers);
+
+//router.post("/test-email", enviarCorreo); //Esta ruta es para hacer test de email
+
 
 // Ruta para obtener un solo usuario por ID
 router.get('/users/:id', getUserById);

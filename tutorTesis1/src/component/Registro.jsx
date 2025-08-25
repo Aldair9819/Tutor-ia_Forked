@@ -3,17 +3,19 @@ import { useState } from "react";
 import "./Registro.css"
 import "./FormularioRegistro.css"; // 👈 Import del CSS
 import { LeerBDUsuario } from '../Functions/leerBDUsuario';
+
 const leerBDUsuario = new LeerBDUsuario(); // Instancia de la clase
 export function FormularioLogin  ({ onLogin }){
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   
-  const handleSubmit = () => {
-    onLogin(username, password); // 
+  const handleSubmit = (e) => {
+    e.preventDefault();            
+    onLogin(username, password);   
   };
 
   return (
-    <div className="login">
+    <form className="login" onSubmit={handleSubmit}>
       <h1>Ingresar</h1>
       <input
         type="text"
@@ -28,7 +30,7 @@ export function FormularioLogin  ({ onLogin }){
         onChange={(e) => setPassword(e.target.value)}
       />
       <button onClick={handleSubmit}>Iniciar Sesión</button>
-    </div>
+    </form>
   );
 };
 
@@ -38,44 +40,76 @@ export function Registro() {
       <FormularioRegistro />
     </div>
   );
-}
+};
 
 
 export function FormularioRegistro() {
-  
+
   const [formData, setFormData] = useState({
     nombre: "",
     usuario: "",
     correo: "",
     contrasena: "",
+    confirmar_contrasena: "",
   });
-
-   const handleLogin = async (nombre, usuario, correo, contrasena) => {
-    // Simula autenticación
-    
-    const resultado = await LeerBDUsuario.crearUsuario({nombre, usuario, correo, contrasena})
-    if (resultado.success) {
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmError, setConfirmError] = useState("");  
 
 
-      navigate('/'); // Navegar a la página principal
-    } else {
-      alert('Credenciales incorrectas');
-    }
+  // 1. Función de validación de contraseña
+  const validarContrasena = (pwd) => {
+    const minLength = 8;
+    const hasUpper = /[A-Z]/.test(pwd);
+    const hasLower = /[a-z]/.test(pwd);
+    const hasNumber = /\d/.test(pwd);
+    const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(pwd);
+    const errores = [];
+    if (pwd.length < minLength) errores.push(`Debe tener al menos ${minLength} caracteres.`);
+    if (!hasUpper) errores.push("Debe incluir al menos una letra mayúscula.");
+    if (!hasLower) errores.push("Debe incluir al menos una letra minúscula.");
+    if (!hasNumber) errores.push("Debe incluir al menos un número.");
+    if (!hasSpecial) errores.push("Debe incluir al menos un carácter especial.");
+    return errores;
   };
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+
+    // Validar contraseña en tiempo real
+    if (name === "contrasena") {
+      setPasswordError(validarContrasena(value));
+      // Si ya hay confirmación, validar también coincidencia
+      if (formData.confirmar_contrasena.length > 0) {
+        setConfirmError(value === formData.confirmar_contrasena ? "" : "Las contraseñas no coinciden.");
+      }
+    }
+    // Validar confirmación en tiempo real
+    if (name === "confirmar_contrasena") {
+      setConfirmError(value === formData.contrasena ? "" : "Las contraseñas no coinciden.");
+    }
   };
 
-  
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Evita recargar la página
+    e.preventDefault();
+
+    // Validar contraseña
+    const errores = validarContrasena(formData.contrasena);
+    if (errores.length > 0) {
+      setPasswordError(errores);
+      return;
+    }
+
+    // Validar coincidencia de contraseñas
+    if (formData.contrasena !== formData.confirmar_contrasena) {
+      setConfirmError("Las contraseñas no coinciden.");
+      return;
+    } else {
+      setConfirmError("");
+    }
 
     try {
-      // Llamar a la función para crear el usuario
-      const resultado = await leerBDUsuario.crearUsuario(formData);
+      const resultado = await LeerBDUsuario.crearUsuario(formData);
       if (resultado.success) {
         alert("Usuario creado exitosamente.");
       } else {
@@ -86,6 +120,7 @@ export function FormularioRegistro() {
       alert("Ocurrió un error al registrar el usuario.");
     }
   };
+
 
   return (
     <form className="form-registro" onSubmit={handleSubmit}>
@@ -134,10 +169,33 @@ export function FormularioRegistro() {
         onChange={handleChange}
         required
       />
+      {/* 3. Mostrar error de validación*/ }
+      {passwordError && passwordError.length > 0 && (
+        <ul className="error" style={{ margin: 0, paddingLeft: 20 }}>
+          {passwordError.map((err, idx) => (
+            <li key={idx}>{err}</li>
+          ))}
+        </ul>
+      )}
 
-      <button type="submit" onClick={handleSubmit}>Registrarse</button>
+      <label htmlFor="confirmar_contrasena">Confirmar contraseña</label>
+      <input
+        type="password"
+        id="confirmar_contrasena"
+        name="confirmar_contrasena"
+        placeholder="Confirmar contraseña"
+        value={formData.confirmar_contrasena}
+        onChange={handleChange}
+        required
+      />
+      {confirmError && (
+        <p className="error" style={{ color: 'red', margin: 0 }}>{confirmError}</p>
+      )}
+
+      {/* Deshabilitar si hay error */}
+      <button type="submit" disabled={(passwordError && passwordError.length > 0) || !!confirmError}>
+        Registrarse
+      </button>
     </form>
   );
 }
-
-  

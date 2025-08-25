@@ -89,8 +89,8 @@ const Identificarte = ({showModalIncio, showModalRegistro})=>{
 
 const Modal = ({ children, onClose }) => {
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content" onClick={e => e.stopPropagation()}>
         <button onClick={onClose} className="close-button">X</button>
         {children}
       </div>

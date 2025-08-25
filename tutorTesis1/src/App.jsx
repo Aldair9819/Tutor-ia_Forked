@@ -13,12 +13,10 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate(); // Hook para redirigir programáticamente
   const { setIdUsuario } = useUsuario(); // Obtiene el ID del usuario del contexto
-  console.log("autentificacion =" + isAuthenticated)
   useEffect(() => {
     // Verificar si el token existe en localStorage
     const idUsuario = localStorage.getItem('idUsuario');
-    const token = localStorage.getItem("token")
-    console.log("el token es:" + token)
+    const token = localStorage.getItem("token");
     if (token && idUsuario) {
       setIsAuthenticated(true);
       setIdUsuario(idUsuario)
