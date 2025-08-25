@@ -4,7 +4,11 @@ const URI = import.meta.env.VITE_URI;
 export class LeerBDUsuario {
   // Validar usuario y contraseña
 
-  async crearUsuario({ nombre, usuario, correo, contrasena }) {
+  async crearUsuario({ nombre, usuario, correo, contrasena, confirmar_contrasena }) {
+
+    if (contrasena !== confirmar_contrasena){
+      return { success: false, message: "Error. Contraseña no son iguales" }; 
+    }
     
     try {
       const res = await axios.post(`${URI}users`, {

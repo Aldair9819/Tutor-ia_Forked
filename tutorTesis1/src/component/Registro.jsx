@@ -109,7 +109,7 @@ export function FormularioRegistro() {
     }
 
     try {
-      const resultado = await LeerBDUsuario.crearUsuario(formData);
+      const resultado = await leerBDUsuario.crearUsuario(formData);
       if (resultado.success) {
         alert("Usuario creado exitosamente.");
       } else {
